@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="HIA_client_leger.master.cs" Inherits="HIA_client_leger.HIA_client_leger" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <title>Portail H.I.D.I.V</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="icon" href="../../favicon.ico" />
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <!--<link href="navbar.css" rel="stylesheet"/>-->
+    <asp:ContentPlaceHolder ID="StyleSection" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    <div class="container">
+        <!-- Static navbar -->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><b>H.I.D.I.V</b></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li id="acceuil" runat="server"><a href="Acceuil.aspx"><b>Acceuil</b></a></li>
+                        <li id="demandeDeVisite" runat="server"><a href="demandeDeVisite.aspx"><b>Demande de visite</b></a></li>
+                        <li id="historiqueVisite" runat="server"><a href="historiqueVisite.aspx"><b>Historique des visites</b></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="aboutID" runat="server"><a href="about.aspx"><b>A propos</b></a></li>
+                        <li id="contactID" runat="server"><a href="contact.aspx"><b>Contact</b></a></li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!--/.container-fluid -->
+        </nav>
+        <div class="container-fluid">
+            <asp:ContentPlaceHolder ID="ContentSection" runat="server"></asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="Scripts/jquery-2.1.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <asp:ContentPlaceHolder ID="ScriptSection" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>

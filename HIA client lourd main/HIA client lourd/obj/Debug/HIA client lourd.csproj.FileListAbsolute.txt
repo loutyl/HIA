@@ -1,0 +1,112 @@
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\bin\Debug\HIA client lourd.exe
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\bin\Debug\HIA client lourd.pdb
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA client lourd.exe
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA client lourd.pdb
+c:\users\thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\documents\visual studio 2013\Projects\HIA client lourd\HIA client lourd\obj\Debug\HIA_client_lourd.demandeVisiteForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.demandeVisiteForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.exe
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.pdb
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.pdb
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.demandeVisiteForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+C:\Users\Thomas\Documents\Visual Studio 2013\Projects\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.exe
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.pdb
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.pdb
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.demandeVisiteForm.resources
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+E:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\db.mdf
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\db_log.ldf
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.DemandeVisitePatient.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.HistoriqueVisite.resources
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\OnBarcode.Barcode.WinForms.dll
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.dll
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.dll
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.pdb
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.xml
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.pdb
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.xml
+F:\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.notificationForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.exe
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\db.mdf
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\db_log.ldf
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.exe
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\OnBarcode.Barcode.WinForms.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.xml
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\bin\Debug\zxing.presentation.xml
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.DemandeVisitePatient.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.HistoriqueVisite.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.notificationForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main v1\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.exe
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\db.mdf
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\db_log.ldf
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\OnBarcode.Barcode.WinForms.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.dll
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.xml
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.pdb
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.xml
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.DemandeVisitePatient.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.HistoriqueVisite.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
