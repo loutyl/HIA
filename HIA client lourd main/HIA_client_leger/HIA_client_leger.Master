@@ -30,7 +30,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li id="acceuil" runat="server"><a href="Acceuil.aspx"><b>Acceuil</b></a></li>
+                        <li id="acceuil" runat="server"><a href="Acceuil.aspx"><b>Accueil</b></a></li>
                         <li id="demandeDeVisite" runat="server"><a href="demandeDeVisite.aspx"><b>Demande de visite</b></a></li>
                         <li id="historiqueVisite" runat="server"><a href="historiqueVisite.aspx"><b>Historique des visites</b></a></li>
                     </ul>
