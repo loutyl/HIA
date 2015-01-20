@@ -41,14 +41,14 @@
 }
 
 .step .fa {
-    padding-top: 15px;
-    font-size: 40px;
+        padding-top: 15px;
+        font-size: 40px;
+}
 
 .input-size {
     width: 280px;
 }
 
-}#divEtape2Form {
     display: inline-block; 
     margin-left:-150px;
 }
