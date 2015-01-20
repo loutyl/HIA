@@ -49,11 +49,14 @@
     width: 280px;
 }
 
+#divEtape1Form {
+    display: inline-block; 
+    margin-left:-128px;
+}
+
+
+#divEtape2Form {
     display: inline-block; 
     margin-left:-150px;
 }
 
-#divEtape1Form {
-    display: inline-block; 
-    margin-left:-30px;
-}
