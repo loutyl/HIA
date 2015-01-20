@@ -31,6 +31,14 @@ namespace HIA_client_leger
             txtBoxChambrePatient.Attributes.Add("placeholder", "Numéro de la chambre");
             txtBoxLitPatient.Attributes.Add("placeholder", "Localisation du lit");
             #endregion
+
+            #region init textBox etape2 placeholder
+            txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
+            txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
+            txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
+            txtBoxTelVisiteur.Attributes.Add("placeholder", "Numéro de téléphone portable");
+            #endregion
+
         }
     
     }
