@@ -12,9 +12,11 @@ namespace HIA_client_leger
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            initPageControl();
-           
-            
+            if (!IsPostBack)
+            {
+                initPageControl();
+            }
+                        
         }
 
         private void initPageControl()
