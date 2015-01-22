@@ -165,7 +165,7 @@ namespace HIA_client_lourd
             if (!String.IsNullOrEmpty(sEmailPL))
             {
                 //Si le test de l'email renseigné dans la textBox est valide 
-                if (isValidEmail(sEmailPL) == true)
+                if (isValidEmail(sEmailPL))
                 {
                     List<string> infoPL = new List<string>();                    
 
