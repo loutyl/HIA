@@ -253,9 +253,15 @@ namespace HIA_client_lourd
             databaseHIA db = new databaseHIA();
 
             listVisite = db.getDemandeDeVisite(status, sNomPatient);
-         
-            displayInfoDemandeVisite(indexDemandeVisite);
-            
+            if (listVisite.Count == 0)
+            {
+                MessageBox.Show("Ce patient n'a aucune demande de visite en attente de décision.");
+                
+            }
+            else
+            {
+                displayInfoDemandeVisite(indexDemandeVisite);
+            }            
         }
         //Fonction permettant d'afficher les informations de la demande de visite
         private void displayInfoDemandeVisite(int index)
