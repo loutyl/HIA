@@ -226,48 +226,50 @@ namespace HIA_client_lourd
 
                 //Création d'un reader
                 SqlDataReader reader = cmd.ExecuteReader();
-
-                //Boucle tant que l'on peut lire dans le reader
-                while (reader.Read())
+                if (reader.HasRows)
                 {
-                    //Récupération des données du reader dans les variables 
-                    string visiteurID = reader.GetValue(0).ToString();
-                    string nomV = reader.GetString(1);
-                    string prenomV = reader.GetString(2);
-                    string emailV = reader.GetString(3);
-                    string telV;
-                    if (reader.IsDBNull(4))
+                    //Boucle tant que l'on peut lire dans le reader
+                    while (reader.Read())
                     {
-                        telV = "";
-                    }
-                    else
-                    {
-                        telV = reader.GetString(4);
+                        //Récupération des données du reader dans les variables 
+                        string visiteurID = reader.GetValue(0).ToString();
+                        string nomV = reader.GetString(1);
+                        string prenomV = reader.GetString(2);
+                        string emailV = reader.GetString(3);
+                        string telV;
+                        if (reader.IsDBNull(4))
+                        {
+                            telV = "";
+                        }
+                        else
+                        {
+                            telV = reader.GetString(4);
 
-                    }
-                    string numVisiteV = reader.GetString(5);
-                    string dateV = reader.GetValue(6).ToString().Split(' ').First();
-                    string heureD = reader.GetValue(7).ToString();
-                    string heureF = reader.GetValue(8).ToString();
-                    string numBonVisite = reader.GetString(9);
+                        }
+                        string numVisiteV = reader.GetString(5);
+                        string dateV = reader.GetValue(6).ToString().Split(' ').First();
+                        string heureD = reader.GetValue(7).ToString();
+                        string heureF = reader.GetValue(8).ToString();
 
-                    //Instanciation d'un visiteur
-                    Visiteur visiteur = new Visiteur(visiteurID, nomV, prenomV, emailV, numVisiteV);
-                    //Si telV n'est pas vide
-                    if (!String.IsNullOrEmpty(telV))
-                    {
-                        //Affectation de la variable telV au téléphone du visiteur
-                        visiteur.TelVisiteur = telV;
-                    }
+                        //Instanciation d'un visiteur
+                        Visiteur visiteur = new Visiteur(visiteurID, nomV, prenomV, emailV, numVisiteV);
+                        //Si telV n'est pas vide
+                        if (!String.IsNullOrEmpty(telV))
+                        {
+                            //Affectation de la variable telV au téléphone du visiteur
+                            visiteur.TelVisiteur = telV;
+                        }
 
-                    //Instanciation d'une demande de visite avec les variables créée précédement
-                    demandeDeVisite demande = new demandeDeVisite(visiteur, dateV, heureD, heureF);
-                    listeDemande.Add(demande);
-                }
+                        //Instanciation d'une demande de visite avec les variables créée précédement
+                        demandeDeVisite demande = new demandeDeVisite(visiteur, dateV, heureD, heureF);
+                        listeDemande.Add(demande);
+                    }
+                }           
                 return listeDemande;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 throw new ApplicationException(ex.Message);
             }
             finally
