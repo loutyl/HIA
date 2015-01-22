@@ -6,6 +6,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <form runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div class="row">
             <div class="row step col-md-12 text-center" style="margin-left: 270px;">
                 <div id="div1" class="col-md-2 activestep" style="height: 110px;" onclick="javascript: resetActive(event, 0, 'step-1');">
