@@ -18,7 +18,7 @@
                     <span class="fa fa-user"></span>
                     <p>Informations personnelles</p>
                 </div>
-                <div class="col-md-2" style="height: 110px;" onclick="javascript: resetActive(event, 40, 'step-3');">
+                <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
                     <span class="fa fa-calendar"></span>
                     <p>Finalisation de la demande de visite</p>
                 </div>
