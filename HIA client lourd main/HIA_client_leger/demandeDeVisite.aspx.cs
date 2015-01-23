@@ -43,6 +43,28 @@ namespace HIA_client_leger
             #endregion
 
         }
+
+        protected void btnConfirmerInfoPatient_Click(object sender, EventArgs e)
+        {
+            panelEtape1.Visible = false;
+            string sClass = divBarEtape1.Attributes["class"].Replace("activestep","");
+            divBarEtape1.Attributes["class"] = sClass;
+
+            divBarEtape2.Attributes["class"] += " activestep";
+            panelEtape2.Visible = true;           
+            
+        }
+
+        protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
+        {
+            panelEtape2.Visible = false;
+            string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
+            divBarEtape2.Attributes["class"] = sClass;
+
+            divBarEtape3.Attributes["class"] += " activestep";
+
+            panelEtape3.Visible = true;
+        }
     
     }
 }
