@@ -7,23 +7,32 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <form runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-        <div class="row">
-            <div class="row step col-md-12 text-center" style="margin-left: 270px;">
-
-                <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
-                    <span class="fa fa-users"></span>
-                    <p>Informations du patient</p>
-                </div>
-                <div id="divBarEtape2" class="col-md-2" style="height: 110px;" runat="server">
-                    <span class="fa fa-user"></span>
-                    <p>Informations personnelles</p>
-                </div>
-                <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
-                    <span class="fa fa-calendar"></span>
-                    <p>Finalisation de la demande de visite</p>
-                </div>
-            </div>
-            </div>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Panel ID="Panel1" runat="server">
+                    <div class="row">
+                        <div class="row step col-md-12 text-center" style="margin-left: 270px;">
+                            <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
+                                <span class="fa fa-users"></span>
+                                <p>Informations du patient</p>
+                            </div>
+                            <div id="divBarEtape2" class="col-md-2" style="height: 110px;" runat="server">
+                                <span class="fa fa-user"></span>
+                                <p>Informations personnelles</p>
+                            </div>
+                            <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
+                                <span class="fa fa-calendar"></span>
+                                <p>Finalisation de la demande de visite</p>
+                            </div>
+                        </div>
+                    </div>
+                </asp:Panel>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoPatient" EventName="Click" />
+                <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoVisiteur" EventName="Click" />
+            </Triggers>
+        </asp:UpdatePanel>
         <div class="row setup-content step activeStepInfo" id="step-1">
             <div class="col-md-12">
                 <div class="well text-center">
