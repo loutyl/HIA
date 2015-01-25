@@ -7,6 +7,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.Configuration;
+using System.Text.RegularExpressions;
+
 namespace HIA_client_leger
 {
     public partial class demandeDeVisite : System.Web.UI.Page
