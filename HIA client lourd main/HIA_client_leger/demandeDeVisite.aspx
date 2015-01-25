@@ -9,7 +9,7 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <asp:Panel ID="Panel1" runat="server">
+                <asp:Panel ID="panelBarEtape" runat="server">
                     <div class="row">
                         <div class="row step col-md-12 text-center" style="margin-left: 270px;">
                             <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
@@ -121,6 +121,12 @@
                             </asp:Panel>
                             <asp:Panel ID="panelEtape3" runat="server" Visible="false">
                                 <h1>Etape 3</h1>
+                            </asp:Panel>
+                            <asp:Panel ID="panelEtapeInfoPatientError" runat="server" Visible="false">
+                                <h1>Infor patient error</h1>
+                            </asp:Panel>
+                            <asp:Panel ID="panelEtapeInfoVisiteurError" runat="server" Visible="false">
+                                <h1>Info visiteur error</h1>
                             </asp:Panel>
                         </ContentTemplate>
                         <Triggers>
