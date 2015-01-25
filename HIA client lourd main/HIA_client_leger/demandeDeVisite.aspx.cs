@@ -57,11 +57,129 @@ namespace HIA_client_leger
 
         protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
         {
-            panelEtape2.Visible = false;
-            string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
-            divBarEtape2.Attributes["class"] = sClass;
 
-            divBarEtape3.Attributes["class"] += " activestep";
+            if (!String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
+            {
+                if (isValidEmail(txtBoxEmailVisiteur.Text))
+                {
+                    bool bVisiteurMatch = rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text, txtBoxTelVisiteur.Text);
+
+                    if (bVisiteurMatch)
+                    {
+                        panelEtape2.Visible = false;
+                        string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
+                        divBarEtape2.Attributes["class"] = sClass;
+
+                        divBarEtape3.Attributes["class"] += " activestep";
+
+                        panelEtape3.Visible = true;
+                    }
+                    else
+                    {
+                        panelEtape2.Visible = false;
+                        panelEtapeInfoVisiteurError.Visible = true;
+                    }
+                }
+
+            }
+
+
+        }
+
+        private bool isValidEmail(string sEmail)
+        {
+            string symbole = "^([0-9a-zA-Z]([-\\.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$";
+
+            if (Regex.IsMatch(sEmail, symbole, RegexOptions.IgnoreCase))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //Méthode de recherche d'un visiteur dans la base
+        private bool rechercheVisiteur(string sNomVisiteur, string sPrenVisiteur, string sEmailVisiteur, string sTelVisiteur)
+        {
+            bool bRet = false;
+
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            //Ouverture d'une connection à la base de données
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT Count(*) FROM PreListe " +
+                             "WHERE PL_nom_visiteur = @nomVisiteur AND PL_prenom_visiteur = @prenVisiteur AND PL_email_visiteur = @emailVisiteur;";
+
+            try
+            {
+                //Ouverture de la connection
+                connection.Open();
+                //Passage par paramêtre des filtres WHERE à la requête
+                cmd.Parameters.AddWithValue("@nomVisiteur", sNomVisiteur);
+                cmd.Parameters.AddWithValue("@prenVisiteur", sPrenVisiteur);
+                cmd.Parameters.AddWithValue("@emailVisiteur", sEmailVisiteur);
+
+                int result = (int)cmd.ExecuteScalar();
+                //Si le résultat est > à 0 on retourne vrai 
+                if (result > 0)
+                {
+                    bRet = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+                //Affichage du message d'erreur 
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                //Destruction des objets cmd et connection
+                cmd.Dispose();
+                connection.Close();
+            }
+            return bRet;
+        }
+
+        private bool recherchePatient(string sNomPatient, string sPrenPatient, string sNumVisite)
+        {
+            bool bRet = false;
+
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            //Ouverture d'une connection à la base de données
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT Count(*) nom_patient, prenom_patient, num_visite " +
+                "FROM Patient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
+
+            try
+            {
+                //Ouverture de la connection
+                connection.Open();
+                //Passage par paramêtre des filtres WHERE à la requête
+                cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
+                cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
+                cmd.Parameters.AddWithValue("@numVisite", sNumVisite);
+
+                int result = (int)cmd.ExecuteScalar();
+                //Si le résultat est > à 0 on retourne vrai 
+                if (result > 0)
+                {
+                    bRet = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+                //Affichage du message d'erreur 
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                //Destruction des objets cmd et connection
+                cmd.Dispose();
+                connection.Close();
+            }
+            return bRet;
 
             panelEtape3.Visible = true;
         }
