@@ -20,7 +20,7 @@ namespace HIA_client_leger
             {
                 initPageControl();
             }
-                        
+
         }
 
         private void initPageControl()
@@ -49,13 +49,24 @@ namespace HIA_client_leger
 
         protected void btnConfirmerInfoPatient_Click(object sender, EventArgs e)
         {
-            panelEtape1.Visible = false;
-            string sClass = divBarEtape1.Attributes["class"].Replace("activestep","");
-            divBarEtape1.Attributes["class"] = sClass;
+            bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text);
 
-            divBarEtape2.Attributes["class"] += " activestep";
-            panelEtape2.Visible = true;           
-            
+            if (bPatientMatch)
+            {
+                panelEtape1.Visible = false;
+                string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
+                divBarEtape1.Attributes["class"] = sClass;
+
+                divBarEtape2.Attributes["class"] += " activestep";
+                panelEtape2.Visible = true;
+
+            }
+            else
+            {
+                panelEtape1.Visible = false;
+                panelEtapeInfoPatientError.Visible = true;
+
+            }
         }
 
         protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
@@ -151,7 +162,7 @@ namespace HIA_client_leger
 
             //Ouverture d'une connection à la base de données
             SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT Count(*) nom_patient, prenom_patient, num_visite " +
+            cmd.CommandText = "SELECT nom_patient, prenom_patient, num_visite " +
                 "FROM Patient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
 
             try
@@ -163,12 +174,20 @@ namespace HIA_client_leger
                 cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
                 cmd.Parameters.AddWithValue("@numVisite", sNumVisite);
 
-                int result = (int)cmd.ExecuteScalar();
-                //Si le résultat est > à 0 on retourne vrai 
-                if (result > 0)
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
                 {
-                    bRet = true;
+                    string sNom = reader.GetString(0);
+                    string sPren = reader.GetString(1);
+                    string sNVisite = reader.GetString(2);
+
+                    if (sNom.ToLower() == sNomPatient.ToLower() && sNVisite == sNumVisite)
+                    {
+                        bRet = true;
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -184,8 +203,6 @@ namespace HIA_client_leger
             }
             return bRet;
 
-            panelEtape3.Visible = true;
         }
-    
     }
 }
