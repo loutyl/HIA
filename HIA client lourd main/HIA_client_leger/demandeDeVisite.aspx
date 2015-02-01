@@ -120,7 +120,13 @@
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtape3" runat="server" Visible="false">
-                                <h1>Etape 3</h1>
+                                <h4 id="plageHoraireTitre">Plage horaire disponnible</h4>
+                                <div class="form-horizontal" id="divEtapeHoraire" runat="server">
+                                                                        
+                                </div>
+                                <div class="row text-center">
+                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Confirmer" />
+                                </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeInfoPatientError" runat="server" Visible="false">
                                 <h1>Infor patient error</h1>
