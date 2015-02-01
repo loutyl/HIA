@@ -163,7 +163,7 @@ namespace HIA_client_leger
             //Ouverture d'une connection à la base de données
             SqlCommand cmd = connection.CreateCommand();
             cmd.CommandText = "SELECT nom_patient, prenom_patient, num_visite " +
-                "FROM Patient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
+                "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
 
             try
             {
