@@ -20,18 +20,18 @@ namespace HIA_client_lourd
         private static Patient patientRecherche;
         //La recherche (le nom ou prénom du patient)
         private string recherche;
-       
+
         public MainForm()
         {
             //Initialisation des composants du Form
             InitializeComponent();
- 
+
         }
         //Evenement lors d'un click sur le boutton affichage de la pré-liste
         private void btnPreListeAfficher_Click(object sender, EventArgs e)
         {
             btnPreListeAfficher = sender as Button;
-            
+
             //Instanciation du Form preListe
             pre_Liste preListe = new pre_Liste(patientRecherche);
             //Affichage du form preListe
@@ -106,13 +106,13 @@ namespace HIA_client_lourd
         private void btnGenerationCodeVisite_Click(object sender, EventArgs e)
         {
             btnGenerationCodeVisite = sender as Button;
-            
+
             //Instanciation d'un nouveau GUID
             Guid guid = Guid.NewGuid();
             //Affichage du code de visite
             lblNbCodeVisite.Text = guid.ToString().Split('-').First();
 
-        }      
+        }
 
         //Fonction de test de la validité du format de l'adresse email 
         public bool isValidEmail(string email)
@@ -120,14 +120,14 @@ namespace HIA_client_lourd
             //Les symbole servant de test de validité de l'email (selon regex)
             string symbole = "^([0-9a-zA-Z]([-\\.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$";
             //Si l'email match le regex
-            if(Regex.IsMatch(email,symbole,RegexOptions.IgnoreCase))
-            { 
+            if (Regex.IsMatch(email, symbole, RegexOptions.IgnoreCase))
+            {
                 //Déclaration des variables pour le titre et le corps de l'email
                 string subjectEmail = "Autorisation de visite";
-                string bodyEmail = "Vous avez été ajouté à la pré-liste de M." + lblNomRecherchePatient.Text + " " + lblPrenRecherchePatient.Text + ", vous êtes désormais autorisé à effectuer des"+
+                string bodyEmail = "Vous avez été ajouté à la pré-liste de M." + lblNomRecherchePatient.Text + " " + lblPrenRecherchePatient.Text + ", vous êtes désormais autorisé à effectuer des" +
                     "\r\ndemandes de visite via notre site: ";
                 //Fonction d'envoi de l'email
-                if(sendEmail(email, subjectEmail, bodyEmail))
+                if (sendEmail(email, subjectEmail, bodyEmail))
                 {
                     return true;
                 }
@@ -138,28 +138,28 @@ namespace HIA_client_lourd
             }
             //Si ne match pas
             else
-            { 
+            {
                 return false;
             }
         }
-        
+
         //Evenement lors d'un click sur le boutton d'ajout à la preliste
         private void btnPreListeAjouter_Click(object sender, EventArgs e)
         {
             btnPreListeAjouter = sender as Button;
-            
+
             string sNomPL = txtBoxPreListeNomVisiteur.Text;
             string sPrenomPL = txtBoxPreListePrenVisiteur.Text;
             string sTelPL = txtBoxPreListeTelVisiteur.Text;
             string sEmailPL = txtBoxPreListeEmailVisiteur.Text;
             string sIDPatientPL = patientRecherche.IdPatient;
-            
+
             //Si les textBox sont vide
             if (String.IsNullOrEmpty(sNomPL) || String.IsNullOrEmpty(sPrenomPL))
             {
                 //Affichage d'un message d'erreur
-                MessageBox.Show("Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", "Erreur", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);        
+                MessageBox.Show("Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", "Erreur",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //Si la textBox renseignant l'email du visiteur n'est pas vide
             if (!String.IsNullOrEmpty(sEmailPL))
@@ -167,7 +167,7 @@ namespace HIA_client_lourd
                 //Si le test de l'email renseigné dans la textBox est valide 
                 if (isValidEmail(sEmailPL))
                 {
-                    List<string> infoPL = new List<string>();                    
+                    List<string> infoPL = new List<string>();
 
                     infoPL.Add(sNomPL);
                     infoPL.Add(sPrenomPL);
@@ -177,21 +177,21 @@ namespace HIA_client_lourd
 
                     databaseHIA db = new databaseHIA();
                     //Si la méthode ajoutPrelist de l'objet db retourne true 
-                    if(db.ajoutPrelist(infoPL))
+                    if (db.ajoutPrelist(infoPL))
                     {
                         //Notification d'ajout à la préliste
                         MessageBox.Show("Le visiteur a bien été enregistré dans la pré-liste.");
                     }
                     else
-                    {   
+                    {
                         //Notification d'un problème à l'utilisateur
                         MessageBox.Show("Un problème est survenu le visiteur n'a pas pu être enregistré");
-                    }              
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Veuillez renseigner une adresse email correcte.", "Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);  
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -210,14 +210,14 @@ namespace HIA_client_lourd
             label5.Text = patientRecherche.ChambrePatient;
             label6.Text = patientRecherche.LitPatient;
             //Si le status de visite du patient est False 
-            if(!status)
+            if (!status)
             {
                 //Information pour le chef de service pour connaitre le status du patient
                 lblStatusVisite.Text = "Toutes les visites de se patient sont actuellement bloquées.";
                 //Affichage du label
                 lblStatusVisite.Visible = true;
             }
-             
+
             //Affichage des labels
             lblNomRecherchePatient.Visible = true;
             lblPrenRecherchePatient.Visible = true;
@@ -225,7 +225,7 @@ namespace HIA_client_lourd
             label4.Visible = true;
             label5.Visible = true;
             label6.Visible = true;
-            
+
         }
         //Evenement lors d'un click sur le boutton rechercher
         private void btnRecherchePatient_Click(object sender, EventArgs e)
@@ -252,21 +252,21 @@ namespace HIA_client_lourd
                 {
                     //Affichage d'un message d'erreur 
                     MessageBox.Show("Patient inconnu");
-                }               
+                }
             }
             else
             {
                 MessageBox.Show("Veuillez entrer le nom ou prénom d'un patient", "Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         //Evenement lors d'un click sur le boutton voirDemandeVisite
         private void BtnVoirDemandeVisite_Click(object sender, EventArgs e)
         {
             BtnVoirDemandeVisite = sender as Button;
-            
+
             //Si la textBox recherchePatient n'est pas nul
-            if(!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
+            if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 //Instanciation du Form demandeVisiteWindow
                 DemandeVisitePatient demandeVisiteWindow = new DemandeVisitePatient(patientRecherche);
@@ -277,16 +277,16 @@ namespace HIA_client_lourd
         //Evenement lors d'un click sur le boutton HistoriqueVisite
         private void btnHistoriqueVisite_Click(object sender, EventArgs e)
         {
-            btnHistoriqueVisite = sender as Button; 
+            btnHistoriqueVisite = sender as Button;
             //Si la textBox recherchePatient n'est pas nul
             if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 //Instanciation du Form HistoriqueWindow
                 HistoriqueVisite HistoriqueWindow = new HistoriqueVisite(patientRecherche);
                 //Affichage du Form
-                HistoriqueWindow.Show();   
+                HistoriqueWindow.Show();
             }
-            
+
         }
         //Evenement lorsque le Form est fermé
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -300,17 +300,17 @@ namespace HIA_client_lourd
             Button DbloquerVisite = sender as Button;
             databaseHIA db = new databaseHIA();
 
-            if(db.debloquerVisite(patientRecherche.NomPatient))
+            if (db.debloquerVisite(patientRecherche.NomPatient))
             {
                 //Affichage d'un message de notification
-                MessageBox.Show("Les visites du patient ont bien été débloquées.");  
+                MessageBox.Show("Les visites du patient ont bien été débloquées.");
             }
             else
             {
                 MessageBox.Show("Un problème est survenue, les visites n'ont pas pu être débloquées.");
             }
 
-            
+
         }
     }
 }
