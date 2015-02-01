@@ -86,6 +86,10 @@ namespace HIA_client_leger
 
                         divBarEtape3.Attributes["class"] += " activestep";
 
+                        TimeSpan[,] plageHoraire = getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+
+                        displayLabel(getDispo(plageHoraire));
+
                         panelEtape3.Visible = true;
                     }
                     else
@@ -203,6 +207,248 @@ namespace HIA_client_leger
             }
             return bRet;
 
+        }
+
+        private TimeSpan[,] getSchedule(string sNomPatient, string sPrenPatient)
+        {
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT Count(*) FROM schedule WHERE nom_patient = @nomPatient " +
+                                   "AND prenom_patient = @prenPatient AND date_examen = @dateVisite;";
+
+            try
+            {
+                //Ouverture de la connection
+                connection.Open();
+                //Passage par paramêtre des filtres WHERE à la requête
+                cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
+                cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
+                cmd.Parameters.AddWithValue("@dateVisite", DateTime.Today);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                reader.Read();
+
+                int nbRow = reader.GetInt32(0);
+
+                reader.Close();
+
+                TimeSpan[,] plageHoraire = new TimeSpan[nbRow, 2];
+
+                SqlCommand cmd2 = connection.CreateCommand();
+                cmd2.CommandText = "SELECT heure_debut_examen, heure_fin_examen FROM schedule WHERE nom_patient = @nomPatient " +
+                                    "AND prenom_patient = @prenPatient AND date_examen = @dateVisite ORDER BY heure_debut_examen;";
+
+                cmd2.Parameters.AddWithValue("@nomPatient", sNomPatient);
+                cmd2.Parameters.AddWithValue("@prenPatient", sPrenPatient);
+                cmd2.Parameters.AddWithValue("@dateVisite", DateTime.Today);
+
+                reader = cmd2.ExecuteReader();
+
+                int i = 0;
+                while (reader.Read())
+                {
+                    plageHoraire[i, 0] = reader.GetTimeSpan(0);
+                    plageHoraire[i, 1] = reader.GetTimeSpan(1);
+                    i++;
+                }
+
+                return plageHoraire;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                connection.Close();
+            }
+
+        }
+
+        private TimeSpan[,] getDispo(TimeSpan[,] time)
+        {
+            TimeSpan horaireDebutVisite = TimeSpan.FromHours(8);
+            TimeSpan horaireFinVisite = TimeSpan.FromHours(22);
+
+            int nbPlageInDispo = time.GetLength(0);
+            int nbPlageDispo = 0;
+            bool horaireLimite = false;
+            bool horaireLimiteDown = false;
+            bool horaireLimiteUp = false;
+            bool horaireLimiteUpDown = false;
+
+            #region calcule plage dispo
+
+            if (nbPlageInDispo == 1)
+            {
+                if (time[0, 0] == horaireDebutVisite && time[0, 1] != horaireFinVisite || time[0, 0] != horaireDebutVisite && time[0, 1] == horaireFinVisite)
+                {
+                    nbPlageDispo = 1;
+                    horaireLimite = true;
+                    if (time[0, 0] == horaireDebutVisite && time[0, 1] != horaireFinVisite)
+                    {
+                        horaireLimiteDown = true;
+                    }
+                    else if (time[0, 0] != horaireDebutVisite && time[0, 1] == horaireFinVisite)
+                    {
+                        horaireLimiteUp = true;
+                    }
+
+                }
+                else
+                {
+                    nbPlageDispo = nbPlageInDispo + 1;
+                }
+            }
+            else if (nbPlageInDispo > 1)
+            {
+                if (time[0, 0] == horaireDebutVisite && time[time.GetUpperBound(0), 1] != horaireFinVisite)
+                {
+                    nbPlageDispo = nbPlageInDispo;
+                    horaireLimite = true;
+                    horaireLimiteDown = true;
+                }
+                else if (time[0, 0] != horaireDebutVisite && time[time.GetUpperBound(0), 1] == horaireFinVisite)
+                {
+                    nbPlageDispo = nbPlageInDispo;
+                    horaireLimite = true;
+                    horaireLimiteUp = true;
+                }
+                else if (time[0, 0] == horaireDebutVisite && time[time.GetUpperBound(0), 1] == horaireFinVisite)
+                {
+                    nbPlageDispo = nbPlageInDispo - 1;
+                    horaireLimite = true;
+                    horaireLimiteUpDown = true;
+                }
+                else
+                {
+                    nbPlageDispo = nbPlageInDispo + 1;
+                }
+            }
+
+            #endregion
+
+            TimeSpan[,] plageDispo = new TimeSpan[nbPlageDispo, 2];
+
+            if (nbPlageDispo == 1)
+            {
+                for (int i = 0; i < nbPlageDispo; i++)
+                {
+                    if (horaireLimite)
+                    {
+                        if (horaireLimiteDown)
+                        {
+                            plageDispo[i, 0] = time[i, 1];
+                            plageDispo[i, 1] = horaireFinVisite;
+                        }
+                        else if (horaireLimiteUp)
+                        {
+                            plageDispo[i, 0] = horaireDebutVisite;
+                            plageDispo[i, 1] = time[i, 0];
+                        }
+                    }
+                }
+
+            }
+            else if (nbPlageDispo > 1)
+            {
+                for (int i = 0; i < nbPlageDispo; i++)
+                {
+                    if (horaireLimite)
+                    {
+                        if (horaireLimiteDown)
+                        {
+                            if (i == 0)
+                            {
+                                plageDispo[i, 0] = time[i, 1];
+                                plageDispo[i, 1] = time[(i + 1), 0];
+                            }
+                            else
+                            {
+                                plageDispo[i, 0] = time[i, 1];
+                                plageDispo[i, 1] = horaireFinVisite;
+                            }
+                        }
+                        else if (horaireLimiteUp)
+                        {
+                            if (i == 0)
+                            {
+                                plageDispo[i, 0] = horaireDebutVisite;
+                                plageDispo[i, 1] = time[i, 0];
+                            }
+                            else
+                            {
+                                plageDispo[i, 0] = time[(i - 1), 1];
+                                plageDispo[i, 1] = time[i, 0];
+                            }
+                        }
+                        else if (horaireLimiteUpDown)
+                        {
+                            plageDispo[i, 0] = time[i, 1];
+                            plageDispo[i, 1] = time[(i + 1), 0];
+                        }
+                    }
+                    else
+                    {
+                        if (i == 0)
+                        {
+                            plageDispo[i, 0] = horaireDebutVisite;
+                            plageDispo[i, 1] = time[i, 0];
+                        }
+                        else
+                        {
+                            plageDispo[i, 0] = time[(i - 1), 1];
+                            if ((i + 1) == nbPlageDispo)
+                            {
+                                plageDispo[i, 1] = horaireFinVisite;
+                            }
+                            else
+                            {
+                                plageDispo[i, 1] = time[i, 0];
+                            }
+                        }
+                    }
+                }
+            }
+            return plageDispo;
+
+        }
+
+        private void displayLabel(TimeSpan[,] horaire)
+        {
+            for (int i = 0; i < horaire.GetLength(0); i++)
+            {
+                Panel myPanel = new Panel();
+                myPanel.ID = "panelPlageHoraire" + i;
+                myPanel.CssClass = "form-group";
+                myPanel.Style.Value = "margin-left:80px";
+
+                Label myLabel1 = new Label();
+                myLabel1.ID = "labelPlageHoraire" + i;
+                myLabel1.CssClass = "col-md-3 control-label";
+                myLabel1.Text = horaire[i, 0].ToString() + " - " + horaire[i, 1].ToString();
+
+                Label myLabel2 = new Label();
+                myLabel2.ID = "labelAffluence" + i;
+                myLabel2.CssClass = "col-md-3 control-label";
+                myLabel2.Text = "Affluence";
+
+                RadioButton myRadiobutton = new RadioButton();
+                myRadiobutton.ID = "radioBtnHoraire" + i;
+                myRadiobutton.CssClass = "col-md-3 control-label";
+
+                myPanel.Controls.Add(myLabel1);
+                myPanel.Controls.Add(myLabel2);
+                myPanel.Controls.Add(myRadiobutton);
+
+                divEtapeHoraire.Controls.Add(myPanel);
+
+            }
         }
     }
 }
