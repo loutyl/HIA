@@ -33,9 +33,6 @@ namespace HIA_client_leger
             txtBoxNomPatient.Attributes.Add("placeholder", "Nom du patient");
             txtBoxPrenPatient.Attributes.Add("placeholder", "Prénom du patient");
             txtBoxCodePatient.Attributes.Add("placeholder", "Exemple : A12B45");
-            txtBoxEtagePatient.Attributes.Add("placeholder", "Numéro de l'étage");
-            txtBoxChambrePatient.Attributes.Add("placeholder", "Numéro de la chambre");
-            txtBoxLitPatient.Attributes.Add("placeholder", "Localisation du lit");
             #endregion
 
             #region init textBox etape2 placeholder
@@ -49,23 +46,31 @@ namespace HIA_client_leger
 
         protected void btnConfirmerInfoPatient_Click(object sender, EventArgs e)
         {
-            bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text);
-
-            if (bPatientMatch)
+            if (!String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
+            !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
             {
-                panelEtape1.Visible = false;
-                string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
-                divBarEtape1.Attributes["class"] = sClass;
+                bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text);
 
-                divBarEtape2.Attributes["class"] += " activestep";
-                panelEtape2.Visible = true;
+                if (bPatientMatch)
+                {
+                    panelEtape2.Visible = false;
+                    string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
+                    divBarEtape2.Attributes["class"] = sClass;
 
-            }
-            else
-            {
-                panelEtape1.Visible = false;
-                panelEtapeInfoPatientError.Visible = true;
+                    divBarEtape3.Attributes["class"] += " activestep";
 
+                    TimeSpan[,] plageHoraire = getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+
+                    displayLabel(getDispo(plageHoraire));
+
+                    panelEtape3.Visible = true;
+
+                }
+                else
+                {
+                    panelEtape2.Visible = false;
+                    panelEtapeInfoPatientError.Visible = true;
+                }
             }
         }
 
@@ -80,28 +85,41 @@ namespace HIA_client_leger
 
                     if (bVisiteurMatch)
                     {
-                        panelEtape2.Visible = false;
+                        panelEtape1.Visible = false;
                         string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
-                        divBarEtape2.Attributes["class"] = sClass;
+                        divBarEtape1.Attributes["class"] = sClass;
 
-                        divBarEtape3.Attributes["class"] += " activestep";
+                        divBarEtape2.Attributes["class"] += " activestep";
 
-                        TimeSpan[,] plageHoraire = getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+                        panelEtape2.Visible = true;
 
-                        displayLabel(getDispo(plageHoraire));
-
-                        panelEtape3.Visible = true;
                     }
                     else
                     {
-                        panelEtape2.Visible = false;
+                        panelEtape1.Visible = false;
                         panelEtapeInfoVisiteurError.Visible = true;
                     }
                 }
 
             }
+        }
 
-
+        protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
+        {
+            foreach (System.Web.UI.WebControls.Panel panel in divEtapeHoraire.Controls.OfType<System.Web.UI.WebControls.Panel>())
+            {
+                foreach (Control control in panel.Controls)
+                {
+                    if (control is RadioButton)
+                    {
+                        RadioButton rb = control as RadioButton;
+                        if (rb.Checked)
+                        {
+                            panelEtape2.Visible = true;
+                        }
+                    }
+                }
+            }
         }
 
         private bool isValidEmail(string sEmail)
@@ -298,7 +316,6 @@ namespace HIA_client_leger
                     {
                         horaireLimiteUp = true;
                     }
-
                 }
                 else
                 {
@@ -416,7 +433,6 @@ namespace HIA_client_leger
                 }
             }
             return plageDispo;
-
         }
 
         private void displayLabel(TimeSpan[,] horaire)
