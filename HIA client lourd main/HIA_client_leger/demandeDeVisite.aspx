@@ -13,12 +13,12 @@
                     <div class="row">
                         <div class="row step col-md-12 text-center" style="margin-left: 270px;">
                             <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
-                                <span class="fa fa-users"></span>
-                                <p>Informations du patient</p>
+                                <span class="fa fa-user"></span>
+                                <p>Authentification</p>
                             </div>
                             <div id="divBarEtape2" class="col-md-2" style="height: 110px;" runat="server">
-                                <span class="fa fa-user"></span>
-                                <p>Informations personnelles</p>
+                                <span class="fa fa-users"></span>
+                                <p>Informations du patient</p>
                             </div>
                             <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
                                 <span class="fa fa-calendar"></span>
@@ -39,53 +39,6 @@
                     <asp:UpdatePanel ID="updatePanelEtape1" runat="server">
                         <ContentTemplate>
                             <asp:Panel ID="panelEtape1" runat="server">
-                                <h4 id="InfoPatientTitre">Informations du patient</h4>
-                                <div class="form-horizontal" id="divEtape1Form">
-                                    <div class="form-group">
-                                        <label for="inputNomPatient" class="col-md-4 control-label">Nom du patient</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxNomPatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPrenPatient" class="col-md-4 control-label">Prénom du patient</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxPrenPatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputCodePatient" class="col-md-4 control-label">Code de visite du patient</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxCodePatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <h4 id="localiPatientTitre">Localisation du patient</h4>
-                                    <div class="form-group">
-                                        <label for="inputEtagePatient" class="col-md-4 control-label">Etage</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxEtagePatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputChambrePatient" class="col-md-4 control-label">Chambre du patient</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxChambrePatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputLitPatient" class="col-md-4 control-label">Lit du patient</label>
-                                        <div class="col-md-8">
-                                            <asp:TextBox ID="txtBoxLitPatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-7 col-md-offset-2">
-                                            <asp:Button ID="btnConfirmerInfoPatient" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoPatient_Click" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </asp:Panel>
-                            <asp:Panel ID="panelEtape2" runat="server" Visible="false">
                                 <h4 style="margin-bottom: 30px;">Informations personnelles</h4>
                                 <div class="form-horizontal" id="divEtape2Form">
                                     <div class="form-group">
@@ -119,13 +72,41 @@
                                     </div>
                                 </div>
                             </asp:Panel>
+                            <asp:Panel ID="panelEtape2" runat="server" Visible="false">
+                                <h4 id="InfoPatientTitre">Informations du patient</h4>
+                                <div class="form-horizontal" id="divEtape1Form">
+                                    <div class="form-group">
+                                        <label for="inputNomPatient" class="col-md-4 control-label">Nom du patient</label>
+                                        <div class="col-md-8">
+                                            <asp:TextBox ID="txtBoxNomPatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPrenPatient" class="col-md-4 control-label">Prénom du patient</label>
+                                        <div class="col-md-8">
+                                            <asp:TextBox ID="txtBoxPrenPatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCodePatient" class="col-md-4 control-label">Code de visite du patient</label>
+                                        <div class="col-md-8">
+                                            <asp:TextBox ID="txtBoxCodePatient" CssClass="form-control input-size" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-7 col-md-offset-2">
+                                            <asp:Button ID="btnConfirmerInfoPatient" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoPatient_Click" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </asp:Panel>
                             <asp:Panel ID="panelEtape3" runat="server" Visible="false">
                                 <h4 id="plageHoraireTitre">Plage horaire disponnible</h4>
                                 <div class="form-horizontal" id="divEtapeHoraire" runat="server">
                                                                         
                                 </div>
                                 <div class="row text-center">
-                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Confirmer" />
+                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerPlageHoraire_Click" />
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeInfoPatientError" runat="server" Visible="false">
@@ -138,6 +119,7 @@
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoPatient" EventName="Click" />
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoVisiteur" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnConfirmerPlageHoraire" EventName="Click" />
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
