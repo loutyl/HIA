@@ -516,6 +516,7 @@ namespace HIA_client_leger
                 RadioButton myRadiobutton = new RadioButton();
                 myRadiobutton.ID = "radioBtnHoraire" + i;
                 myRadiobutton.CssClass = "col-md-3 control-label";
+                myRadiobutton.GroupName = "rBtnGroup";
 
                 myPanel.Controls.Add(myLabel1);
                 myPanel.Controls.Add(myLabel2);
