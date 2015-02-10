@@ -435,6 +435,48 @@ namespace HIA_client_leger
             return plageDispo;
         }
 
+        private int getAffluence(TimeSpan time1, TimeSpan time2)
+        {
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT COUNT(id_visiteur) FROM Visiter WHERE date_visite = @dateVisite " +
+                                "AND status_demande = @statusDemande AND heure_deb_visite >= @heureDebut " +
+                                    "AND heure_fin_visite <= @heureFin ;";
+            try
+            {
+                //Ouverture de la connection
+                connection.Open();
+                //Passage par paramêtre des filtres WHERE à la requête
+                cmd.Parameters.AddWithValue("@dateVisite", DateTime.Today);
+                cmd.Parameters.AddWithValue("@statusDemande", 1);
+                cmd.Parameters.AddWithValue("@heureDebut", time1);
+                cmd.Parameters.AddWithValue("@heureFin", time2);
+
+                int affluence = 0;
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        affluence = reader.GetInt32(0);
+                    }
+                    reader.Close();
+                }
+                return affluence;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                cmd.Dispose();
+                connection.Close();
+            }
+
+        }
         private void displayLabel(TimeSpan[,] horaire)
         {
             for (int i = 0; i < horaire.GetLength(0); i++)
@@ -452,7 +494,24 @@ namespace HIA_client_leger
                 Label myLabel2 = new Label();
                 myLabel2.ID = "labelAffluence" + i;
                 myLabel2.CssClass = "col-md-3 control-label";
-                myLabel2.Text = "Affluence";
+                int affluence = getAffluence(horaire[i, 0], horaire[i, 1]);
+                string etat = "";
+                if (affluence >= 0 && affluence < 2)
+                {
+                    etat = "Faible";
+                    myLabel2.Style.Value = "color:green";
+                }
+                else if (affluence >= 2 && affluence < 3)
+                {
+                    etat = "Moyenne";
+                    myLabel2.Style.Value = "color:orange";
+                }
+                else if (affluence >= 3)
+                {
+                    etat = "Forte";
+                    myLabel2.Style.Value = "color:red";
+                }
+                myLabel2.Text = etat;
 
                 RadioButton myRadiobutton = new RadioButton();
                 myRadiobutton.ID = "radioBtnHoraire" + i;
