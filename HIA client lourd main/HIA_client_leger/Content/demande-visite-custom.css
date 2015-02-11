@@ -57,15 +57,22 @@
 
 #divEtape2Form {
     display: inline-block; 
-    margin-left:-150px;
+    margin-left:-130px;
 }
 
-#localiPatientTitre {
-    margin-bottom: 30px;
-    margin-top: 30px; 
-    margin-left:125px;
+#divEtape2DemandeAutorisation {
+    display: inline-block; 
+    margin-left:-130px;
 }
 
 #InfoPatientTitre {
     margin-bottom: 30px;
+    margin-top: 30px; 
 }
+
+#InfoPatientAuth {
+    margin-bottom: 30px;
+    margin-top: 30px;  
+    margin-left: 150px; 
+}
+
