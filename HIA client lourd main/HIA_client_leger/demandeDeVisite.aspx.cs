@@ -33,7 +33,6 @@ namespace HIA_client_leger
             txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
             txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
             txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
-            txtBoxTelVisiteur.Attributes.Add("placeholder", "Numéro de téléphone portable");
             #endregion
 
             #region init textBox etape2 placeholder
@@ -46,7 +45,6 @@ namespace HIA_client_leger
             txtBoxNomVisiteurAuth.Attributes.Add("placeholder", "Votre nom");
             txtBoxPrenVisiteurAuth.Attributes.Add("placeholder", "Votre prénom");
             txtBoxEmailVisiteurAuth.Attributes.Add("placeholder", "Votre adresse email");
-            txtBoxTelVisiteurAuth.Attributes.Add("placeholder", "Votre numéro de téléphone(06)");
             txtBoxNomPatientAuth.Attributes.Add("placeholder", "Nom du patient");
             txtBoxPrenPatientAuth.Attributes.Add("placeholder", "Prénom du patient");
             txtBoxChambrePatientAuth.Attributes.Add("placeholder", "Numéro de chambre du patient");
