@@ -89,7 +89,7 @@ namespace HIA_client_leger
             {
                 if (isValidEmail(txtBoxEmailVisiteur.Text))
                 {
-                    bool bVisiteurMatch = rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text, txtBoxTelVisiteur.Text);
+                    bool bVisiteurMatch = rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
 
                     if (bVisiteurMatch)
                     {
@@ -124,14 +124,10 @@ namespace HIA_client_leger
                     if (!String.IsNullOrWhiteSpace(tb.Text))
                     {
                         txtBoxValues.Add(tb.Text);
-                    }
-                    else
-                    {
-                        txtBoxValues.Add("");
-                    }
+                    }                    
                 }
             }
-            bool patientMatch = recherchePatient(txtBoxValues[4], txtBoxValues[5], txtBoxValues[6], 2);
+            bool patientMatch = recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
             if (patientMatch)
             {
                 if (isValidEmail(txtBoxValues[2]))
@@ -206,9 +202,9 @@ namespace HIA_client_leger
             try
             {
                 connection.Open();
-                cmd.Parameters.AddWithValue("@nomPatient", listTxtBoxValues[4]);
-                cmd.Parameters.AddWithValue("@prenPatient", listTxtBoxValues[5]);
-                cmd.Parameters.AddWithValue("@numChambre", listTxtBoxValues[6]);
+                cmd.Parameters.AddWithValue("@nomPatient", listTxtBoxValues[3]);
+                cmd.Parameters.AddWithValue("@prenPatient", listTxtBoxValues[4]);
+                cmd.Parameters.AddWithValue("@numChambre", listTxtBoxValues[5]);
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
@@ -264,7 +260,7 @@ namespace HIA_client_leger
         }
 
         //Méthode de recherche d'un visiteur dans la base
-        private bool rechercheVisiteur(string sNomVisiteur, string sPrenVisiteur, string sEmailVisiteur, string sTelVisiteur)
+        private bool rechercheVisiteur(string sNomVisiteur, string sPrenVisiteur, string sEmailVisiteur)
         {
             bool bRet = false;
 
