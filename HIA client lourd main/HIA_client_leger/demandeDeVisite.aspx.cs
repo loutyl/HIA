@@ -30,16 +30,26 @@ namespace HIA_client_leger
             liItem.Attributes.Add("class", "active");
 
             #region init textBox etape1 placeholder
+            txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
+            txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
+            txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
+            txtBoxTelVisiteur.Attributes.Add("placeholder", "Numéro de téléphone portable");
+            #endregion
+
+            #region init textBox etape2 placeholder
             txtBoxNomPatient.Attributes.Add("placeholder", "Nom du patient");
             txtBoxPrenPatient.Attributes.Add("placeholder", "Prénom du patient");
             txtBoxCodePatient.Attributes.Add("placeholder", "Exemple : A12B45");
             #endregion
 
-            #region init textBox etape2 placeholder
-            txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
-            txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
-            txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
-            txtBoxTelVisiteur.Attributes.Add("placeholder", "Numéro de téléphone portable");
+            #region init textBox etape1 Auth.
+            txtBoxNomVisiteurAuth.Attributes.Add("placeholder", "Votre nom");
+            txtBoxPrenVisiteurAuth.Attributes.Add("placeholder", "Votre prénom");
+            txtBoxEmailVisiteurAuth.Attributes.Add("placeholder", "Votre adresse email");
+            txtBoxTelVisiteurAuth.Attributes.Add("placeholder", "Votre numéro de téléphone(06)");
+            txtBoxNomPatientAuth.Attributes.Add("placeholder", "Nom du patient");
+            txtBoxPrenPatientAuth.Attributes.Add("placeholder", "Prénom du patient");
+            txtBoxChambrePatientAuth.Attributes.Add("placeholder", "Numéro de chambre du patient");
             #endregion
 
         }
@@ -49,7 +59,7 @@ namespace HIA_client_leger
             if (!String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
             !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
             {
-                bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text);
+                bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
 
                 if (bPatientMatch)
                 {
@@ -104,22 +114,144 @@ namespace HIA_client_leger
             }
         }
 
-        protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
+        protected void btnConfirmerInfoVisiteurAuth_Click(object sender, EventArgs e)
         {
-            foreach (System.Web.UI.WebControls.Panel panel in divEtapeHoraire.Controls.OfType<System.Web.UI.WebControls.Panel>())
+            List<String> txtBoxValues = new List<string>();
+
+            foreach (Control control in divEtape2DemandeAutorisation.Controls)
             {
-                foreach (Control control in panel.Controls)
+                if (control is TextBox)
                 {
-                    if (control is RadioButton)
+                    TextBox tb = control as TextBox;
+                    if (!String.IsNullOrWhiteSpace(tb.Text))
                     {
-                        RadioButton rb = control as RadioButton;
-                        if (rb.Checked)
-                        {
-                            panelEtape2.Visible = true;
-                        }
+                        txtBoxValues.Add(tb.Text);
+                    }
+                    else
+                    {
+                        txtBoxValues.Add("");
                     }
                 }
             }
+            bool patientMatch = recherchePatient(txtBoxValues[4], txtBoxValues[5], txtBoxValues[6], 2);
+            if (patientMatch)
+            {
+                if (isValidEmail(txtBoxValues[2]))
+                {
+                    int patientID = getPatientId(txtBoxValues);
+                    bool addSuccess = addToPrelist(patientID, txtBoxValues);
+                    if (addSuccess)
+                    {
+                        panelEtape1.Visible = false;
+                        panelEtapeNotificationEnvoiAutorisation.Visible = true;
+                    }
+                }
+                else
+                {
+                    panelEtape1.Visible = false;
+                    panelEtapeInfoPatientError.Visible = true;
+                }
+                
+            }
+            else
+            {
+                panelEtape1.Visible = false;
+                panelEtapeInfoPatientError.Visible = true;
+            }
+        }
+
+        private bool addToPrelist(int _id, List<string> listTxtBoxValues)
+        {
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "INSERT INTO PreListe(PL_nom_visiteur,PL_prenom_visiteur,PL_email_visiteur,id_patient) " +
+                                "VALUES(@nomVisiteur, @prenVisiteur, @emailVisiteur, @idPatient);";
+            try
+            {
+                connection.Open();
+
+                cmd.Parameters.AddWithValue("@nomVisiteur", listTxtBoxValues[0]);
+                cmd.Parameters.AddWithValue("@prenVisiteur", listTxtBoxValues[1]);
+                cmd.Parameters.AddWithValue("@emailVisiteur", listTxtBoxValues[2]);
+                cmd.Parameters.AddWithValue("@idPatient", _id);
+
+                int row = cmd.ExecuteNonQuery();
+                if (row == 1)
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+                cmd.Dispose();
+            }
+
+            return false;
+        }
+
+        private int getPatientId(List<string> listTxtBoxValues)
+        {
+            int id;
+
+            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+            SqlCommand cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT id_patient FROM LocalisationPatient WHERE nom_patient = @nomPatient " +
+                                   "AND prenom_patient = @prenPatient AND num_chambre = @numChambre;";
+            try
+            {
+                connection.Open();
+                cmd.Parameters.AddWithValue("@nomPatient", listTxtBoxValues[4]);
+                cmd.Parameters.AddWithValue("@prenPatient", listTxtBoxValues[5]);
+                cmd.Parameters.AddWithValue("@numChambre", listTxtBoxValues[6]);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                if (reader.HasRows)
+                {
+                    id = reader.GetInt32(0);
+                    return id;
+                }
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+                cmd.Dispose();
+            }
+            return 0;
+        }
+
+        IEnumerable<Control> EnumerateControlsRecursive(Control parent)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                yield return child;
+                foreach (Control descendant in EnumerateControlsRecursive(child))
+                    yield return descendant;
+            }
+        }
+
+        protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
+        {
+
+            /*foreach (Control c in EnumerateControlsRecursive(this.Page))
+            {
+                
+            }*/
         }
 
         private bool isValidEmail(string sEmail)
@@ -176,52 +308,101 @@ namespace HIA_client_leger
             return bRet;
         }
 
-        private bool recherchePatient(string sNomPatient, string sPrenPatient, string sNumVisite)
+        private bool recherchePatient(string sNomPatient, string sPrenPatient, string sValue, int typeRecherche)
         {
             bool bRet = false;
 
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            //Ouverture d'une connection à la base de données
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT nom_patient, prenom_patient, num_visite " +
-                "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
-
-            try
+            if (typeRecherche == 1)
             {
-                //Ouverture de la connection
-                connection.Open();
-                //Passage par paramêtre des filtres WHERE à la requête
-                cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
-                cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
-                cmd.Parameters.AddWithValue("@numVisite", sNumVisite);
+                #region typeRecherche 1
+                SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
-                if (reader.HasRows)
+                //Ouverture d'une connection à la base de données
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT nom_patient, prenom_patient, num_visite " +
+                    "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
+                try
                 {
-                    string sNom = reader.GetString(0);
-                    string sPren = reader.GetString(1);
-                    string sNVisite = reader.GetString(2);
+                    //Ouverture de la connection
+                    connection.Open();
+                    //Passage par paramêtre des filtres WHERE à la requête
+                    cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
+                    cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
+                    cmd.Parameters.AddWithValue("@numVisite", sValue);
 
-                    if (sNom.ToLower() == sNomPatient.ToLower() && sNVisite == sNumVisite)
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    reader.Read();
+                    if (reader.HasRows)
+                    {
+                        string sNom = reader.GetString(0);
+                        string sPren = reader.GetString(1);
+                        string sNVisite = reader.GetString(2);
+
+                        if (sNom.ToLower() == sNomPatient.ToLower() && sNVisite == sValue)
+                        {
+                            bRet = true;
+                        }
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);
+                    //Affichage du message d'erreur 
+                    throw new ApplicationException(ex.Message);
+                }
+                finally
+                {
+                    //Destruction des objets cmd et connection
+                    cmd.Dispose();
+                    connection.Close();
+                }
+                #endregion
+            }
+            else if (typeRecherche == 2)
+            {
+                #region typeRecherche 2
+
+                SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+
+                //Ouverture d'une connection à la base de données
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT Count(id_patient) " +
+                    "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_chambre LIKE @numChambre;";
+                try
+                {
+                    //Ouverture de la connection
+                    connection.Open();
+                    //Passage par paramêtre des filtres WHERE à la requête
+                    cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
+                    cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
+                    cmd.Parameters.AddWithValue("@numChambre", Convert.ToInt32(sValue));
+
+                    int result = (int)cmd.ExecuteScalar();
+                    //Si le résultat est > à 0 on retourne vrai 
+                    if (result > 0)
                     {
                         bRet = true;
                     }
+                    else if (result == 0)
+                    {
+                        bRet = false;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);
+                    //Affichage du message d'erreur 
+                    throw new ApplicationException(ex.Message);
+                }
+                finally
+                {
+                    //Destruction des objets cmd et connection
+                    cmd.Dispose();
+                    connection.Close();
+                }
+                #endregion
 
-            }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-                //Affichage du message d'erreur 
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                //Destruction des objets cmd et connection
-                cmd.Dispose();
-                connection.Close();
             }
             return bRet;
 
