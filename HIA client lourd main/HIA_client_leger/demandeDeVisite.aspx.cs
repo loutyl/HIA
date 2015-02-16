@@ -14,13 +14,24 @@ namespace HIA_client_leger
 {
     public partial class demandeDeVisite : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
                 initPageControl();
             }
-
+            if (Session["panelList"] != null)
+            {
+                foreach (Control control in (List<Panel>)Session["panelList"])
+                {
+                    if (control is Panel)
+                    {
+                        divEtapeHoraire.Controls.Add(control);
+                    }
+                }
+            }
         }
 
         private void initPageControl()
@@ -84,7 +95,6 @@ namespace HIA_client_leger
 
         protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
         {
-
             if (!String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
             {
                 if (isValidEmail(txtBoxEmailVisiteur.Text))
@@ -124,7 +134,7 @@ namespace HIA_client_leger
                     if (!String.IsNullOrWhiteSpace(tb.Text))
                     {
                         txtBoxValues.Add(tb.Text);
-                    }                    
+                    }
                 }
             }
             bool patientMatch = recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
@@ -145,7 +155,7 @@ namespace HIA_client_leger
                     panelEtape1.Visible = false;
                     panelEtapeInfoPatientError.Visible = true;
                 }
-                
+
             }
             else
             {
@@ -229,7 +239,7 @@ namespace HIA_client_leger
             return 0;
         }
 
-        IEnumerable<Control> EnumerateControlsRecursive(Control parent)
+        /*IEnumerable<Control> EnumerateControlsRecursive(Control parent)
         {
             foreach (Control child in parent.Controls)
             {
@@ -237,15 +247,54 @@ namespace HIA_client_leger
                 foreach (Control descendant in EnumerateControlsRecursive(child))
                     yield return descendant;
             }
-        }
+        }*/
 
         protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
         {
-
-            /*foreach (Control c in EnumerateControlsRecursive(this.Page))
+            int indexPanel = 0;
+            foreach (Control control in divEtapeHoraire.Controls)
             {
-                
-            }*/
+                if (control is Panel)
+                {
+                    foreach (Control c in control.Controls)
+                    {
+                        if (c is RadioButton)
+                        {
+                            RadioButton rb = c as RadioButton;
+                            if (rb.Checked)
+                            {
+                                foreach (Control cont in rb.Parent.Controls)
+                                {
+                                    if (cont is Label && cont.ID == "labelPlageHoraire" + indexPanel)
+                                    {
+
+                                    }
+                                }
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMin", "openTimeMin();", true);
+                                ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMax", "openTimeMax();", true);
+                            }
+                        }
+                    }
+                    indexPanel++;
+                }
+            }
+        }
+        protected void btnConfirmerHeureModal_Click(object sender, EventArgs e)
+        {
+            foreach (Control control in Panel1.Controls)
+            {
+                if (control is LiteralControl)
+                {
+                    if (control is HtmlInputControl)
+                    {
+                        HtmlInputControl ctrl = (HtmlInputControl)this.FindControl("inputTimeMin");
+                        string test = ctrl.Value;
+                        string test2 = ctrl.Value;
+                    }
+
+                }
+            }
         }
 
         private bool isValidEmail(string sEmail)
@@ -654,6 +703,8 @@ namespace HIA_client_leger
         }
         private void displayLabel(TimeSpan[,] horaire)
         {
+            List<Panel> panelList = new List<Panel>();
+
             for (int i = 0; i < horaire.GetLength(0); i++)
             {
                 Panel myPanel = new Panel();
@@ -689,7 +740,7 @@ namespace HIA_client_leger
                 myLabel2.Text = etat;
 
                 RadioButton myRadiobutton = new RadioButton();
-                myRadiobutton.ID = "radioBtnHoraire" + i;
+                myRadiobutton.ID = "radioBtnHoraire" + i.ToString();
                 myRadiobutton.CssClass = "col-md-3 control-label";
                 myRadiobutton.GroupName = "rBtnGroup";
 
@@ -697,9 +748,10 @@ namespace HIA_client_leger
                 myPanel.Controls.Add(myLabel2);
                 myPanel.Controls.Add(myRadiobutton);
 
+                panelList.Add(myPanel);
                 divEtapeHoraire.Controls.Add(myPanel);
-
             }
+            Session["panelList"] = panelList;
         }
     }
 }
