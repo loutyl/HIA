@@ -56,7 +56,6 @@ namespace HIA_client_lourd
             //On remplis le dataGrid avec la fonction FillData
             FillData(status);
 
-
         }
         //Fonction permettant de remplir le dataGrid avec les données en fonction du status
         private void FillData(int status)
@@ -70,7 +69,7 @@ namespace HIA_client_lourd
                 //Ouverture de la connection
                 connection.Open();
                 //Création d'un adapter
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT nom_visiteur, prenom_visiteur, date_visite, heure_deb_visite" +
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT DISTINCT PL_nom_visiteur, PL_prenom_visiteur, date_visite, heure_deb_visite" +
                 ", heure_fin_visite, num_bon_visite FROM VisitePatient WHERE status_demande = @status AND nom_patient = @pRecherche", connection);
                 //Passage par paramêtre des filtres WHERE
                 adapter.SelectCommand.Parameters.AddWithValue("@status", status);

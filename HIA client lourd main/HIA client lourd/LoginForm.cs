@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using databaseHIA;
 
 namespace HIA_client_lourd
 {
@@ -26,13 +28,14 @@ namespace HIA_client_lourd
             //Désignaiton du sender de l'évenement
             Button ConnectBtn = sender as Button;
 
-            databaseHIA db = new databaseHIA();
-
+            //databaseHIA db = new databaseHIA();
+            heavyClientDatabaseObject hDB = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings                ["HIA_client_lourd.Properties.Settings.dbConnectionString"].ConnectionString);
+            
             string username = textBox_id.Text;
             string pwd = textBox_Pwd.Text;
 
             //Si la méthode login() de l'objet db retourne vrai 
-            if (db.login(username,pwd))
+            if (hDB.login(username,pwd))
             {
                 //Instanciation de la Window princiaple
                 MainForm MainWindow = new MainForm();

@@ -74,15 +74,15 @@ namespace HIA_client_lourd
             set { numVisitePatient = value; }
         }
 
-        private bool statusVisite;
+        private int statusVisite;
 
-        public bool StatusVisite
+        public int StatusVisite
         {
             get { return statusVisite; }
             set { statusVisite = value; }
         }
         //Constructeur d'un patient
-        public Patient (string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, bool value9)
+        public Patient (string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, int value9)
         {
             //initialisation des attributs du patient avec les variables passées en paramêtre 
             //lors de l'instanciation du patient

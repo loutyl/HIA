@@ -9,11 +9,21 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.Configuration;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using databaseHIA;
+using Utilities;
 
 namespace HIA_client_leger
 {
     public partial class demandeDeVisite : System.Web.UI.Page
     {
+        protected string inputValueDebutVisite { get; set; }
+        protected string inputValueFinVisite { get; set; }
+
+        private string databaseConnectionString = WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
+
+        private TimeSpan horaireDebutVisite = TimeSpan.FromHours(8);
+        private TimeSpan horaireFinVisite = TimeSpan.FromHours(22);
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,6 +39,13 @@ namespace HIA_client_leger
                     if (control is Panel)
                     {
                         divEtapeHoraire.Controls.Add(control);
+                    }
+                }
+                foreach (Control control in (List<Panel>)Session["panelListIndispo"])
+                {
+                    if (control is Panel)
+                    {
+                        divEtapeHoraireIndisponible.Controls.Add(control);
                     }
                 }
             }
@@ -68,20 +85,23 @@ namespace HIA_client_leger
             if (!String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
             !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
             {
-                bool bPatientMatch = recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
+                UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
+                lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
 
+                bool bPatientMatch = lDB.recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
                 if (bPatientMatch)
                 {
+                    Session["idPatient"] = lDB.getPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, "", 2);
+
                     panelEtape2.Visible = false;
                     string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
                     divBarEtape2.Attributes["class"] = sClass;
 
                     divBarEtape3.Attributes["class"] += " activestep";
 
-                    TimeSpan[,] plageHoraire = getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+                    TimeSpan[,] plageHoraire = lDB.getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
 
-                    displayLabel(getDispo(plageHoraire));
-
+                    displayLabel(timeTool.getDispo(plageHoraire, this.horaireDebutVisite, this.horaireFinVisite), plageHoraire);
                     panelEtape3.Visible = true;
 
                 }
@@ -97,12 +117,16 @@ namespace HIA_client_leger
         {
             if (!String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
             {
-                if (isValidEmail(txtBoxEmailVisiteur.Text))
+                UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+                if (stringTool.isValidEmail(txtBoxEmailVisiteur.Text))
                 {
-                    bool bVisiteurMatch = rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
+                    lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
 
+                    bool bVisiteurMatch = lDB.rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
                     if (bVisiteurMatch)
                     {
+                        Session["idVisiteur"] = lDB.getVisiteurId(txtBoxNomVisiteur.Text, txtBoxEmailVisiteur.Text);
+
                         panelEtape1.Visible = false;
                         string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
                         divBarEtape1.Attributes["class"] = sClass;
@@ -118,7 +142,6 @@ namespace HIA_client_leger
                         panelEtapeInfoVisiteurError.Visible = true;
                     }
                 }
-
             }
         }
 
@@ -137,15 +160,22 @@ namespace HIA_client_leger
                     }
                 }
             }
-            bool patientMatch = recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
+
+            lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+
+            bool patientMatch = lDB.recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
+
             if (patientMatch)
             {
-                if (isValidEmail(txtBoxValues[2]))
+                UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+                if (stringTool.isValidEmail(txtBoxValues[2]))
                 {
-                    int patientID = getPatientId(txtBoxValues);
-                    bool addSuccess = addToPrelist(patientID, txtBoxValues);
+                    int patientID = lDB.getPatientId(txtBoxNomPatientAuth.Text, txtBoxPrenPatientAuth.Text, txtBoxChambrePatientAuth.Text, 1);
+                    bool addSuccess = lDB.addToPrelist(patientID, txtBoxValues);
                     if (addSuccess)
                     {
+                        string patientNumViste = lDB.getPatientNumVisite(patientID);
+
                         panelEtape1.Visible = false;
                         panelEtapeNotificationEnvoiAutorisation.Visible = true;
                     }
@@ -163,91 +193,6 @@ namespace HIA_client_leger
                 panelEtapeInfoPatientError.Visible = true;
             }
         }
-
-        private bool addToPrelist(int _id, List<string> listTxtBoxValues)
-        {
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "INSERT INTO PreListe(PL_nom_visiteur,PL_prenom_visiteur,PL_email_visiteur,id_patient) " +
-                                "VALUES(@nomVisiteur, @prenVisiteur, @emailVisiteur, @idPatient);";
-            try
-            {
-                connection.Open();
-
-                cmd.Parameters.AddWithValue("@nomVisiteur", listTxtBoxValues[0]);
-                cmd.Parameters.AddWithValue("@prenVisiteur", listTxtBoxValues[1]);
-                cmd.Parameters.AddWithValue("@emailVisiteur", listTxtBoxValues[2]);
-                cmd.Parameters.AddWithValue("@idPatient", _id);
-
-                int row = cmd.ExecuteNonQuery();
-                if (row == 1)
-                {
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-                cmd.Dispose();
-            }
-
-            return false;
-        }
-
-        private int getPatientId(List<string> listTxtBoxValues)
-        {
-            int id;
-
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT id_patient FROM LocalisationPatient WHERE nom_patient = @nomPatient " +
-                                   "AND prenom_patient = @prenPatient AND num_chambre = @numChambre;";
-            try
-            {
-                connection.Open();
-                cmd.Parameters.AddWithValue("@nomPatient", listTxtBoxValues[3]);
-                cmd.Parameters.AddWithValue("@prenPatient", listTxtBoxValues[4]);
-                cmd.Parameters.AddWithValue("@numChambre", listTxtBoxValues[5]);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                reader.Read();
-                if (reader.HasRows)
-                {
-                    id = reader.GetInt32(0);
-                    return id;
-                }
-                reader.Close();
-
-            }
-            catch (Exception ex)
-            {
-
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                connection.Close();
-                cmd.Dispose();
-            }
-            return 0;
-        }
-
-        /*IEnumerable<Control> EnumerateControlsRecursive(Control parent)
-        {
-            foreach (Control child in parent.Controls)
-            {
-                yield return child;
-                foreach (Control descendant in EnumerateControlsRecursive(child))
-                    yield return descendant;
-            }
-        }*/
 
         protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
         {
@@ -267,6 +212,16 @@ namespace HIA_client_leger
                                 {
                                     if (cont is Label && cont.ID == "labelPlageHoraire" + indexPanel)
                                     {
+                                        Label label = cont as Label;
+
+                                        myModalSubTitle.Text = label.Text;
+                                        myModalSubTitle.Style.Value = "margin-right:15px;";
+
+                                        labelHeureDebVisite.Style.Value = "margin-bottom:10px;";
+                                        labelHeureFinVisite.Style.Value = "margin-bottom:10px;";
+
+                                        this.inputValueDebutVisite = label.Text.Split(' ').First();
+                                        this.inputValueFinVisite = label.Text.Split(' ').Last();
 
                                     }
                                 }
@@ -280,448 +235,78 @@ namespace HIA_client_leger
                 }
             }
         }
+       
         protected void btnConfirmerHeureModal_Click(object sender, EventArgs e)
         {
-            foreach (Control control in Panel1.Controls)
+            string heureDebutVisite = Request.Form["heureDebutVisite"];
+            string heureFinVisite = Request.Form["heureFinVisite"];
+
+            TimeSpan plageDebutVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').First());
+            TimeSpan plageFinVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').Last());
+
+            UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
+            UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+
+            lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+
+            if (timeTool.compareTimeSpan(TimeSpan.Parse(heureDebutVisite), plageDebutVisite) && timeTool.compareTimeSpan(plageFinVisite, TimeSpan.Parse(heureFinVisite)))
             {
-                if (control is LiteralControl)
+                if (lDB.getStatusPatient((int)Session["idPatient"]) == 1)
                 {
-                    if (control is HtmlInputControl)
+                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], stringTool.generateGUID(), 1))
                     {
-                        HtmlInputControl ctrl = (HtmlInputControl)this.FindControl("inputTimeMin");
-                        string test = ctrl.Value;
-                        string test2 = ctrl.Value;
-                    }
-
-                }
-            }
-        }
-
-        private bool isValidEmail(string sEmail)
-        {
-            string symbole = "^([0-9a-zA-Z]([-\\.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$";
-
-            if (Regex.IsMatch(sEmail, symbole, RegexOptions.IgnoreCase))
-            {
-                return true;
-            }
-            return false;
-        }
-
-        //Méthode de recherche d'un visiteur dans la base
-        private bool rechercheVisiteur(string sNomVisiteur, string sPrenVisiteur, string sEmailVisiteur)
-        {
-            bool bRet = false;
-
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            //Ouverture d'une connection à la base de données
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT Count(*) FROM PreListe " +
-                             "WHERE PL_nom_visiteur = @nomVisiteur AND PL_prenom_visiteur = @prenVisiteur AND PL_email_visiteur = @emailVisiteur;";
-
-            try
-            {
-                //Ouverture de la connection
-                connection.Open();
-                //Passage par paramêtre des filtres WHERE à la requête
-                cmd.Parameters.AddWithValue("@nomVisiteur", sNomVisiteur);
-                cmd.Parameters.AddWithValue("@prenVisiteur", sPrenVisiteur);
-                cmd.Parameters.AddWithValue("@emailVisiteur", sEmailVisiteur);
-
-                int result = (int)cmd.ExecuteScalar();
-                //Si le résultat est > à 0 on retourne vrai 
-                if (result > 0)
-                {
-                    bRet = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-                //Affichage du message d'erreur 
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                //Destruction des objets cmd et connection
-                cmd.Dispose();
-                connection.Close();
-            }
-            return bRet;
-        }
-
-        private bool recherchePatient(string sNomPatient, string sPrenPatient, string sValue, int typeRecherche)
-        {
-            bool bRet = false;
-
-            if (typeRecherche == 1)
-            {
-                #region typeRecherche 1
-                SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-                //Ouverture d'une connection à la base de données
-                SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT nom_patient, prenom_patient, num_visite " +
-                    "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_visite LIKE @numVisite;";
-                try
-                {
-                    //Ouverture de la connection
-                    connection.Open();
-                    //Passage par paramêtre des filtres WHERE à la requête
-                    cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
-                    cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
-                    cmd.Parameters.AddWithValue("@numVisite", sValue);
-
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    reader.Read();
-                    if (reader.HasRows)
-                    {
-                        string sNom = reader.GetString(0);
-                        string sPren = reader.GetString(1);
-                        string sNVisite = reader.GetString(2);
-
-                        if (sNom.ToLower() == sNomPatient.ToLower() && sNVisite == sValue)
-                        {
-                            bRet = true;
-                        }
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    Response.Write(ex.Message);
-                    //Affichage du message d'erreur 
-                    throw new ApplicationException(ex.Message);
-                }
-                finally
-                {
-                    //Destruction des objets cmd et connection
-                    cmd.Dispose();
-                    connection.Close();
-                }
-                #endregion
-            }
-            else if (typeRecherche == 2)
-            {
-                #region typeRecherche 2
-
-                SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-                //Ouverture d'une connection à la base de données
-                SqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT Count(id_patient) " +
-                    "FROM LocalisationPatient WHERE nom_patient LIKE @nomPatient AND prenom_patient LIKE @prenPatient AND num_chambre LIKE @numChambre;";
-                try
-                {
-                    //Ouverture de la connection
-                    connection.Open();
-                    //Passage par paramêtre des filtres WHERE à la requête
-                    cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
-                    cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
-                    cmd.Parameters.AddWithValue("@numChambre", Convert.ToInt32(sValue));
-
-                    int result = (int)cmd.ExecuteScalar();
-                    //Si le résultat est > à 0 on retourne vrai 
-                    if (result > 0)
-                    {
-                        bRet = true;
-                    }
-                    else if (result == 0)
-                    {
-                        bRet = false;
+                        panelEtape3.Visible = false;
+                        panelInfoDemandeDeVisiteFinal.Visible = true;
                     }
                 }
-                catch (Exception ex)
+                else if (lDB.getStatusPatient((int)Session["idPatient"]) == 3)
                 {
-                    Response.Write(ex.Message);
-                    //Affichage du message d'erreur 
-                    throw new ApplicationException(ex.Message);
-                }
-                finally
-                {
-                    //Destruction des objets cmd et connection
-                    cmd.Dispose();
-                    connection.Close();
-                }
-                #endregion
-
-            }
-            return bRet;
-
-        }
-
-        private TimeSpan[,] getSchedule(string sNomPatient, string sPrenPatient)
-        {
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT Count(*) FROM schedule WHERE nom_patient = @nomPatient " +
-                                   "AND prenom_patient = @prenPatient AND date_examen = @dateVisite;";
-
-            try
-            {
-                //Ouverture de la connection
-                connection.Open();
-                //Passage par paramêtre des filtres WHERE à la requête
-                cmd.Parameters.AddWithValue("@nomPatient", sNomPatient);
-                cmd.Parameters.AddWithValue("@prenPatient", sPrenPatient);
-                cmd.Parameters.AddWithValue("@dateVisite", DateTime.Today);
-
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                reader.Read();
-
-                int nbRow = reader.GetInt32(0);
-
-                reader.Close();
-
-                TimeSpan[,] plageHoraire = new TimeSpan[nbRow, 2];
-
-                SqlCommand cmd2 = connection.CreateCommand();
-                cmd2.CommandText = "SELECT heure_debut_examen, heure_fin_examen FROM schedule WHERE nom_patient = @nomPatient " +
-                                    "AND prenom_patient = @prenPatient AND date_examen = @dateVisite ORDER BY heure_debut_examen;";
-
-                cmd2.Parameters.AddWithValue("@nomPatient", sNomPatient);
-                cmd2.Parameters.AddWithValue("@prenPatient", sPrenPatient);
-                cmd2.Parameters.AddWithValue("@dateVisite", DateTime.Today);
-
-                reader = cmd2.ExecuteReader();
-
-                int i = 0;
-                while (reader.Read())
-                {
-                    plageHoraire[i, 0] = reader.GetTimeSpan(0);
-                    plageHoraire[i, 1] = reader.GetTimeSpan(1);
-                    i++;
-                }
-
-                return plageHoraire;
-
-            }
-            catch (Exception ex)
-            {
-
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                cmd.Dispose();
-                connection.Close();
-            }
-
-        }
-
-        private TimeSpan[,] getDispo(TimeSpan[,] time)
-        {
-            TimeSpan horaireDebutVisite = TimeSpan.FromHours(8);
-            TimeSpan horaireFinVisite = TimeSpan.FromHours(22);
-
-            int nbPlageInDispo = time.GetLength(0);
-            int nbPlageDispo = 0;
-            bool horaireLimite = false;
-            bool horaireLimiteDown = false;
-            bool horaireLimiteUp = false;
-            bool horaireLimiteUpDown = false;
-
-            #region calcule plage dispo
-
-            if (nbPlageInDispo == 1)
-            {
-                if (time[0, 0] == horaireDebutVisite && time[0, 1] != horaireFinVisite || time[0, 0] != horaireDebutVisite && time[0, 1] == horaireFinVisite)
-                {
-                    nbPlageDispo = 1;
-                    horaireLimite = true;
-                    if (time[0, 0] == horaireDebutVisite && time[0, 1] != horaireFinVisite)
+                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], stringTool.generateGUID(), 3))
                     {
-                        horaireLimiteDown = true;
-                    }
-                    else if (time[0, 0] != horaireDebutVisite && time[0, 1] == horaireFinVisite)
-                    {
-                        horaireLimiteUp = true;
-                    }
-                }
-                else
-                {
-                    nbPlageDispo = nbPlageInDispo + 1;
-                }
-            }
-            else if (nbPlageInDispo > 1)
-            {
-                if (time[0, 0] == horaireDebutVisite && time[time.GetUpperBound(0), 1] != horaireFinVisite)
-                {
-                    nbPlageDispo = nbPlageInDispo;
-                    horaireLimite = true;
-                    horaireLimiteDown = true;
-                }
-                else if (time[0, 0] != horaireDebutVisite && time[time.GetUpperBound(0), 1] == horaireFinVisite)
-                {
-                    nbPlageDispo = nbPlageInDispo;
-                    horaireLimite = true;
-                    horaireLimiteUp = true;
-                }
-                else if (time[0, 0] == horaireDebutVisite && time[time.GetUpperBound(0), 1] == horaireFinVisite)
-                {
-                    nbPlageDispo = nbPlageInDispo - 1;
-                    horaireLimite = true;
-                    horaireLimiteUpDown = true;
-                }
-                else
-                {
-                    nbPlageDispo = nbPlageInDispo + 1;
-                }
-            }
-
-            #endregion
-
-            TimeSpan[,] plageDispo = new TimeSpan[nbPlageDispo, 2];
-
-            if (nbPlageDispo == 1)
-            {
-                for (int i = 0; i < nbPlageDispo; i++)
-                {
-                    if (horaireLimite)
-                    {
-                        if (horaireLimiteDown)
-                        {
-                            plageDispo[i, 0] = time[i, 1];
-                            plageDispo[i, 1] = horaireFinVisite;
-                        }
-                        else if (horaireLimiteUp)
-                        {
-                            plageDispo[i, 0] = horaireDebutVisite;
-                            plageDispo[i, 1] = time[i, 0];
-                        }
-                    }
-                }
-
-            }
-            else if (nbPlageDispo > 1)
-            {
-                for (int i = 0; i < nbPlageDispo; i++)
-                {
-                    if (horaireLimite)
-                    {
-                        if (horaireLimiteDown)
-                        {
-                            if (i == 0)
-                            {
-                                plageDispo[i, 0] = time[i, 1];
-                                plageDispo[i, 1] = time[(i + 1), 0];
-                            }
-                            else
-                            {
-                                plageDispo[i, 0] = time[i, 1];
-                                plageDispo[i, 1] = horaireFinVisite;
-                            }
-                        }
-                        else if (horaireLimiteUp)
-                        {
-                            if (i == 0)
-                            {
-                                plageDispo[i, 0] = horaireDebutVisite;
-                                plageDispo[i, 1] = time[i, 0];
-                            }
-                            else
-                            {
-                                plageDispo[i, 0] = time[(i - 1), 1];
-                                plageDispo[i, 1] = time[i, 0];
-                            }
-                        }
-                        else if (horaireLimiteUpDown)
-                        {
-                            plageDispo[i, 0] = time[i, 1];
-                            plageDispo[i, 1] = time[(i + 1), 0];
-                        }
-                    }
-                    else
-                    {
-                        if (i == 0)
-                        {
-                            plageDispo[i, 0] = horaireDebutVisite;
-                            plageDispo[i, 1] = time[i, 0];
-                        }
-                        else
-                        {
-                            plageDispo[i, 0] = time[(i - 1), 1];
-                            if ((i + 1) == nbPlageDispo)
-                            {
-                                plageDispo[i, 1] = horaireFinVisite;
-                            }
-                            else
-                            {
-                                plageDispo[i, 1] = time[i, 0];
-                            }
-                        }
+                        panelEtape3.Visible = false;
+                        panelInfoDemandeDeVisiteBesoinConfirmation.Visible = true;
                     }
                 }
             }
-            return plageDispo;
-        }
-
-        private int getAffluence(TimeSpan time1, TimeSpan time2)
-        {
-            SqlConnection connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
-
-            SqlCommand cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT COUNT(id_visiteur) FROM Visiter WHERE date_visite = @dateVisite " +
-                                "AND status_demande = @statusDemande AND heure_deb_visite >= @heureDebut " +
-                                    "AND heure_fin_visite <= @heureFin ;";
-            try
+            else
             {
-                //Ouverture de la connection
-                connection.Open();
-                //Passage par paramêtre des filtres WHERE à la requête
-                cmd.Parameters.AddWithValue("@dateVisite", DateTime.Today);
-                cmd.Parameters.AddWithValue("@statusDemande", 1);
-                cmd.Parameters.AddWithValue("@heureDebut", time1);
-                cmd.Parameters.AddWithValue("@heureFin", time2);
-
-                int affluence = 0;
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        affluence = reader.GetInt32(0);
-                    }
-                    reader.Close();
-                }
-                return affluence;
+                //divErreurHoraire.Visible = true;
             }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message);
-            }
-            finally
-            {
-                cmd.Dispose();
-                connection.Close();
-            }
+        }       
 
-        }
-        private void displayLabel(TimeSpan[,] horaire)
+        private void displayLabel(TimeSpan[,] horaire, TimeSpan[,] horaireIndispo)
         {
             List<Panel> panelList = new List<Panel>();
+            List<Panel> panelListIndispo = new List<Panel>();
+
+            labelInfoAffluence.Style.Value = "margin-left:5px;";
+            labelInfoChoixHoraire.Style.Value = "margin-left:25px;";
+
+            UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
 
             for (int i = 0; i < horaire.GetLength(0); i++)
             {
                 Panel myPanel = new Panel();
+
                 myPanel.ID = "panelPlageHoraire" + i;
                 myPanel.CssClass = "form-group";
-                myPanel.Style.Value = "margin-left:80px";
+                myPanel.Style.Value = "margin-left:50px";
 
                 Label myLabel1 = new Label();
                 myLabel1.ID = "labelPlageHoraire" + i;
+
+                myLabel1.Text = stringTool.splitString(horaire[i, 0].ToString()) + " - " + stringTool.splitString(horaire[i, 1].ToString());
                 myLabel1.CssClass = "col-md-3 control-label";
-                myLabel1.Text = horaire[i, 0].ToString() + " - " + horaire[i, 1].ToString();
 
                 Label myLabel2 = new Label();
+
+                string etat = String.Empty;
+
                 myLabel2.ID = "labelAffluence" + i;
-                myLabel2.CssClass = "col-md-3 control-label";
-                int affluence = getAffluence(horaire[i, 0], horaire[i, 1]);
-                string etat = "";
+
+                lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+
+                int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1]);
                 if (affluence >= 0 && affluence < 2)
                 {
                     etat = "Faible";
@@ -737,11 +322,15 @@ namespace HIA_client_leger
                     etat = "Forte";
                     myLabel2.Style.Value = "color:red";
                 }
+
+                myLabel2.CssClass = "col-md-3 control-label";
                 myLabel2.Text = etat;
 
                 RadioButton myRadiobutton = new RadioButton();
+
                 myRadiobutton.ID = "radioBtnHoraire" + i.ToString();
                 myRadiobutton.CssClass = "col-md-3 control-label";
+
                 myRadiobutton.GroupName = "rBtnGroup";
 
                 myPanel.Controls.Add(myLabel1);
@@ -750,8 +339,50 @@ namespace HIA_client_leger
 
                 panelList.Add(myPanel);
                 divEtapeHoraire.Controls.Add(myPanel);
+
+                Session["panelList"] = panelList;
+
             }
-            Session["panelList"] = panelList;
+
+            if (horaireIndispo[0, 0] != TimeSpan.Zero)
+            {
+                plageHoraireIndispoTitre.Visible = true;
+
+                for (int i = 0; i < horaireIndispo.GetLength(0); i++)
+                {
+                    Panel myPanel = new Panel();
+                    myPanel.ID = "panelPlageHoraireIndispo" + i;
+                    myPanel.CssClass = "form-group";
+                    myPanel.Style.Value = "margin-left:50px";
+
+                    Label myLabel1 = new Label();
+                    myLabel1.ID = "labelPlageHoraireIndispo" + i;
+                    myLabel1.Text = stringTool.splitString(horaireIndispo[i, 0].ToString()) + " - " + stringTool.splitString(horaireIndispo[i, 1].ToString());
+                    myLabel1.CssClass = "col-md-3 control-label";
+
+                    Label myLabel2 = new Label();
+                    myLabel2.ID = "labelAffluenceIndispo" + i;
+                    myLabel2.Text = "Indisponible";
+                    myLabel2.CssClass = "col-md-3 control-label";
+                    myLabel2.Style.Value = "margin-left:20px;";
+
+                    RadioButton myRadioButton = new RadioButton();
+                    myRadioButton.ID = "radioBtnHoraireIndispo" + i.ToString();
+                    myRadioButton.CssClass = "col-md-3 control-label radioButtonIndispo";
+                    myRadioButton.GroupName = "rBtnGroup";
+                    myRadioButton.Enabled = false;
+
+                    myPanel.Controls.Add(myLabel1);
+                    myPanel.Controls.Add(myLabel2);
+                    myPanel.Controls.Add(myRadioButton);
+
+                    panelListIndispo.Add(myPanel);
+                    divEtapeHoraireIndisponible.Controls.Add(myPanel);
+
+                    Session["panelListIndispo"] = panelListIndispo;
+
+                }
+            }
         }
     }
 }
