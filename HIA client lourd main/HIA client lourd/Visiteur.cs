@@ -8,72 +8,60 @@ namespace HIA_client_lourd
 {
     class Visiteur
     {
-        //ID du visiteur
-        private string idVisiteur;
+        private string _idVisiteur;
 
-        //Nom du visiteur
-        private string nomVisiteur;
-        //accesseur
-        public string NomVisiteur
+        private string _nomVisiteur;
+        public string _NomVisiteur
         {
-            get { return nomVisiteur; }
-            set { nomVisiteur = value; }
+            get { return this._nomVisiteur; }
+            set { this._nomVisiteur = value; }
         }
 
-        //Prenom du visiteur
-        private string prenVisiteur;
-        //accesseur
-        public string PrenVisiteur
+        private string _prenVisiteur;
+        public string _PrenVisiteur
         {
-            get { return prenVisiteur; }
-            set { prenVisiteur = value; }
+            get { return this._prenVisiteur; }
+            set { this._prenVisiteur = value; }
         }
 
-        //Email du visiteur
-        private string emailVisiteur;
-        //accesseur
-        public string EmailVisiteur
+        private string _emailVisiteur;
+        public string _EmailVisiteur
         {
-            get { return emailVisiteur; }
-            set { emailVisiteur = value; }
+            get { return this._emailVisiteur; }
+            set { this._emailVisiteur = value; }
         }
 
-        //Numéro de téléphone du visiteur
-        private string telVisiteur;
-        //accesseur
-        public string TelVisiteur
+        private string _telVisiteur;
+        public string _TelVisiteur
         {
-            get { return telVisiteur; }
-            set { telVisiteur = value; }
+            get { return this._telVisiteur; }
+            set { this._telVisiteur = value; }
         }
 
-        //Numéro de visite du visiteur
-        private string numVisiteVisiteur;
-        //accesseur
-        public string NumVisiteVisiteur
+        private string _numVisiteVisiteur;
+        public string _NumVisiteVisiteur
         {
-            get { return numVisiteVisiteur; }
-            set { numVisiteVisiteur = value; }
+            get { return this._numVisiteVisiteur; }
+            set { this._numVisiteVisiteur = value; }
         }
 
-        //Constructeur de visiteur
         public Visiteur(string id, string nom, string prenom, string email, string numVisite)
         {
-            idVisiteur = id;
-            nomVisiteur = nom;
-            prenVisiteur = prenom;
-            emailVisiteur = email;
-            numVisiteVisiteur = numVisite;
+            this._idVisiteur = id;
+            this._nomVisiteur = nom;
+            this._prenVisiteur = prenom;
+            this._emailVisiteur = email;
+            this._numVisiteVisiteur = numVisite;
         }
 
         public Visiteur(string id, string nom, string prenom, string email, string tel, string numVisite)
         {
-            idVisiteur = id;
-            nomVisiteur = nom;
-            prenVisiteur = prenom;
-            emailVisiteur = email;
-            telVisiteur = tel;
-            numVisiteVisiteur = numVisite;
+            this._idVisiteur = id;
+            this._nomVisiteur = nom;
+            this._prenVisiteur = prenom;
+            this._emailVisiteur = email;
+            this._telVisiteur = tel;
+            this._numVisiteVisiteur = numVisite;
         }
 
     }

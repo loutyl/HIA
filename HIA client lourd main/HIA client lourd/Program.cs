@@ -17,9 +17,10 @@ namespace HIA_client_lourd
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            databaseHIA dbHIA = new databaseHIA();
             LoginForm LoginWindow = new LoginForm();
+
             LoginWindow.Show();
+
             Application.Run();
         }
     }

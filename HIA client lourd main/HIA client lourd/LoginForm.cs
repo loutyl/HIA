@@ -17,48 +17,33 @@ namespace HIA_client_lourd
     {
         public LoginForm()
         {
-            //Initialisation des composants du Form
             InitializeComponent();
 
         }
-                 
-        //Evenement lors d'un click sur le boutton connect
+
         private void ConnectBtn_MouseClick(object sender, MouseEventArgs e)
         {
-            //Désignaiton du sender de l'évenement
             Button ConnectBtn = sender as Button;
 
-            //databaseHIA db = new databaseHIA();
-            heavyClientDatabaseObject hDB = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings                ["HIA_client_lourd.Properties.Settings.dbConnectionString"].ConnectionString);
+            heavyClientDatabaseObject hDB = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
             
-            string username = textBox_id.Text;
-            string pwd = textBox_Pwd.Text;
-
-            //Si la méthode login() de l'objet db retourne vrai 
-            if (hDB.login(username,pwd))
+            if (hDB.login(textBox_id.Text, textBox_Pwd.Text))
             {
-                //Instanciation de la Window princiaple
                 MainForm MainWindow = new MainForm();
-                //Affichage de MainWindow
+
                 MainWindow.Show();
-                //Activation de MainWindow
+
                 MainWindow.Activate();
-                //Fermeture du Form login
+
                 this.Close(); 
             }
-            //Sinon si login() retourne faux
             else
             {
-                //Affichage d'un message d'erreur
                 MessageBox.Show("Utilisateur ou mot de passe inconnu", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //Reset des textBox
-                textBox_id.Text = null;
-                textBox_Pwd.Text = null;
+
+                textBox_id.Text = String.Empty;
+                textBox_Pwd.Text = String.Empty;
             }
-
-        }
-
-        
-
+        }      
     }
 }

@@ -19,9 +19,7 @@ namespace HIA_client_leger
     {
         protected string inputValueDebutVisite { get; set; }
         protected string inputValueFinVisite { get; set; }
-
         private string databaseConnectionString = WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-
         private TimeSpan horaireDebutVisite = TimeSpan.FromHours(8);
         private TimeSpan horaireFinVisite = TimeSpan.FromHours(22);
 
@@ -86,12 +84,12 @@ namespace HIA_client_leger
             !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
             {
                 UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
-                lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+                lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
                 bool bPatientMatch = lDB.recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
                 if (bPatientMatch)
                 {
-                    Session["idPatient"] = lDB.getPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, "", 2);
+                    Session["idPatient"] = lDB.getPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, String.Empty, 2);
 
                     panelEtape2.Visible = false;
                     string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
@@ -120,7 +118,7 @@ namespace HIA_client_leger
                 UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
                 if (stringTool.isValidEmail(txtBoxEmailVisiteur.Text))
                 {
-                    lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+                    lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
                     bool bVisiteurMatch = lDB.rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
                     if (bVisiteurMatch)
@@ -161,7 +159,7 @@ namespace HIA_client_leger
                 }
             }
 
-            lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+            lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
             bool patientMatch = lDB.recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
 
@@ -170,9 +168,8 @@ namespace HIA_client_leger
                 UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
                 if (stringTool.isValidEmail(txtBoxValues[2]))
                 {
-                    int patientID = lDB.getPatientId(txtBoxNomPatientAuth.Text, txtBoxPrenPatientAuth.Text, txtBoxChambrePatientAuth.Text, 1);
-                    bool addSuccess = lDB.addToPrelist(patientID, txtBoxValues);
-                    if (addSuccess)
+                    int patientID = lDB.getPatientId(txtBoxNomPatientAuth.Text, txtBoxPrenPatientAuth.Text, txtBoxChambrePatientAuth.Text, 1); 
+                    if (lDB.addToPrelist(patientID, txtBoxValues))
                     {
                         string patientNumViste = lDB.getPatientNumVisite(patientID);
 
@@ -243,11 +240,11 @@ namespace HIA_client_leger
 
             TimeSpan plageDebutVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').First());
             TimeSpan plageFinVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').Last());
-
+            
             UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
             UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
 
-            lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+            lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
             if (timeTool.compareTimeSpan(TimeSpan.Parse(heureDebutVisite), plageDebutVisite) && timeTool.compareTimeSpan(plageFinVisite, TimeSpan.Parse(heureFinVisite)))
             {
@@ -304,9 +301,9 @@ namespace HIA_client_leger
 
                 myLabel2.ID = "labelAffluence" + i;
 
-                lightClientDatabaseObject lDB = new lightClientDatabaseObject(databaseConnectionString);
+                lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
-                int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1]);
+                int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1], 1);
                 if (affluence >= 0 && affluence < 2)
                 {
                     etat = "Faible";

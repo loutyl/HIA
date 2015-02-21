@@ -1,8 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HIA_client_leger.Master" AutoEventWireup="true" CodeBehind="demandeDeVisite.aspx.cs" Inherits="HIA_client_leger.demandeDeVisite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
-    <link href="Content/demande-visite-custom.css" rel="stylesheet" />
+    <link href="Content/demande-visite-custom.css" rel="stylesheet" type="text/css" />
     <link href="Content/font-awesome.css" rel="stylesheet" />
+    <link href="Content/bootstrap-clockpicker.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <form runat="server">
@@ -11,18 +12,20 @@
             <ContentTemplate>
                 <asp:Panel ID="panelBarEtape" runat="server">
                     <div class="row">
-                        <div class="row step col-md-12 text-center" style="margin-left: 270px;">
-                            <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
-                                <span class="fa fa-user"></span>
-                                <p>Authentification</p>
-                            </div>
-                            <div id="divBarEtape2" class="col-md-2" style="height: 110px;" runat="server">
-                                <span class="fa fa-users"></span>
-                                <p>Informations du patient</p>
-                            </div>
-                            <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
-                                <span class="fa fa-calendar"></span>
-                                <p>Finalisation de la demande de visite</p>
+                        <div class="row" style="margin-left: 375px;">
+                            <div class="step text-center">
+                                <div id="divBarEtape1" class="col-md-2 activestep" style="height: 110px;" runat="server">
+                                    <span class="fa fa-user"></span>
+                                    <p>Authentification</p>
+                                </div>
+                                <div id="divBarEtape2" class="col-md-2" style="height: 110px;" runat="server">
+                                    <span class="fa fa-users"></span>
+                                    <p>Informations du patient</p>
+                                </div>
+                                <div id="divBarEtape3" class="col-md-2" style="height: 110px;" runat="server">
+                                    <span class="fa fa-calendar"></span>
+                                    <p>Planification</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,6 +41,54 @@
                 <div class="well text-center">
                     <asp:UpdatePanel ID="updatePanelEtape1" runat="server">
                         <ContentTemplate>
+
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title text-center" id="myModalLabel">Plage horaire</h4>
+                                            <asp:Label ID="myModalSubTitle" CssClass="modal-title text-center" runat="server" Text="Label"></asp:Label>
+                                        </div>
+
+                                        <asp:Panel ID="panelModalBody" CssClass="modal-body" runat="server" Height="220">
+                                            <asp:Label ID="labelHeureDebVisite" runat="server" Text="Heure de début de la visite :"></asp:Label>
+                                            <br />
+
+                                            <div class="input-group clockpicker" style="margin-top: 10px;" data-autoclose="true">
+
+                                                <input type="text" name="heureDebutVisite" id="inputTimeMin" value="<%= this.inputValueDebutVisite %>" class="form-control">
+                                                <span class="input-group-addon" id="btnInputTimeMin">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                            <br />
+
+                                            <asp:Label ID="labelHeureFinVisite" runat="server" Text="Heure de fin de la visite :"></asp:Label>
+                                            <br />
+                                            <div class="input-group clockpicker" style="margin-top: 10px;" data-autoclose="true">
+                                                <input type="text" name="heureFinVisite" id="inputTimeMax" class="form-control" value="<%= this.inputValueFinVisite %>">
+                                                <span class="input-group-addon" id="btnInputTimeMax">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+
+                                            <!--<div id="divErreurHoraire" class="row" style="margin-bottom: 20px; margin-top: 20px; color: red;" runat="server" visible="false">
+                                                L'heure spécifiée ne respecte pas la plage horaire
+                                            </div>-->
+
+                                        </asp:Panel>
+
+
+                                        <div class="modal-footer">
+                                            <asp:Button ID="btnConfirmerHeureModal" CssClass="btn btn-primary" runat="server" Text="Confirmer" OnClick="btnConfirmerHeureModal_Click" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                             <asp:Panel ID="panelEtape1" runat="server">
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
@@ -68,7 +119,7 @@
                                                         <div class="col-md-8">
                                                             <asp:TextBox ID="txtBoxEmailVisiteur" CssClass="form-control input-size" runat="server"></asp:TextBox>
                                                         </div>
-                                                    </div>                                                   
+                                                    </div>
                                                     <div class="form-group">
                                                         <div class="col-md-8 col-md-offset-2">
                                                             <asp:Button ID="btnConfirmerInfoVisiteur" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoVisiteur_Click" />
@@ -88,7 +139,7 @@
                                         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                                             <div class="panel-body">
                                                 <h4 style="margin-bottom: 30px;">Informations personnelles</h4>
-                                                <div class="form-horizontal" id="divEtape2DemandeAutorisation" style="margin-left:-130px; display: inline-block;" runat="server">
+                                                <div class="form-horizontal" id="divEtape2DemandeAutorisation" style="margin-left: -130px; display: inline-block;" runat="server">
                                                     <div class="form-group">
                                                         <label for="inputNomVisiteurAuth" class="col-md-4 control-label">Nom</label>
                                                         <div class="col-md-8">
@@ -106,7 +157,7 @@
                                                         <div class="col-md-8">
                                                             <asp:TextBox ID="txtBoxEmailVisiteurAuth" CssClass="form-control input-size" runat="server"></asp:TextBox>
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
                                                     <h4 id="InfoPatientAuth" style="margin-bottom: 30px;">Information du patient</h4>
                                                     <div class="form-group">
                                                         <label for="inputNomPatientAuth" class="col-md-4 control-label">Nom du patient</label>
@@ -138,7 +189,7 @@
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtape2" runat="server" Visible="false">
-                                <h4 id="InfoPatientTitre">Informations du patient</h4>
+                                <h4 id="InfoPatientTitle">Informations du patient</h4>
                                 <div class="form-horizontal" id="divEtape1Form">
                                     <div class="form-group">
                                         <label for="inputNomPatient" class="col-md-4 control-label">Nom du patient</label>
@@ -166,31 +217,50 @@
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtape3" runat="server" Visible="false">
-                                <h4 id="plageHoraireTitre">Plage horaire disponnible</h4>
-                                <div class="form-horizontal" id="divEtapeHoraire" runat="server">
-                                                                        
+                                <h4 id="plageHoraireTitre">Plage horaire disponible</h4>                                
+                                <asp:Panel ID="divEtapeHoraire" CssClass="form-horizontal" runat="server">
+                                <div class="form-group" style="margin-left:50px">
+                                    <asp:Label ID="labelInfoPlageHoraire" CssClass="col-md-3 control-label" runat="server" Text="Plage horaire"></asp:Label>
+                                    <asp:Label ID="labelInfoAffluence" CssClass="col-md-3 control-label" runat="server" Text="Affluence"></asp:Label>
+                                    <asp:Label ID="labelInfoChoixHoraire" CssClass="col-md-3 control-label" runat="server" Text="Choix horaire"></asp:Label>
                                 </div>
+                                </asp:Panel>
+                                <h4 id="plageHoraireIndispoTitre" style="margin-top:10px;" visible="false" runat="server">Plage horaire indisponible</h4>
+                                <asp:Panel ID="divEtapeHoraireIndisponible" CssClass="form-horizontal" runat="server">
+                                    
+                                </asp:Panel>
                                 <div class="row text-center">
-                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerPlageHoraire_Click" />
+                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Choisir" OnClick="btnConfirmerPlageHoraire_Click" />
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeInfoPatientError" runat="server" Visible="false">
-                                <h1>Infor patient error</h1>
+                                <h6>Info patient error</h6>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeInfoVisiteurError" runat="server" Visible="false">
-                                <h3>Info visiteur error</h3>
+                                <h6>Info visiteur error</h6>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeNotificationEnvoiAutorisation" runat="server" Visible="false">
-                                <h1>Votre demande d'autorisation de visite à bien été prise en compte, un email vous sera envoyé sous peu.
+                                <h6>Votre demande d'autorisation de visite à bien été prise en compte, un email vous sera envoyé sous peu.
                                 Cliquez <a href="demandeDeVisite.aspx">ici</a> pour être redirigé.
-                                </h1>
+                                </h6>
+                            </asp:Panel>
+                            <asp:Panel ID="panelInfoDemandeDeVisiteFinal" runat="server" Visible="false">
+                                <h6>Votre demande de visite a bien été prise en compte vous recevrez un email sous peu avec votre bon de visite
+                                Cliquez <a href="Acceuil.aspx">ici</a> pour retourner à l'accueil.
+                                </h6>
+                            </asp:Panel>
+                            <asp:Panel ID="panelInfoDemandeDeVisiteBesoinConfirmation" runat="server" Visible="false">
+                                <h6>Votre demande de visite a bien été prise en compte, elle requiert la confirmation d'un chef de service, vous recevrez
+                                un email sous peu vous informant de l'état de votre demande. Cliquez <a href="Acceuil.aspx">ici</a> pour retourner à l'accueil.
+                                </h6>
                             </asp:Panel>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoPatient" EventName="Click" />
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoVisiteur" EventName="Click" />
-                            <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoVisiteurAuth" EventName="Click" />
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerPlageHoraire" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoVisiteurAuth" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnConfirmerHeureModal" EventName="Click" />
                         </Triggers>
                     </asp:UpdatePanel>
                 </div>
@@ -200,5 +270,46 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptSection" runat="server">
     <script src="Scripts/demande-de-visite.js">
-</script>
+    </script>
+    <script src="Scripts/bootstrap-clockpicker.js"></script>
+    <script type="text/javascript">
+
+        function openModal() {
+            $('#myModal').modal({ show: true });
+        }
+    </script>
+    <script type="text/javascript">
+        function openTimeMin() {
+
+            var inputMin = $('#inputTimeMin').clockpicker({
+                autoclose: true
+
+            });
+
+            $('#btnInputTimeMin').click(function (e) {
+
+                e.stopPropagation();
+                inputMin.clockpicker('show')
+                        .clockpicker('toggleView', 'minutes');
+            });
+
+        }
+    </script>
+    <script type="text/javascript">
+        function openTimeMax() {
+
+            var inputMax = $('#inputTimeMax').clockpicker({
+                autoclose: true
+
+            });
+
+            $('#btnInputTimeMax').click(function (e) {
+
+                e.stopPropagation();
+                inputMax.clockpicker('show')
+                        .clockpicker('toggleView', 'minutes');
+            });
+        }
+    </script>
+
 </asp:Content>

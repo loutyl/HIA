@@ -6,58 +6,42 @@ using System.Threading.Tasks;
 
 namespace HIA_client_lourd
 {
-    //Class demandeDeVisite représentant une demande de visite émise par un visiteur
     class demandeDeVisite
     {
-        //Visiteur à l'origine de la demande de visite
-        Visiteur visiteurOrigine;
-
+        Visiteur _visiteurOrigine;
         internal Visiteur VisiteurOrigine
         {
-            get { return visiteurOrigine; }
-            set { visiteurOrigine = value; }
+            get { return this._visiteurOrigine; }
+            set { this._visiteurOrigine = value; }
         }
-
-        //La date de la visite 
-        private string dateVisite;
-
-        //acesseur
+ 
+        private string _dateVisite;
         public string DateVisite
         {
-            get { return dateVisite; }
-            set { dateVisite = value; }
+            get { return this._dateVisite; }
+            set { this._dateVisite = value; }
         }
 
-        //L'heure de début de la visite
-        private string heureDVisite;
-
-        //acesseur
+        private string _heureDVisite;
         public string HeureDVisite
         {
-            get { return heureDVisite; }
-            set { heureDVisite = value; }
+            get { return this._heureDVisite; }
+            set { this._heureDVisite = value; }
         }
 
-        //L'heure de fin de la visite
-        private string heureFVisite;
-
-        //acesseur
+        private string _heureFVisite;
         public string HeureFVisite
         {
-            get { return heureFVisite; }
-            set { heureFVisite = value; }
+            get { return this._heureFVisite; }
+            set { this._heureFVisite = value; }
         }       
 
-        //Constructeur d'une demande de visite
         public demandeDeVisite(Visiteur visiteur, string dateV, string heureD, string heureF)
         {
-
-            //initialisation des attributs d'une demande de visite avec les variables passées en paramêtre 
-            //lors de l'instanciation d'une demande de visite
-            visiteurOrigine = visiteur;
-            dateVisite = dateV;
-            heureDVisite = heureD;
-            heureFVisite = heureF;
+            this._visiteurOrigine = visiteur;
+            this._dateVisite = dateV;
+            this._heureDVisite = heureD;
+            this._heureFVisite = heureF;
 
         }
 

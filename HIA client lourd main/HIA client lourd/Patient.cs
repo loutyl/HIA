@@ -6,97 +6,83 @@ using System.Threading.Tasks;
 
 namespace HIA_client_lourd
 {
-    //Class réprésentant un patient
     public class Patient
     {
-        //Nom du patient
-        private string nomPatient;
-        //acesseurs
-        public string NomPatient
+        private string _nomPatient;
+        
+        public string _NomPatient
         {
-            get { return nomPatient; }
-            set { nomPatient = value; }
+            get { return this._nomPatient; }
         }
-        //Prénom du patient
-        private string prenomPatient;
-        //acesseurs
-        public string PrenomPatient
+       
+        private string _prenomPatient;
+        
+        public string _PrenomPatient
         {
-            get { return prenomPatient; }
-            set { prenomPatient = value; }
+            get { return this._prenomPatient; }
         }
-        //Age du patient
-        private string agePatient;
-        //acesseurs
+        
+        private string _agePatient;
+        
         public string AgePatient
         {
-            get { return agePatient; }
-            set { agePatient = value; }
+            get { return this._agePatient; }
         }
-        //Etage du patient
-        private string etagePatient;
-        //acesseurs
-        public string EtagePatient
+        
+        private string _etagePatient;
+        
+        public string _EtagePatient
         {
-            get { return etagePatient; }
-            set { etagePatient = value; }
+            get { return this._etagePatient; }
         }
-        //Chambre du patient
-        private string chambrePatient;
-        //acesseurs
-        public string ChambrePatient
+        
+        private string _chambrePatient;
+        
+        public string _ChambrePatient
         {
-            get { return chambrePatient; }
-            set { chambrePatient = value; }
+            get { return this._chambrePatient; }
         }
-        //Lit du patient
-        private string litPatient;
-        //acesseurs
-        public string LitPatient
+  
+        private string _litPatient;
+
+        public string _LitPatient
         {
-            get { return litPatient; }
-            set { litPatient = value; }
-        }
-        //Id du patient
-        private string idPatient;
-        //accesseurs
-        public string IdPatient
-        {
-            get { return idPatient; }
-            set { idPatient = value; }
-        }
-        //numéro de visite du patient
-        private string numVisitePatient;
-        //accesseurs
-        public string NumVisitePatient
-        {
-            get { return numVisitePatient; }
-            set { numVisitePatient = value; }
+            get { return this._litPatient; }
         }
 
-        private int statusVisite;
+        private string _idPatient;
 
-        public int StatusVisite
+        public string _IdPatient
         {
-            get { return statusVisite; }
-            set { statusVisite = value; }
-        }
-        //Constructeur d'un patient
-        public Patient (string value1, string value2, string value3, string value4, string value5, string value6, string value7, string value8, int value9)
-        {
-            //initialisation des attributs du patient avec les variables passées en paramêtre 
-            //lors de l'instanciation du patient
-            nomPatient = value1;
-            prenomPatient = value2;
-            agePatient = value3;
-            etagePatient = value4;
-            chambrePatient = value5;
-            litPatient = value6;
-            idPatient = value7;
-            numVisitePatient = value8;
-            statusVisite = value9;
-
+            get { return this._idPatient; }
         }
 
+        private string _numVisitePatient;
+
+        public string _NumVisitePatient
+        {
+            get { return this._numVisitePatient; }
+        }
+
+        private int _statusVisite;
+
+        public int _StatusVisite
+        {
+            get { return this._statusVisite; }
+        }
+
+        public Patient (List<string> infoPatient)
+        {
+            this._idPatient = infoPatient[0];
+            this._nomPatient = infoPatient[1];
+            this._prenomPatient = infoPatient[2];
+            this._agePatient = infoPatient[3];
+            this._etagePatient = infoPatient[4];
+            this._chambrePatient = infoPatient[5];
+            this._litPatient = infoPatient[6];            
+            this._numVisitePatient = infoPatient[7];
+            this._statusVisite = Convert.ToInt32(infoPatient[8]);
+
+        }
     }
 }
