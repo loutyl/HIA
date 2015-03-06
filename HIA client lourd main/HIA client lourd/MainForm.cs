@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Mail;
 using System.Configuration;
-using System.Text.RegularExpressions;
 using emailSender;
 using databaseHIA;
 using Utilities;
@@ -71,31 +62,25 @@ namespace HIA_client_lourd
         {
             btnPreListeAjouter = sender as Button;
 
-            string sNomPL = txtBoxPreListeNomVisiteur.Text;
-            string sPrenomPL = txtBoxPreListePrenVisiteur.Text;
-            string sTelPL = txtBoxPreListeTelVisiteur.Text;
-            string sEmailPL = txtBoxPreListeEmailVisiteur.Text;
-            string sIDPatientPL = this._patientRecherche._IdPatient;
-
-            if (String.IsNullOrEmpty(sNomPL) || String.IsNullOrEmpty(sPrenomPL))
+            if (String.IsNullOrEmpty(txtBoxPreListeNomVisiteur.Text) || String.IsNullOrEmpty(txtBoxPreListePrenVisiteur.Text))
             {
                 MessageBox.Show("Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", "Erreur",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (!String.IsNullOrEmpty(sEmailPL))
+            if (!String.IsNullOrEmpty(txtBoxPreListeEmailVisiteur.Text))
             {
-                if (this._stringTool.isValidEmail(sEmailPL))
+                if (this._stringTool.isValidEmail(txtBoxPreListeEmailVisiteur.Text))
                 {
                     if (this._emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.PrelisteAccepted, this._patientRecherche._NomPatient))
                     {
                         List<string> infoPL = new List<string>();
 
-                        infoPL.Add(sNomPL);
-                        infoPL.Add(sPrenomPL);
-                        infoPL.Add(sTelPL);
-                        infoPL.Add(sEmailPL);
-                        infoPL.Add(sIDPatientPL);
+                        infoPL.Add(txtBoxPreListeNomVisiteur.Text);
+                        infoPL.Add(txtBoxPreListePrenVisiteur.Text);
+                        infoPL.Add(txtBoxPreListeTelVisiteur.Text);
+                        infoPL.Add(txtBoxPreListeEmailVisiteur.Text);
+                        infoPL.Add(this._patientRecherche._IdPatient);
 
                         heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(MainForm._databaseConnectionString);
 
