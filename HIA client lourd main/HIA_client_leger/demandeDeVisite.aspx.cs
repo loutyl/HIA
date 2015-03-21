@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
-using System.Data;
-using System.Data.SqlClient;
 using System.Web.Configuration;
-using System.Text.RegularExpressions;
-using System.Globalization;
 using databaseHIA;
 using Utilities;
+using QRcodeGenerator;
+using emailSender;
 
 namespace HIA_client_leger
 {
@@ -22,6 +19,15 @@ namespace HIA_client_leger
         private string databaseConnectionString = WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
         private TimeSpan horaireDebutVisite = TimeSpan.FromHours(8);
         private TimeSpan horaireFinVisite = TimeSpan.FromHours(22);
+
+        public enum errorType
+        {
+            VisiteurAuthError = 1,
+            VisiteurEmailNotValid = 2,
+            VisiteurNotInPreList = 3,
+
+            PatientNotFound = 4
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -36,14 +42,17 @@ namespace HIA_client_leger
                 {
                     if (control is Panel)
                     {
-                        divEtapeHoraire.Controls.Add(control);
+                        this.divEtapeHoraire.Controls.Add(control);
                     }
                 }
-                foreach (Control control in (List<Panel>)Session["panelListIndispo"])
+                if (Session["panelListIndispo"] != null)
                 {
-                    if (control is Panel)
+                    foreach (Control control in (List<Panel>)Session["panelListIndispo"])
                     {
-                        divEtapeHoraireIndisponible.Controls.Add(control);
+                        if (control is Panel)
+                        {
+                            this.divEtapeHoraireIndisponible.Controls.Add(control);
+                        }
                     }
                 }
             }
@@ -56,88 +65,95 @@ namespace HIA_client_leger
             liItem.Attributes.Add("class", "active");
 
             #region init textBox etape1 placeholder
-            txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
-            txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
-            txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
+            this.txtBoxNomVisiteur.Attributes.Add("placeholder", "Votre nom");
+            this.txtBoxPrenVisiteur.Attributes.Add("placeholder", "Votre prénom");
+            this.txtBoxEmailVisiteur.Attributes.Add("placeholder", "Votre adresse email");
             #endregion
 
             #region init textBox etape2 placeholder
-            txtBoxNomPatient.Attributes.Add("placeholder", "Nom du patient");
-            txtBoxPrenPatient.Attributes.Add("placeholder", "Prénom du patient");
-            txtBoxCodePatient.Attributes.Add("placeholder", "Exemple : A12B45");
+            this.txtBoxNomPatient.Attributes.Add("placeholder", "Nom du patient");
+            this.txtBoxPrenPatient.Attributes.Add("placeholder", "Prénom du patient");
+            this.txtBoxCodePatient.Attributes.Add("placeholder", "Exemple : A12B45");
             #endregion
 
             #region init textBox etape1 Auth.
-            txtBoxNomVisiteurAuth.Attributes.Add("placeholder", "Votre nom");
-            txtBoxPrenVisiteurAuth.Attributes.Add("placeholder", "Votre prénom");
-            txtBoxEmailVisiteurAuth.Attributes.Add("placeholder", "Votre adresse email");
-            txtBoxNomPatientAuth.Attributes.Add("placeholder", "Nom du patient");
-            txtBoxPrenPatientAuth.Attributes.Add("placeholder", "Prénom du patient");
-            txtBoxChambrePatientAuth.Attributes.Add("placeholder", "Numéro de chambre du patient");
+            this.txtBoxNomVisiteurAuth.Attributes.Add("placeholder", "Votre nom");
+            this.txtBoxPrenVisiteurAuth.Attributes.Add("placeholder", "Votre prénom");
+            this.txtBoxEmailVisiteurAuth.Attributes.Add("placeholder", "Votre adresse email");
+            this.txtBoxNomPatientAuth.Attributes.Add("placeholder", "Nom du patient");
+            this.txtBoxPrenPatientAuth.Attributes.Add("placeholder", "Prénom du patient");
+            this.txtBoxChambrePatientAuth.Attributes.Add("placeholder", "Numéro de chambre du patient");
             #endregion
 
         }
 
         protected void btnConfirmerInfoPatient_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
-            !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
+            if (!String.IsNullOrWhiteSpace(this.txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(this.txtBoxPrenPatient.Text) &&
+            !String.IsNullOrWhiteSpace(this.txtBoxCodePatient.Text))
             {
                 UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
                 lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
-                bool bPatientMatch = lDB.recherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
+                bool bPatientMatch = lDB.recherchePatient(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text, this.txtBoxCodePatient.Text, 1);
                 if (bPatientMatch)
                 {
-                    Session["idPatient"] = lDB.getPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, String.Empty, 2);
+                    if (lDB.isVisiteurInPreList((int)Session["idVisiteur"], this.txtBoxNomPatient.Text))
+                    {
+                        Session["idPatient"] = lDB.getPatientId(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text, String.Empty, 2);
 
-                    panelEtape2.Visible = false;
-                    string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
-                    divBarEtape2.Attributes["class"] = sClass;
+                        this.panelEtape2.Visible = false;
+                        string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
+                        this.divBarEtape2.Attributes["class"] = sClass;
 
-                    divBarEtape3.Attributes["class"] += " activestep";
+                        this.divBarEtape3.Attributes["class"] += " activestep";
 
-                    TimeSpan[,] plageHoraire = lDB.getSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+                        TimeSpan[,] plageHoraire = lDB.getSchedule(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text);
 
-                    displayLabel(timeTool.getDispo(plageHoraire, this.horaireDebutVisite, this.horaireFinVisite), plageHoraire);
-                    panelEtape3.Visible = true;
+                        displayLabel(timeTool.getDispo(plageHoraire, this.horaireDebutVisite, this.horaireFinVisite), plageHoraire);
+                        this.panelEtape3.Visible = true;
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.VisiteurNotInPreList + ");", true);
+                    }
 
                 }
                 else
                 {
-                    panelEtape2.Visible = false;
-                    panelEtapeInfoPatientError.Visible = true;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.PatientNotFound + ");", true);
                 }
             }
         }
 
         protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
+            if (!String.IsNullOrWhiteSpace(this.txtBoxEmailVisiteur.Text))
             {
                 UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
-                if (stringTool.isValidEmail(txtBoxEmailVisiteur.Text))
+
+                if (stringTool.isValidEmail(this.txtBoxEmailVisiteur.Text))
                 {
                     lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
-                    bool bVisiteurMatch = lDB.rechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
+                    bool bVisiteurMatch = lDB.rechercheVisiteur(this.txtBoxNomVisiteur.Text, this.txtBoxPrenVisiteur.Text, this.txtBoxEmailVisiteur.Text);
                     if (bVisiteurMatch)
                     {
-                        Session["idVisiteur"] = lDB.getVisiteurId(txtBoxNomVisiteur.Text, txtBoxEmailVisiteur.Text);
+                        Session["idVisiteur"] = lDB.getVisiteurId(this.txtBoxNomVisiteur.Text, this.txtBoxEmailVisiteur.Text);
 
-                        panelEtape1.Visible = false;
+                        this.panelEtape1.Visible = false;
+
                         string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
-                        divBarEtape1.Attributes["class"] = sClass;
+                        this.divBarEtape1.Attributes["class"] = sClass;
 
-                        divBarEtape2.Attributes["class"] += " activestep";
+                        this.divBarEtape2.Attributes["class"] += " activestep";
 
-                        panelEtape2.Visible = true;
+                        this.panelEtape2.Visible = true;
 
                     }
                     else
                     {
-                        panelEtape1.Visible = false;
-                        panelEtapeInfoVisiteurError.Visible = true;
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.VisiteurAuthError + ");", true);
                     }
                 }
             }
@@ -147,7 +163,7 @@ namespace HIA_client_leger
         {
             List<String> txtBoxValues = new List<string>();
 
-            foreach (Control control in divEtape2DemandeAutorisation.Controls)
+            foreach (Control control in this.divEtape2DemandeAutorisation.Controls)
             {
                 if (control is TextBox)
                 {
@@ -166,35 +182,39 @@ namespace HIA_client_leger
             if (patientMatch)
             {
                 UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+
                 if (stringTool.isValidEmail(txtBoxValues[2]))
                 {
-                    int patientID = lDB.getPatientId(txtBoxNomPatientAuth.Text, txtBoxPrenPatientAuth.Text, txtBoxChambrePatientAuth.Text, 1); 
+                    emailSenderObject emailSender = new emailSenderObject();
+
+                    int patientID = lDB.getPatientId(this.txtBoxNomPatientAuth.Text, this.txtBoxPrenPatientAuth.Text, this.txtBoxChambrePatientAuth.Text, 1);
                     if (lDB.addToPrelist(patientID, txtBoxValues))
                     {
                         string patientNumViste = lDB.getPatientNumVisite(patientID);
+                        if (emailSender.sendNotification(this.txtBoxEmailVisiteurAuth.Text, emailSenderObject.NOTIFICATION.PrelisteAccepted, this.txtBoxNomPatientAuth.Text))
+                        {
+                            this.panelEtape1.Visible = false;
+                            this.panelEtapeNotificationEnvoiAutorisation.Visible = true;
+                        }
 
-                        panelEtape1.Visible = false;
-                        panelEtapeNotificationEnvoiAutorisation.Visible = true;
                     }
                 }
                 else
                 {
-                    panelEtape1.Visible = false;
-                    panelEtapeInfoPatientError.Visible = true;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.VisiteurEmailNotValid + ");", true);
                 }
 
             }
             else
             {
-                panelEtape1.Visible = false;
-                panelEtapeInfoPatientError.Visible = true;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.PatientNotFound + ");", true);
             }
         }
 
         protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
         {
             int indexPanel = 0;
-            foreach (Control control in divEtapeHoraire.Controls)
+            foreach (Control control in this.divEtapeHoraire.Controls)
             {
                 if (control is Panel)
                 {
@@ -211,11 +231,11 @@ namespace HIA_client_leger
                                     {
                                         Label label = cont as Label;
 
-                                        myModalSubTitle.Text = label.Text;
-                                        myModalSubTitle.Style.Value = "margin-right:15px;";
+                                        this.myModalSubTitle.Text = label.Text;
+                                        this.myModalSubTitle.Style.Value = "margin-right:15px;";
 
-                                        labelHeureDebVisite.Style.Value = "margin-bottom:10px;";
-                                        labelHeureFinVisite.Style.Value = "margin-bottom:10px;";
+                                        this.labelHeureDebVisite.Style.Value = "margin-bottom:10px;";
+                                        this.labelHeureFinVisite.Style.Value = "margin-bottom:10px;";
 
                                         this.inputValueDebutVisite = label.Text.Split(' ').First();
                                         this.inputValueFinVisite = label.Text.Split(' ').Last();
@@ -232,7 +252,7 @@ namespace HIA_client_leger
                 }
             }
         }
-       
+
         protected void btnConfirmerHeureModal_Click(object sender, EventArgs e)
         {
             string heureDebutVisite = Request.Form["heureDebutVisite"];
@@ -240,9 +260,14 @@ namespace HIA_client_leger
 
             TimeSpan plageDebutVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').First());
             TimeSpan plageFinVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').Last());
-            
+
             UtilitiesTool.timeManipulation timeTool = new UtilitiesTool.timeManipulation();
             UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+            string guidBonVisite = stringTool.generateGUID();
+
+            QRGenerator generator = new QRGenerator();
+
+            emailSenderObject emailSender = new emailSenderObject();
 
             lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
@@ -250,134 +275,141 @@ namespace HIA_client_leger
             {
                 if (lDB.getStatusPatient((int)Session["idPatient"]) == 1)
                 {
-                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], stringTool.generateGUID(), 1))
+                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], guidBonVisite, 1))
                     {
-                        panelEtape3.Visible = false;
-                        panelInfoDemandeDeVisiteFinal.Visible = true;
+                        generator.generateQRCode(guidBonVisite, DateTime.Today.ToString(), heureDebutVisite, heureFinVisite, this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text, "2", "150");
+
+                        //emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Accepted, generator.QRCodeCompletePath);
+
+                        this.panelEtape3.Visible = false;
+                        this.panelInfoDemandeDeVisiteFinal.Visible = true;
                     }
                 }
                 else if (lDB.getStatusPatient((int)Session["idPatient"]) == 3)
                 {
-                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], stringTool.generateGUID(), 3))
+                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], guidBonVisite, 3))
                     {
-                        panelEtape3.Visible = false;
-                        panelInfoDemandeDeVisiteBesoinConfirmation.Visible = true;
+                        this.panelEtape3.Visible = false;
+                        this.panelInfoDemandeDeVisiteBesoinConfirmation.Visible = true;
                     }
                 }
             }
             else
             {
-                //divErreurHoraire.Visible = true;
+                //this.divErreurHoraire.Visible = true;
             }
-        }       
+        }
 
         private void displayLabel(TimeSpan[,] horaire, TimeSpan[,] horaireIndispo)
         {
             List<Panel> panelList = new List<Panel>();
             List<Panel> panelListIndispo = new List<Panel>();
 
-            labelInfoAffluence.Style.Value = "margin-left:5px;";
-            labelInfoChoixHoraire.Style.Value = "margin-left:25px;";
+            this.labelInfoAffluence.Style.Value = "margin-left:5px;";
+            this.labelInfoChoixHoraire.Style.Value = "margin-left:25px;";
 
             UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
 
-            for (int i = 0; i < horaire.GetLength(0); i++)
+            if (Session["panelList"] == null)
             {
-                Panel myPanel = new Panel();
-
-                myPanel.ID = "panelPlageHoraire" + i;
-                myPanel.CssClass = "form-group";
-                myPanel.Style.Value = "margin-left:50px";
-
-                Label myLabel1 = new Label();
-                myLabel1.ID = "labelPlageHoraire" + i;
-
-                myLabel1.Text = stringTool.splitString(horaire[i, 0].ToString()) + " - " + stringTool.splitString(horaire[i, 1].ToString());
-                myLabel1.CssClass = "col-md-3 control-label";
-
-                Label myLabel2 = new Label();
-
-                string etat = String.Empty;
-
-                myLabel2.ID = "labelAffluence" + i;
-
-                lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
-
-                int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1], 1);
-                if (affluence >= 0 && affluence < 2)
-                {
-                    etat = "Faible";
-                    myLabel2.Style.Value = "color:green";
-                }
-                else if (affluence >= 2 && affluence < 3)
-                {
-                    etat = "Moyenne";
-                    myLabel2.Style.Value = "color:orange";
-                }
-                else if (affluence >= 3)
-                {
-                    etat = "Forte";
-                    myLabel2.Style.Value = "color:red";
-                }
-
-                myLabel2.CssClass = "col-md-3 control-label";
-                myLabel2.Text = etat;
-
-                RadioButton myRadiobutton = new RadioButton();
-
-                myRadiobutton.ID = "radioBtnHoraire" + i.ToString();
-                myRadiobutton.CssClass = "col-md-3 control-label";
-
-                myRadiobutton.GroupName = "rBtnGroup";
-
-                myPanel.Controls.Add(myLabel1);
-                myPanel.Controls.Add(myLabel2);
-                myPanel.Controls.Add(myRadiobutton);
-
-                panelList.Add(myPanel);
-                divEtapeHoraire.Controls.Add(myPanel);
-
-                Session["panelList"] = panelList;
-
-            }
-
-            if (horaireIndispo[0, 0] != TimeSpan.Zero)
-            {
-                plageHoraireIndispoTitre.Visible = true;
-
-                for (int i = 0; i < horaireIndispo.GetLength(0); i++)
+                for (int i = 0; i < horaire.GetLength(0); i++)
                 {
                     Panel myPanel = new Panel();
-                    myPanel.ID = "panelPlageHoraireIndispo" + i;
+
+                    myPanel.ID = "panelPlageHoraire" + i;
                     myPanel.CssClass = "form-group";
                     myPanel.Style.Value = "margin-left:50px";
 
                     Label myLabel1 = new Label();
-                    myLabel1.ID = "labelPlageHoraireIndispo" + i;
-                    myLabel1.Text = stringTool.splitString(horaireIndispo[i, 0].ToString()) + " - " + stringTool.splitString(horaireIndispo[i, 1].ToString());
+                    myLabel1.ID = "labelPlageHoraire" + i;
+
+                    myLabel1.Text = stringTool.splitString(horaire[i, 0].ToString()) + " - " + stringTool.splitString(horaire[i, 1].ToString());
                     myLabel1.CssClass = "col-md-3 control-label";
 
                     Label myLabel2 = new Label();
-                    myLabel2.ID = "labelAffluenceIndispo" + i;
-                    myLabel2.Text = "Indisponible";
-                    myLabel2.CssClass = "col-md-3 control-label";
-                    myLabel2.Style.Value = "margin-left:20px;";
 
-                    RadioButton myRadioButton = new RadioButton();
-                    myRadioButton.ID = "radioBtnHoraireIndispo" + i.ToString();
-                    myRadioButton.CssClass = "col-md-3 control-label radioButtonIndispo";
-                    myRadioButton.GroupName = "rBtnGroup";
-                    myRadioButton.Enabled = false;
+                    string etat = String.Empty;
+
+                    myLabel2.ID = "labelAffluence" + i;
+
+                    lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
+
+                    int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1], 1);
+                    if (affluence >= 0 && affluence < 2)
+                    {
+                        etat = "Faible";
+                        myLabel2.Style.Value = "color:green";
+                    }
+                    else if (affluence >= 2 && affluence < 3)
+                    {
+                        etat = "Moyenne";
+                        myLabel2.Style.Value = "color:orange";
+                    }
+                    else if (affluence >= 3)
+                    {
+                        etat = "Forte";
+                        myLabel2.Style.Value = "color:red";
+                    }
+
+                    myLabel2.CssClass = "col-md-3 control-label";
+                    myLabel2.Text = etat;
+
+                    RadioButton myRadiobutton = new RadioButton();
+
+                    myRadiobutton.ID = "radioBtnHoraire" + i.ToString();
+                    myRadiobutton.CssClass = "col-md-3 control-label";
+
+                    myRadiobutton.GroupName = "rBtnGroup";
 
                     myPanel.Controls.Add(myLabel1);
                     myPanel.Controls.Add(myLabel2);
-                    myPanel.Controls.Add(myRadioButton);
+                    myPanel.Controls.Add(myRadiobutton);
 
-                    panelListIndispo.Add(myPanel);
-                    divEtapeHoraireIndisponible.Controls.Add(myPanel);
+                    panelList.Add(myPanel);
+                    this.divEtapeHoraire.Controls.Add(myPanel);
 
-                    Session["panelListIndispo"] = panelListIndispo;
+                    Session["panelList"] = panelList;
 
+                }
+
+                if (horaireIndispo[0, 0] != TimeSpan.Zero)
+                {
+                    this.plageHoraireIndispoTitre.Visible = true;
+
+                    for (int i = 0; i < horaireIndispo.GetLength(0); i++)
+                    {
+                        Panel myPanel = new Panel();
+                        myPanel.ID = "panelPlageHoraireIndispo" + i;
+                        myPanel.CssClass = "form-group";
+                        myPanel.Style.Value = "margin-left:50px";
+
+                        Label myLabel1 = new Label();
+                        myLabel1.ID = "labelPlageHoraireIndispo" + i;
+                        myLabel1.Text = stringTool.splitString(horaireIndispo[i, 0].ToString()) + " - " + stringTool.splitString(horaireIndispo[i, 1].ToString());
+                        myLabel1.CssClass = "col-md-3 control-label";
+
+                        Label myLabel2 = new Label();
+                        myLabel2.ID = "labelAffluenceIndispo" + i;
+                        myLabel2.Text = "Indisponible";
+                        myLabel2.CssClass = "col-md-3 control-label";
+                        myLabel2.Style.Value = "margin-left:20px;";
+
+                        RadioButton myRadioButton = new RadioButton();
+                        myRadioButton.ID = "radioBtnHoraireIndispo" + i.ToString();
+                        myRadioButton.CssClass = "col-md-3 control-label radioButtonIndispo";
+                        myRadioButton.GroupName = "rBtnGroup";
+                        myRadioButton.Enabled = false;
+
+                        myPanel.Controls.Add(myLabel1);
+                        myPanel.Controls.Add(myLabel2);
+                        myPanel.Controls.Add(myRadioButton);
+
+                        panelListIndispo.Add(myPanel);
+                        this.divEtapeHoraireIndisponible.Controls.Add(myPanel);
+
+                        Session["panelListIndispo"] = panelListIndispo;
+
+                    }
                 }
             }
         }

@@ -15,5 +15,11 @@ namespace HIA_client_leger
             HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("historiqueVisite");
             liItem.Attributes.Add("class", "active");
         }
+
+        protected void btnConfirmerEmailHistoVisite_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "test", "initTable();", true);
+            this.rowHistoriqueVisite.Visible = true;
+        }
     }
 }

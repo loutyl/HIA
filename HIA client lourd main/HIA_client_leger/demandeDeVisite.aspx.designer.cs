@@ -76,31 +76,49 @@ namespace HIA_client_leger {
         protected global::System.Web.UI.UpdatePanel updatePanelEtape1;
         
         /// <summary>
-        /// Contrôle Panel1.
+        /// Contrôle myModalSubTitle.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.Label myModalSubTitle;
         
         /// <summary>
-        /// Contrôle Label1.
+        /// Contrôle panelModalBody.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Panel panelModalBody;
         
         /// <summary>
-        /// Contrôle Label2.
+        /// Contrôle labelHeureDebVisite.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label labelHeureDebVisite;
+        
+        /// <summary>
+        /// Contrôle labelHeureFinVisite.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelHeureFinVisite;
+        
+        /// <summary>
+        /// Contrôle divErreurHoraire.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divErreurHoraire;
         
         /// <summary>
         /// Contrôle btnConfirmerHeureModal.
@@ -292,6 +310,51 @@ namespace HIA_client_leger {
         protected global::System.Web.UI.WebControls.Panel divEtapeHoraire;
         
         /// <summary>
+        /// Contrôle labelInfoPlageHoraire.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelInfoPlageHoraire;
+        
+        /// <summary>
+        /// Contrôle labelInfoAffluence.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelInfoAffluence;
+        
+        /// <summary>
+        /// Contrôle labelInfoChoixHoraire.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelInfoChoixHoraire;
+        
+        /// <summary>
+        /// Contrôle plageHoraireIndispoTitre.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl plageHoraireIndispoTitre;
+        
+        /// <summary>
+        /// Contrôle divEtapeHoraireIndisponible.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel divEtapeHoraireIndisponible;
+        
+        /// <summary>
         /// Contrôle btnConfirmerPlageHoraire.
         /// </summary>
         /// <remarks>
@@ -301,24 +364,6 @@ namespace HIA_client_leger {
         protected global::System.Web.UI.WebControls.Button btnConfirmerPlageHoraire;
         
         /// <summary>
-        /// Contrôle panelEtapeInfoPatientError.
-        /// </summary>
-        /// <remarks>
-        /// Champ généré automatiquement.
-        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelEtapeInfoPatientError;
-        
-        /// <summary>
-        /// Contrôle panelEtapeInfoVisiteurError.
-        /// </summary>
-        /// <remarks>
-        /// Champ généré automatiquement.
-        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelEtapeInfoVisiteurError;
-        
-        /// <summary>
         /// Contrôle panelEtapeNotificationEnvoiAutorisation.
         /// </summary>
         /// <remarks>
@@ -326,5 +371,23 @@ namespace HIA_client_leger {
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel panelEtapeNotificationEnvoiAutorisation;
+        
+        /// <summary>
+        /// Contrôle panelInfoDemandeDeVisiteFinal.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelInfoDemandeDeVisiteFinal;
+        
+        /// <summary>
+        /// Contrôle panelInfoDemandeDeVisiteBesoinConfirmation.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel panelInfoDemandeDeVisiteBesoinConfirmation;
     }
 }

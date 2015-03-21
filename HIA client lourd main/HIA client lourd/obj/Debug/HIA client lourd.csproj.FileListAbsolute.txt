@@ -110,3 +110,27 @@ C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Deb
 C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
 C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
 C:\Users\Thomas\Desktop\PPE\PPE 3\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe.config
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\OnBarcode.Barcode.WinForms.dll
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.dll
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.dll
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.xml
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.xml
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.DemandeVisitePatient.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.HistoriqueVisite.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\emailSender.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\databaseHIA.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\Utilities.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\QRcodeGenerator.pdb

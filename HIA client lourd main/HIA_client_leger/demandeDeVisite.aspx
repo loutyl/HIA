@@ -4,6 +4,8 @@
     <link href="Content/demande-visite-custom.css" rel="stylesheet" type="text/css" />
     <link href="Content/font-awesome.css" rel="stylesheet" />
     <link href="Content/bootstrap-clockpicker.css" rel="stylesheet" />
+    <link href="Content/uikit.css" rel="stylesheet" />
+    <link href="Content/notify.css" rel="stylesheet" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
     <form runat="server">
@@ -79,7 +81,6 @@
 
                                         </asp:Panel>
 
-
                                         <div class="modal-footer">
                                             <asp:Button ID="btnConfirmerHeureModal" CssClass="btn btn-primary" runat="server" Text="Confirmer" OnClick="btnConfirmerHeureModal_Click" />
                                         </div>
@@ -87,14 +88,12 @@
                                 </div>
                             </div>
 
-
-
                             <asp:Panel ID="panelEtape1" runat="server">
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingOne">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Option 1 : Authentification
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Option 1 : Authentification
                                                 </a>
                                             </h4>
                                         </div>
@@ -132,7 +131,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingTwo">
                                             <h4 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Option 2 : Demande d'autorisation de visite
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">Option 2 : Demande d'autorisation de visite
                                                 </a>
                                             </h4>
                                         </div>
@@ -217,27 +216,20 @@
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtape3" runat="server" Visible="false">
-                                <h4 id="plageHoraireTitre">Plage horaire disponible</h4>                                
+                                <h4 id="plageHoraireTitre">Plage horaire disponible</h4>
                                 <asp:Panel ID="divEtapeHoraire" CssClass="form-horizontal" runat="server">
-                                <div class="form-group" style="margin-left:50px">
-                                    <asp:Label ID="labelInfoPlageHoraire" CssClass="col-md-3 control-label" runat="server" Text="Plage horaire"></asp:Label>
-                                    <asp:Label ID="labelInfoAffluence" CssClass="col-md-3 control-label" runat="server" Text="Affluence"></asp:Label>
-                                    <asp:Label ID="labelInfoChoixHoraire" CssClass="col-md-3 control-label" runat="server" Text="Choix horaire"></asp:Label>
-                                </div>
+                                    <div class="form-group" style="margin-left: 50px">
+                                        <asp:Label ID="labelInfoPlageHoraire" CssClass="col-md-3 control-label" runat="server" Text="Plage horaire"></asp:Label>
+                                        <asp:Label ID="labelInfoAffluence" CssClass="col-md-3 control-label" runat="server" Text="Affluence"></asp:Label>
+                                        <asp:Label ID="labelInfoChoixHoraire" CssClass="col-md-3 control-label" runat="server" Text="Choix horaire"></asp:Label>
+                                    </div>
                                 </asp:Panel>
-                                <h4 id="plageHoraireIndispoTitre" style="margin-top:10px;" visible="false" runat="server">Plage horaire indisponible</h4>
+                                <h4 id="plageHoraireIndispoTitre" style="margin-top: 10px;" visible="false" runat="server">Plage horaire indisponible</h4>
                                 <asp:Panel ID="divEtapeHoraireIndisponible" CssClass="form-horizontal" runat="server">
-                                    
                                 </asp:Panel>
                                 <div class="row text-center">
                                     <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Choisir" OnClick="btnConfirmerPlageHoraire_Click" />
                                 </div>
-                            </asp:Panel>
-                            <asp:Panel ID="panelEtapeInfoPatientError" runat="server" Visible="false">
-                                <h6>Info patient error</h6>
-                            </asp:Panel>
-                            <asp:Panel ID="panelEtapeInfoVisiteurError" runat="server" Visible="false">
-                                <h6>Info visiteur error</h6>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeNotificationEnvoiAutorisation" runat="server" Visible="false">
                                 <h6>Votre demande d'autorisation de visite à bien été prise en compte, un email vous sera envoyé sous peu.
@@ -269,7 +261,7 @@
     </form>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptSection" runat="server">
-    <script src="Scripts/demande-de-visite.js">
+    <script type="text/javascript" src="Scripts/demande-de-visite.js">
     </script>
     <script src="Scripts/bootstrap-clockpicker.js"></script>
     <script type="text/javascript">
@@ -311,5 +303,25 @@
             });
         }
     </script>
+    <script src="Scripts/uikit.js"></script>
+    <script src="Scripts/notify.js"></script>
+    <script type="text/javascript">
+        function notificationError(errorType) {
 
+            var error = errorType;
+            switch (error) {
+
+                case 1: UIkit.notify('Les informations entrées sont incorrectes.', { status: 'danger' });
+                    break;
+                case 2: UIkit.notify('L&#39email renseigné n&#39est pas valide.', { status: 'danger' });
+                    break;
+                case 3: UIkit.notify('Vous n&#39êtes pas autorisé à effectuer une demande de visite pour ce patient, veuillez ressayer ultérieurement.', { status: 'danger' });
+                    break;
+                case 4: UIkit.notify('Aucun patient n&#39a été trouvé, veuillez vérifiez les informations du patient.', { status: 'danger' });
+                    break;
+            }
+        }
+    </script>
+    
+    
 </asp:Content>

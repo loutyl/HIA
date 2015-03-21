@@ -48,11 +48,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="databaseHIA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\databaseHIA.dll</HintPath>
+    </Reference>
+    <Reference Include="emailSender, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\emailSender.dll</HintPath>
+    </Reference>
     <Reference Include="OnBarcode.Barcode.WinForms">
       <HintPath>..\qr\OnBarcode.Barcode.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QRcodeGenerator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\QRcodeGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -66,6 +78,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="zxing">
       <HintPath>..\packages\ZXing.Net.0.14.0.1\lib\net40\zxing.dll</HintPath>
@@ -75,56 +91,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bonDeVisite.cs" />
-    <Compile Include="databaseHIA.cs" />
-    <Compile Include="demandeDeVisite.cs" />
-    <Compile Include="DemandeVisiteForm.cs">
+    <Compile Include="Class\bonDeVisite.cs" />
+    <Compile Include="Class\demandeDeVisite.cs" />
+    <Compile Include="Forms\DemandeVisiteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DemandeVisiteForm.Designer.cs">
+    <Compile Include="Forms\DemandeVisiteForm.Designer.cs">
       <DependentUpon>DemandeVisiteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HistoriqueVisiteForm.cs">
+    <Compile Include="Forms\HistoriqueVisiteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HistoriqueVisiteForm.Designer.cs">
+    <Compile Include="Forms\HistoriqueVisiteForm.Designer.cs">
       <DependentUpon>HistoriqueVisiteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
+    <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Patient.cs" />
-    <Compile Include="pre_Liste.cs">
+    <Compile Include="Class\Patient.cs" />
+    <Compile Include="Forms\pre_Liste.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="pre_Liste.Designer.cs">
+    <Compile Include="Forms\pre_Liste.Designer.cs">
       <DependentUpon>pre_Liste.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Class\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Visiteur.cs" />
-    <EmbeddedResource Include="DemandeVisiteForm.resx">
+    <Compile Include="Class\Visiteur.cs" />
+    <EmbeddedResource Include="Forms\DemandeVisiteForm.resx">
       <DependentUpon>DemandeVisiteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HistoriqueVisiteForm.resx">
+    <EmbeddedResource Include="Forms\HistoriqueVisiteForm.resx">
       <DependentUpon>HistoriqueVisiteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="pre_Liste.resx">
+    <EmbeddedResource Include="Forms\pre_Liste.resx">
       <DependentUpon>pre_Liste.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

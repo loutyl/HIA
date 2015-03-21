@@ -3,6 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentSection" runat="server">
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
