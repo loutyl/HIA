@@ -31,13 +31,22 @@ namespace HIA_client_leger {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
-        /// Contrôle txtEmailVisiteurHisto.
+        /// Contrôle txtBoxNomVisiteurHisto.
         /// </summary>
         /// <remarks>
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmailVisiteurHisto;
+        protected global::System.Web.UI.WebControls.TextBox txtBoxNomVisiteurHisto;
+        
+        /// <summary>
+        /// Contrôle txtBoxEmailVisiteurHisto.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBoxEmailVisiteurHisto;
         
         /// <summary>
         /// Contrôle btnConfirmerEmailHistoVisite.
@@ -56,5 +65,14 @@ namespace HIA_client_leger {
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowHistoriqueVisite;
+        
+        /// <summary>
+        /// Contrôle tableHistorique.
+        /// </summary>
+        /// <remarks>
+        /// Champ généré automatiquement.
+        /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tableHistorique;
     }
 }

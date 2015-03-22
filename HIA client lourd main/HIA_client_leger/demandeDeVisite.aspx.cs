@@ -105,7 +105,7 @@ namespace HIA_client_leger
                         this.panelEtape2.Visible = false;
                         string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
                         this.divBarEtape2.Attributes["class"] = sClass;
-
+                        
                         this.divBarEtape3.Attributes["class"] += " activestep";
 
                         TimeSpan[,] plageHoraire = lDB.getSchedule(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text);
@@ -275,7 +275,7 @@ namespace HIA_client_leger
             {
                 if (lDB.getStatusPatient((int)Session["idPatient"]) == 1)
                 {
-                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], guidBonVisite, 1))
+                    if (lDB.sendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idPatient"], (int)Session["idVisiteur"], guidBonVisite, 1))
                     {
                         generator.generateQRCode(guidBonVisite, DateTime.Today.ToString(), heureDebutVisite, heureFinVisite, this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text, "2", "150");
 

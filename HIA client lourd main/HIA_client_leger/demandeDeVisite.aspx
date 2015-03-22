@@ -121,7 +121,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-8 col-md-offset-2">
-                                                            <asp:Button ID="btnConfirmerInfoVisiteur" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoVisiteur_Click" />
+                                                            <asp:Button ID="btnConfirmerInfoVisiteur" CssClass="btn btn-primary" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoVisiteur_Click" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,7 +178,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-md-8 col-md-offset-2">
-                                                            <asp:Button ID="btnConfirmerInfoVisiteurAuth" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoVisiteurAuth_Click" />
+                                                            <asp:Button ID="btnConfirmerInfoVisiteurAuth" CssClass="btn btn-primary" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoVisiteurAuth_Click" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -210,7 +210,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-7 col-md-offset-2">
-                                            <asp:Button ID="btnConfirmerInfoPatient" CssClass="btn btn-default" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoPatient_Click" />
+                                            <asp:Button ID="btnConfirmerInfoPatient" CssClass="btn btn-primary" runat="server" Text="Confirmer" OnClick="btnConfirmerInfoPatient_Click" />
                                         </div>
                                     </div>
                                 </div>
@@ -228,7 +228,7 @@
                                 <asp:Panel ID="divEtapeHoraireIndisponible" CssClass="form-horizontal" runat="server">
                                 </asp:Panel>
                                 <div class="row text-center">
-                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-default" runat="server" Text="Choisir" OnClick="btnConfirmerPlageHoraire_Click" />
+                                    <asp:Button ID="btnConfirmerPlageHoraire" CssClass="btn btn-primary" runat="server" Text="Choisir" OnClick="btnConfirmerPlageHoraire_Click" />
                                 </div>
                             </asp:Panel>
                             <asp:Panel ID="panelEtapeNotificationEnvoiAutorisation" runat="server" Visible="false">
@@ -317,7 +317,7 @@
                     break;
                 case 3: UIkit.notify('Vous n&#39êtes pas autorisé à effectuer une demande de visite pour ce patient, veuillez ressayer ultérieurement.', { status: 'danger' });
                     break;
-                case 4: UIkit.notify('Aucun patient n&#39a été trouvé, veuillez vérifiez les informations du patient.', { status: 'danger' });
+                case 4: UIkit.notify('Aucun patient n&#39a été trouvé, veuillez vérifiez vos informations.', { status: 'danger' });
                     break;
             }
         }
