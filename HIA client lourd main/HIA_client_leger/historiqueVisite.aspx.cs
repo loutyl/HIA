@@ -16,6 +16,13 @@ namespace HIA_client_leger
 
         private string _databaseConnectionString = WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
 
+        enum errorType
+        {
+            emailAddressNotValid = 1,
+            noResultFound = 2,
+            fieldEmpty = 3
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("historiqueVisite");
@@ -31,41 +38,53 @@ namespace HIA_client_leger
             lightClientDatabaseObject lDb = new lightClientDatabaseObject(this._databaseConnectionString);
 
             UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
-            
+
             List<List<string>> historiqueVisite = new List<List<string>>();
 
-            int idVisiteur = lDb.getVisiteurId(this.txtBoxNomVisiteurHisto.Text, this.txtBoxEmailVisiteurHisto.Text);
-            
-            if(stringTool.isValidEmail(this.txtBoxEmailVisiteurHisto.Text))
+            if (!String.IsNullOrWhiteSpace(txtBoxNomVisiteurHisto.Text) || !String.IsNullOrWhiteSpace(txtBoxEmailVisiteurHisto.Text))
             {
-                historiqueVisite = lDb.getHistorique(lDb.getVisiteurId(this.txtBoxNomVisiteurHisto.Text, this.txtBoxEmailVisiteurHisto.Text));
-
-                foreach (List<string> dataHistorique in historiqueVisite)
+                if (stringTool.isValidEmail(this.txtBoxEmailVisiteurHisto.Text))
                 {
-                    TableRow row = new TableRow();
+                    historiqueVisite = lDb.getHistorique(lDb.getVisiteurId(this.txtBoxNomVisiteurHisto.Text, this.txtBoxEmailVisiteurHisto.Text));
 
-                    foreach (string data in dataHistorique)
-                    {                     
-                        TableCell cell = new TableCell();
+                    if (historiqueVisite.Count >= 1)
+                    {
+                        foreach (List<string> dataHistorique in historiqueVisite)
+                        {
+                            TableRow row = new TableRow();
 
-                        if (!String.IsNullOrEmpty(data))
-                            cell.Text = data;
-                        else
-                            cell.Text = "Aucun numéro de visite";
-                        
-                        row.Cells.Add(cell);
+                            foreach (string data in dataHistorique)
+                            {
+                                TableCell cell = new TableCell();
+
+                                if (!String.IsNullOrEmpty(data))
+                                    cell.Text = data;
+                                else
+                                    cell.Text = "Aucun numéro de visite";
+
+                                row.Cells.Add(cell);
+                            }
+
+                            this.tableHistorique.Rows.Add(row);
+                        }
+
+                        this.rowHistoriqueVisite.Visible = true;
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.noResultFound + ");", true);
                     }
 
-                    this.tableHistorique.Rows.Add(row);
                 }
-
-                this.rowHistoriqueVisite.Visible = true;
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.emailAddressNotValid + ");", true);
+                }
             }
             else
             {
-                //TODO: Ajouter message erreur UIKit
-            }                   
-            
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.fieldEmpty + ");", true);
+            }
         }
     }
 }

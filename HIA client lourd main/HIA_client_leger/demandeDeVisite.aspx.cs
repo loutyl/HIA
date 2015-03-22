@@ -32,7 +32,7 @@ namespace HIA_client_leger
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (!IsPostBack)
+            if (!this.IsPostBack)
             {
                 initPageControl();
             }
@@ -56,6 +56,7 @@ namespace HIA_client_leger
                     }
                 }
             }
+
         }
 
         private void initPageControl()
@@ -105,7 +106,7 @@ namespace HIA_client_leger
                         this.panelEtape2.Visible = false;
                         string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
                         this.divBarEtape2.Attributes["class"] = sClass;
-                        
+
                         this.divBarEtape3.Attributes["class"] += " activestep";
 
                         TimeSpan[,] plageHoraire = lDB.getSchedule(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text);
@@ -302,6 +303,23 @@ namespace HIA_client_leger
 
         private void displayLabel(TimeSpan[,] horaire, TimeSpan[,] horaireIndispo)
         {
+            /*if (Session["panelList"] != null)
+            {
+                Session["panelList"] = null;
+                if (this.divEtapeHoraireIndisponible.HasControls())
+                {
+                    foreach (Control control in this.divEtapeHoraireIndisponible.Controls)
+                    {
+                        if (control is Panel)
+                        {
+                            control.Controls.Clear();
+                        }
+                        control.Dispose();
+                    }
+                }
+
+            }*/
+
             List<Panel> panelList = new List<Panel>();
             List<Panel> panelListIndispo = new List<Panel>();
 
@@ -334,7 +352,7 @@ namespace HIA_client_leger
 
                     lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
 
-                    int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1], 1);
+                    int affluence = lDB.getAffluence(horaire[i, 0], horaire[i, 1], 1, (int)Session["idPatient"]);
                     if (affluence >= 0 && affluence < 2)
                     {
                         etat = "Faible";

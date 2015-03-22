@@ -114,7 +114,7 @@ namespace HIA_client_lourd
 
             heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DemandeVisitePatient._databaseConnectionString);
 
-            int affluence = hdb.getAffluence(TimeSpan.Parse(this._listVisite[this._indexDemandeVisite].HeureDVisite), TimeSpan.Parse(this._listVisite[this._indexDemandeVisite].HeureFVisite), 3);
+            int affluence = hdb.getAffluence(TimeSpan.Parse(this._listVisite[this._indexDemandeVisite].HeureDVisite), TimeSpan.Parse(this._listVisite[this._indexDemandeVisite].HeureFVisite), 3, Convert.ToInt32(this._currentPatient._IdPatient));
 
             if (affluence >= 0 && affluence < 2)
             {
