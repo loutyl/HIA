@@ -5,6 +5,7 @@ using System.Configuration;
 using emailSender;
 using databaseHIA;
 using Utilities;
+using HIA_client_lourd.Forms;
 
 namespace HIA_client_lourd
 {
@@ -32,30 +33,6 @@ namespace HIA_client_lourd
             pre_Liste preListe = new pre_Liste(this._patientRecherche);
 
             preListe.Show();
-        }
-
-        private void btnEnvoiCodeVisite_Click(object sender, EventArgs e)
-        {
-            btnEnvoiCodeVisite = sender as Button;
-
-            string addressEmailVisiteur = "t.maalem@aforp.eu";
-
-            if (this._emailSender.sendVisitCode(addressEmailVisiteur, lblNbCodeVisite.Text))
-            {
-                MessageBox.Show("L'email a bien été envoyé.");
-            }
-            else
-            {
-                MessageBox.Show("L'email n'a pu être envoyé correctement.");
-            }
-        }
-
-        private void btnGenerationCodeVisite_Click(object sender, EventArgs e)
-        {
-            btnGenerationCodeVisite = sender as Button;
-
-            lblNbCodeVisite.Text = this._stringTool.generateGUID();
-
         }
 
         private void btnPreListeAjouter_Click(object sender, EventArgs e)
@@ -90,7 +67,7 @@ namespace HIA_client_lourd
                         }
                         else
                         {
-                            MessageBox.Show("Un problème est survenu le visiteur n'a pas pu être enregistré");
+                            MessageBox.Show("Un problème est survenu le visiteur n'a pas pu être enregistré.");
                         }
                     }
                 }
@@ -102,7 +79,7 @@ namespace HIA_client_lourd
             }
             else
             {
-                MessageBox.Show("Erreur");
+                MessageBox.Show("Veuillez renseigner l'adresse e-mail du visiteur à ajouter.");
             }
         }
 
@@ -165,9 +142,20 @@ namespace HIA_client_lourd
 
             if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
-                DemandeVisitePatient demandeVisiteWindow = new DemandeVisitePatient(_patientRecherche);
+                List<demandeDeVisite> listVisite = new List<demandeDeVisite>();
+                
+                listVisite = this._patientRecherche.getDemandeDeVisite();
 
-                demandeVisiteWindow.Show();
+                if (listVisite.Count == 0)
+                {
+                    MessageBox.Show("Ce patient n'a aucune demande de visite en attente de décision.");
+                }
+                else
+                {
+                    DemandeVisitePatient demandeVisiteWindow = new DemandeVisitePatient(this._patientRecherche, listVisite);
+
+                    demandeVisiteWindow.Show();
+                }                
             }
         }
 
@@ -195,12 +183,21 @@ namespace HIA_client_lourd
                 {
                     MessageBox.Show("Les visites du patient ont bien été débloquées.");
                 }
-                
+
             }
             else
             {
                 MessageBox.Show("Un problème est survenue, les visites n'ont pas pu être débloquées.");
             }
+        }
+
+        private void btnSupprimerPreListe_Click(object sender, EventArgs e)
+        {
+            btnSupprimerPreListe = sender as Button;
+
+            suppVisiteurPreListeForm suppVisiteurWindow = new suppVisiteurPreListeForm(this._patientRecherche);
+            suppVisiteurWindow.Show();
+
         }
     }
 }

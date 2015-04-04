@@ -43,7 +43,6 @@
             this.lblNomRecherchePatient = new System.Windows.Forms.Label();
             this.btnInfoPlanning = new System.Windows.Forms.Button();
             this.lblInfoAgePatient = new System.Windows.Forms.Label();
-            this.picBoxInfoPatient = new System.Windows.Forms.PictureBox();
             this.panelRecherchePatient = new System.Windows.Forms.Panel();
             this.btnRecherchePatient = new System.Windows.Forms.Button();
             this.txtBoxRecherchePatient = new System.Windows.Forms.TextBox();
@@ -60,21 +59,19 @@
             this.txtBoxPreListeTelVisiteur = new System.Windows.Forms.TextBox();
             this.txtBoxPreListeEmailVisiteur = new System.Windows.Forms.TextBox();
             this.panelPreListeVisiteur = new System.Windows.Forms.Panel();
-            this.lblNbCodeVisite = new System.Windows.Forms.Label();
-            this.lblCodeVisite = new System.Windows.Forms.Label();
-            this.btnEnvoiCodeVisite = new System.Windows.Forms.Button();
-            this.btnGenerationCodeVisite = new System.Windows.Forms.Button();
             this.panelNumVisitePatient = new System.Windows.Forms.Panel();
             this.lblStatusVisite = new System.Windows.Forms.Label();
             this.btnDbloquerVisite = new System.Windows.Forms.Button();
             this.btnHistoriqueVisite = new System.Windows.Forms.Button();
             this.BtnVoirDemandeVisite = new System.Windows.Forms.Button();
             this.lblDemandeDeVisite = new System.Windows.Forms.Label();
+            this.btnSupprimerPreListe = new System.Windows.Forms.Button();
+            this.picBoxInfoPatient = new System.Windows.Forms.PictureBox();
             this.panelInfoPatient.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxInfoPatient)).BeginInit();
             this.panelRecherchePatient.SuspendLayout();
             this.panelPreListeVisiteur.SuspendLayout();
             this.panelNumVisitePatient.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxInfoPatient)).BeginInit();
             this.SuspendLayout();
             // 
             // label16
@@ -238,16 +235,6 @@
             this.lblInfoAgePatient.TabIndex = 10;
             this.lblInfoAgePatient.Text = "Age :";
             // 
-            // picBoxInfoPatient
-            // 
-            this.picBoxInfoPatient.Image = global::HIA_client_lourd.Properties.Resources.default_img;
-            this.picBoxInfoPatient.Location = new System.Drawing.Point(111, 60);
-            this.picBoxInfoPatient.Name = "picBoxInfoPatient";
-            this.picBoxInfoPatient.Size = new System.Drawing.Size(131, 152);
-            this.picBoxInfoPatient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picBoxInfoPatient.TabIndex = 3;
-            this.picBoxInfoPatient.TabStop = false;
-            // 
             // panelRecherchePatient
             // 
             this.panelRecherchePatient.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -296,7 +283,7 @@
             // 
             // btnPreListeAfficher
             // 
-            this.btnPreListeAfficher.Location = new System.Drawing.Point(310, 120);
+            this.btnPreListeAfficher.Location = new System.Drawing.Point(310, 152);
             this.btnPreListeAfficher.Name = "btnPreListeAfficher";
             this.btnPreListeAfficher.Size = new System.Drawing.Size(208, 23);
             this.btnPreListeAfficher.TabIndex = 1;
@@ -369,22 +356,19 @@
             this.txtBoxPreListeTelVisiteur.Location = new System.Drawing.Point(139, 155);
             this.txtBoxPreListeTelVisiteur.Name = "txtBoxPreListeTelVisiteur";
             this.txtBoxPreListeTelVisiteur.Size = new System.Drawing.Size(130, 20);
-            this.txtBoxPreListeTelVisiteur.TabIndex = 9;
+            this.txtBoxPreListeTelVisiteur.TabIndex = 10;
             // 
             // txtBoxPreListeEmailVisiteur
             // 
             this.txtBoxPreListeEmailVisiteur.Location = new System.Drawing.Point(139, 122);
             this.txtBoxPreListeEmailVisiteur.Name = "txtBoxPreListeEmailVisiteur";
             this.txtBoxPreListeEmailVisiteur.Size = new System.Drawing.Size(130, 20);
-            this.txtBoxPreListeEmailVisiteur.TabIndex = 10;
+            this.txtBoxPreListeEmailVisiteur.TabIndex = 9;
             // 
             // panelPreListeVisiteur
             // 
             this.panelPreListeVisiteur.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPreListeVisiteur.Controls.Add(this.lblNbCodeVisite);
-            this.panelPreListeVisiteur.Controls.Add(this.lblCodeVisite);
-            this.panelPreListeVisiteur.Controls.Add(this.btnEnvoiCodeVisite);
-            this.panelPreListeVisiteur.Controls.Add(this.btnGenerationCodeVisite);
+            this.panelPreListeVisiteur.Controls.Add(this.btnSupprimerPreListe);
             this.panelPreListeVisiteur.Controls.Add(this.txtBoxPreListeEmailVisiteur);
             this.panelPreListeVisiteur.Controls.Add(this.txtBoxPreListeTelVisiteur);
             this.panelPreListeVisiteur.Controls.Add(this.txtBoxPreListePrenVisiteur);
@@ -400,45 +384,6 @@
             this.panelPreListeVisiteur.Name = "panelPreListeVisiteur";
             this.panelPreListeVisiteur.Size = new System.Drawing.Size(545, 372);
             this.panelPreListeVisiteur.TabIndex = 10;
-            // 
-            // lblNbCodeVisite
-            // 
-            this.lblNbCodeVisite.AutoSize = true;
-            this.lblNbCodeVisite.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNbCodeVisite.Location = new System.Drawing.Point(136, 227);
-            this.lblNbCodeVisite.Name = "lblNbCodeVisite";
-            this.lblNbCodeVisite.Size = new System.Drawing.Size(80, 17);
-            this.lblNbCodeVisite.TabIndex = 16;
-            this.lblNbCodeVisite.Text = "00000000";
-            // 
-            // lblCodeVisite
-            // 
-            this.lblCodeVisite.AutoSize = true;
-            this.lblCodeVisite.Location = new System.Drawing.Point(32, 229);
-            this.lblCodeVisite.Name = "lblCodeVisite";
-            this.lblCodeVisite.Size = new System.Drawing.Size(80, 13);
-            this.lblCodeVisite.TabIndex = 13;
-            this.lblCodeVisite.Text = "Code de visite :";
-            // 
-            // btnEnvoiCodeVisite
-            // 
-            this.btnEnvoiCodeVisite.Location = new System.Drawing.Point(297, 307);
-            this.btnEnvoiCodeVisite.Name = "btnEnvoiCodeVisite";
-            this.btnEnvoiCodeVisite.Size = new System.Drawing.Size(208, 23);
-            this.btnEnvoiCodeVisite.TabIndex = 12;
-            this.btnEnvoiCodeVisite.Text = "Envoyer le code de visite";
-            this.btnEnvoiCodeVisite.UseVisualStyleBackColor = true;
-            this.btnEnvoiCodeVisite.Click += new System.EventHandler(this.btnEnvoiCodeVisite_Click);
-            // 
-            // btnGenerationCodeVisite
-            // 
-            this.btnGenerationCodeVisite.Location = new System.Drawing.Point(29, 307);
-            this.btnGenerationCodeVisite.Name = "btnGenerationCodeVisite";
-            this.btnGenerationCodeVisite.Size = new System.Drawing.Size(208, 23);
-            this.btnGenerationCodeVisite.TabIndex = 11;
-            this.btnGenerationCodeVisite.Text = "Générer un code de visite";
-            this.btnGenerationCodeVisite.UseVisualStyleBackColor = true;
-            this.btnGenerationCodeVisite.Click += new System.EventHandler(this.btnGenerationCodeVisite_Click);
             // 
             // panelNumVisitePatient
             // 
@@ -502,6 +447,26 @@
             this.lblDemandeDeVisite.TabIndex = 0;
             this.lblDemandeDeVisite.Text = "Demande de visite :";
             // 
+            // btnSupprimerPreListe
+            // 
+            this.btnSupprimerPreListe.Location = new System.Drawing.Point(310, 107);
+            this.btnSupprimerPreListe.Name = "btnSupprimerPreListe";
+            this.btnSupprimerPreListe.Size = new System.Drawing.Size(208, 23);
+            this.btnSupprimerPreListe.TabIndex = 11;
+            this.btnSupprimerPreListe.Text = "Supprimer un visiteur";
+            this.btnSupprimerPreListe.UseVisualStyleBackColor = true;
+            this.btnSupprimerPreListe.Click += new System.EventHandler(this.btnSupprimerPreListe_Click);
+            // 
+            // picBoxInfoPatient
+            // 
+            this.picBoxInfoPatient.Image = global::HIA_client_lourd.Properties.Resources.default_img;
+            this.picBoxInfoPatient.Location = new System.Drawing.Point(120, 63);
+            this.picBoxInfoPatient.Name = "picBoxInfoPatient";
+            this.picBoxInfoPatient.Size = new System.Drawing.Size(131, 152);
+            this.picBoxInfoPatient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picBoxInfoPatient.TabIndex = 3;
+            this.picBoxInfoPatient.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -518,13 +483,13 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.panelInfoPatient.ResumeLayout(false);
             this.panelInfoPatient.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxInfoPatient)).EndInit();
             this.panelRecherchePatient.ResumeLayout(false);
             this.panelRecherchePatient.PerformLayout();
             this.panelPreListeVisiteur.ResumeLayout(false);
             this.panelPreListeVisiteur.PerformLayout();
             this.panelNumVisitePatient.ResumeLayout(false);
             this.panelNumVisitePatient.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxInfoPatient)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -557,15 +522,11 @@
         private System.Windows.Forms.TextBox txtBoxPreListeEmailVisiteur;
         private System.Windows.Forms.Panel panelPreListeVisiteur;
         private System.Windows.Forms.Panel panelNumVisitePatient;
-        private System.Windows.Forms.Button btnEnvoiCodeVisite;
-        private System.Windows.Forms.Button btnGenerationCodeVisite;
-        private System.Windows.Forms.Label lblCodeVisite;
         private System.Windows.Forms.Button btnHistoriqueVisite;
         private System.Windows.Forms.Label lblDemandeDeVisite;
         private System.Windows.Forms.Button BtnVoirDemandeVisite;
         private System.Windows.Forms.Label lblInfoAgePatient;
         private System.Windows.Forms.Button btnInfoPlanning;
-        private System.Windows.Forms.Label lblNbCodeVisite;
         private System.Windows.Forms.Button btnRecherchePatient;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblPrenRecherchePatient;
@@ -575,6 +536,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblStatusVisite;
         private System.Windows.Forms.Button btnDbloquerVisite;
+        private System.Windows.Forms.Button btnSupprimerPreListe;
 
 
     }
