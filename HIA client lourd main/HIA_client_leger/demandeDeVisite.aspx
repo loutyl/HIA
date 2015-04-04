@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HIA_client_leger.Master" AutoEventWireup="true" CodeBehind="demandeDeVisite.aspx.cs" Inherits="HIA_client_leger.demandeDeVisite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HIA_client_leger.Master" AutoEventWireup="true" CodeBehind="demandeDeVisite.aspx.cs" Inherits="HIA_client_leger.DemandeDeVisite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
     <link href="Content/demande-visite-custom.css" rel="stylesheet" type="text/css" />
@@ -59,7 +59,7 @@
 
                                             <div class="input-group clockpicker" style="margin-top: 10px;" data-autoclose="true">
 
-                                                <input type="text" name="heureDebutVisite" id="inputTimeMin" value="<%= this.inputValueDebutVisite %>" class="form-control">
+                                                <input type="text" name="heureDebutVisite" id="inputTimeMin" value="<%= InputValueDebutVisite %>" class="form-control">
                                                 <span class="input-group-addon" id="btnInputTimeMin">
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>
@@ -69,7 +69,7 @@
                                             <asp:Label ID="labelHeureFinVisite" runat="server" Text="Heure de fin de la visite :"></asp:Label>
                                             <br />
                                             <div class="input-group clockpicker" style="margin-top: 10px;" data-autoclose="true">
-                                                <input type="text" name="heureFinVisite" id="inputTimeMax" class="form-control" value="<%= this.inputValueFinVisite %>">
+                                                <input type="text" name="heureFinVisite" id="inputTimeMax" class="form-control" value="<%= InputValueFinVisite %>">
                                                 <span class="input-group-addon" id="btnInputTimeMax">
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>

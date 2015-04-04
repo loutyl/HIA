@@ -1,11 +1,14 @@
-﻿namespace HIA_client_lourd
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace HIA_client_lourd.Forms
 {
     partial class HistoriqueVisite
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -81,8 +84,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.ComboBox cmBStatus;
-        private System.Windows.Forms.Label lblStatus;
+        private DataGridView dataGridView2;
+        private ComboBox cmBStatus;
+        private Label lblStatus;
     }
 }

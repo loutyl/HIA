@@ -1,11 +1,14 @@
-﻿namespace HIA_client_lourd
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace HIA_client_lourd.Forms
 {
     partial class DemandeVisitePatient
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -242,22 +245,22 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnAccepterDemande;
-        private System.Windows.Forms.Button btnRefuserDemande;
-        private System.Windows.Forms.Label lblDemandeVisiteNomVisiteur;
-        private System.Windows.Forms.Label lblDemandeVisitePrenomVisiteur;
-        private System.Windows.Forms.Label lblDemandeVisiteDateVisite;
-        private System.Windows.Forms.Label lblDemandeVisiteHeureDVisite;
-        private System.Windows.Forms.Label lblDemandeVisiteHeureFVisite;
-        private System.Windows.Forms.Button btnDemandeVisiteSuivant;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblDemandeDeVisiteAffluence;
-        private System.Windows.Forms.Label lblDemandeDeVisiteNivAfflu;
-        private System.Windows.Forms.Button btnBloquerVisite;
-        private System.Windows.Forms.Label lblNbVisite;
+        private Button btnAccepterDemande;
+        private Button btnRefuserDemande;
+        private Label lblDemandeVisiteNomVisiteur;
+        private Label lblDemandeVisitePrenomVisiteur;
+        private Label lblDemandeVisiteDateVisite;
+        private Label lblDemandeVisiteHeureDVisite;
+        private Label lblDemandeVisiteHeureFVisite;
+        private Button btnDemandeVisiteSuivant;
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Label label5;
+        private Label lblDemandeDeVisiteAffluence;
+        private Label lblDemandeDeVisiteNivAfflu;
+        private Button btnBloquerVisite;
+        private Label lblNbVisite;
     }
 }

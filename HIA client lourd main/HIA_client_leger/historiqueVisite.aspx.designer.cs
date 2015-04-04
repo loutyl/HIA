@@ -7,10 +7,14 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
 namespace HIA_client_leger {
     
     
-    public partial class historiqueVisite {
+    public partial class HistoriqueVisite {
         
         /// <summary>
         /// Contrôle ScriptManager1.
@@ -19,7 +23,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected ScriptManager ScriptManager1;
         
         /// <summary>
         /// Contrôle UpdatePanel1.
@@ -28,7 +32,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// Contrôle txtBoxNomVisiteurHisto.
@@ -37,7 +41,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBoxNomVisiteurHisto;
+        protected TextBox txtBoxNomVisiteurHisto;
         
         /// <summary>
         /// Contrôle txtBoxEmailVisiteurHisto.
@@ -46,7 +50,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBoxEmailVisiteurHisto;
+        protected TextBox txtBoxEmailVisiteurHisto;
         
         /// <summary>
         /// Contrôle btnConfirmerEmailHistoVisite.
@@ -55,7 +59,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmerEmailHistoVisite;
+        protected Button btnConfirmerEmailHistoVisite;
         
         /// <summary>
         /// Contrôle rowHistoriqueVisite.
@@ -64,7 +68,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl rowHistoriqueVisite;
+        protected HtmlGenericControl rowHistoriqueVisite;
         
         /// <summary>
         /// Contrôle tableHistorique.
@@ -73,6 +77,6 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tableHistorique;
+        protected Table tableHistorique;
     }
 }

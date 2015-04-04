@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * ClockPicker v0.0.7 (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/gh-pages/LICENSE)
@@ -11,12 +11,12 @@
 		$body;
 
 	// Can I use inline svg ?
-	var svgNS = 'http://www.w3.org/2000/svg',
+	var svgNs = 'http://www.w3.org/2000/svg',
 		svgSupported = 'SVGAngle' in window && (function(){
 			var supported,
 				el = document.createElement('div');
 			el.innerHTML = '<svg/>';
-			supported = (el.firstChild && el.firstChild.namespaceURI) == svgNS;
+			supported = (el.firstChild && el.firstChild.namespaceURI) == svgNs;
 			el.innerHTML = '';
 			return supported;
 		})();
@@ -41,7 +41,7 @@
 	var vibrate = navigator.vibrate ? 'vibrate' : navigator.webkitVibrate ? 'webkitVibrate' : null;
 
 	function createSvgElement(name) {
-		return document.createElementNS(svgNS, name);
+		return document.createElementNS(svgNs, name);
 	}
 
 	function leadingZero(num) {
@@ -87,7 +87,7 @@
 	].join('');
 
 	// ClockPicker
-	function ClockPicker(element, options) {
+	function clockPicker(element, options) {
 		var popover = $(tpl),
 			plate = popover.find('.clockpicker-plate'),
 			hoursView = popover.find('.clockpicker-hours'),
@@ -362,7 +362,7 @@
 	}
 
 	// Default options
-	ClockPicker.DEFAULTS = {
+	clockPicker.DEFAULTS = {
 		'default': '',       // default time, 'now' or '13:14' e.g.
 		fromnow: 0,          // set default time to * milliseconds from now (using with default = 'now')
 		placement: 'bottom', // clock popover placement
@@ -374,12 +374,12 @@
 	};
 
 	// Show or hide popover
-	ClockPicker.prototype.toggle = function(){
+	clockPicker.prototype.toggle = function(){
 		this[this.isShown ? 'hide' : 'show']();
 	};
 
 	// Set popover position
-	ClockPicker.prototype.locate = function(){
+	clockPicker.prototype.locate = function(){
 		var element = this.element,
 			popover = this.popover,
 			offset = element.offset(),
@@ -428,7 +428,7 @@
 	};
 
 	// Show popover
-	ClockPicker.prototype.show = function(e){
+	clockPicker.prototype.show = function(e){
 		// Not show again
 		if (this.isShown) {
 			return;
@@ -496,7 +496,7 @@
 	};
 
 	// Hide popover
-	ClockPicker.prototype.hide = function(){
+	clockPicker.prototype.hide = function(){
 		raiseCallback(this.options.beforeHide);
 
 		this.isShown = false;
@@ -511,7 +511,7 @@
 	};
 
 	// Toggle to hours or minutes view
-	ClockPicker.prototype.toggleView = function(view, delay){
+	clockPicker.prototype.toggleView = function(view, delay){
 		var raiseAfterHourSelect = false;
 		if (view === 'minutes' && $(this.hoursView).css("visibility") === "visible") {
 			raiseCallback(this.options.beforeHourSelect);
@@ -545,7 +545,7 @@
 	};
 
 	// Reset clock hand
-	ClockPicker.prototype.resetClock = function(delay){
+	clockPicker.prototype.resetClock = function(delay){
 		var view = this.currentView,
 			value = this[view],
 			isHours = view === 'hours',
@@ -567,7 +567,7 @@
 	};
 
 	// Set clock hand to (x, y)
-	ClockPicker.prototype.setHand = function(x, y, roundBy5, dragging){
+	clockPicker.prototype.setHand = function(x, y, roundBy5, dragging){
 		var radian = Math.atan2(x, - y),
 			isHours = this.currentView === 'hours',
 			unit = Math.PI / (isHours || roundBy5 ? 6 : 30),
@@ -671,7 +671,7 @@
 	};
 
 	// Hours and minutes are selected
-	ClockPicker.prototype.done = function() {
+	clockPicker.prototype.done = function() {
 		raiseCallback(this.options.beforeDone);
 		this.hide();
 		var last = this.input.prop('value'),
@@ -696,7 +696,7 @@
 	};
 
 	// Remove clockpicker from input
-	ClockPicker.prototype.remove = function() {
+	clockPicker.prototype.remove = function() {
 		this.element.removeData('clockpicker');
 		this.input.off('focus.clockpicker click.clockpicker');
 		this.addon.off('click.clockpicker');
@@ -716,8 +716,8 @@
 			var $this = $(this),
 				data = $this.data('clockpicker');
 			if (! data) {
-				var options = $.extend({}, ClockPicker.DEFAULTS, $this.data(), typeof option == 'object' && option);
-				$this.data('clockpicker', new ClockPicker($this, options));
+				var options = $.extend({}, clockPicker.DEFAULTS, $this.data(), typeof option == 'object' && option);
+				$this.data('clockpicker', new clockPicker($this, options));
 			} else {
 				// Manual operatsions. show, hide, remove, e.g.
 				if (typeof data[option] === 'function') {

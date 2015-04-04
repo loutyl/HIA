@@ -123,11 +123,6 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.xml
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csprojResolveAssemblyReference.cache
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.DemandeVisitePatient.resources
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.HistoriqueVisite.resources
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.MainForm.resources
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.LoginForm.resources
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.pre_Liste.resources
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Properties.Resources.resources
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.csproj.GenerateResource.Cache
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\emailSender.pdb
@@ -135,3 +130,8 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\Utilities.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\QRcodeGenerator.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.suppVisiteurPreListeForm.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.DemandeVisitePatient.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.HistoriqueVisite.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.MainForm.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.LoginForm.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.PreListe.resources

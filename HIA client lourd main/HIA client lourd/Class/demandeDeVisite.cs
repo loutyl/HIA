@@ -1,48 +1,21 @@
-﻿using databaseHIA;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HIA_client_lourd
+﻿namespace HIA_client_lourd.Class
 {
-    public class demandeDeVisite
+    public class DemandeDeVisite
     {
-        Visiteur _visiteurOrigine;
-        internal Visiteur VisiteurOrigine
-        {
-            get { return this._visiteurOrigine; }
-            set { this._visiteurOrigine = value; }
-        }
+        internal Visiteur VisiteurOrigine { get; set; }
 
-        private string _dateVisite;
-        public string DateVisite
-        {
-            get { return this._dateVisite; }
-            set { this._dateVisite = value; }
-        }
+        public string DateVisite { get; set; }
 
-        private string _heureDVisite;
-        public string HeureDVisite
-        {
-            get { return this._heureDVisite; }
-            set { this._heureDVisite = value; }
-        }
+        public string HeureDVisite { get; set; }
 
-        private string _heureFVisite;
-        public string HeureFVisite
-        {
-            get { return this._heureFVisite; }
-            set { this._heureFVisite = value; }
-        }
+        public string HeureFVisite { get; set; }
 
-        public demandeDeVisite(Visiteur visiteur, string dateV, string heureD, string heureF)
+        public DemandeDeVisite(Visiteur visiteur, string dateV, string heureD, string heureF)
         {
-            this._visiteurOrigine = visiteur;
-            this._dateVisite = dateV;
-            this._heureDVisite = heureD;
-            this._heureFVisite = heureF;
+            VisiteurOrigine = visiteur;
+            DateVisite = dateV;
+            HeureDVisite = heureD;
+            HeureFVisite = heureF;
 
         }
     }

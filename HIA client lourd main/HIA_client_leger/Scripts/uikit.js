@@ -41,50 +41,50 @@
 
     "use strict";
 
-    var UI = {}, _UI = window.UIkit;
+    var ui = {}, ui = window.UIkit;
 
-    UI.version = '2.18.0';
+    ui.version = '2.18.0';
 
-    UI.noConflict = function() {
+    ui.noConflict = function() {
         // resore UIkit version
-        if (_UI) {
-            window.UIkit = _UI;
-            $.UIkit      = _UI;
-            $.fn.uk      = _UI.fn;
+        if (ui) {
+            window.UIkit = ui;
+            $.UIkit      = ui;
+            $.fn.uk      = ui.fn;
         }
 
-        return UI;
+        return ui;
     };
 
-    UI.prefix = function(str) {
+    ui.prefix = function(str) {
         return str;
     };
 
     // cache jQuery
-    UI.$ = $;
+    ui.$ = $;
 
-    UI.$doc  = UI.$(document);
-    UI.$win  = UI.$(window);
-    UI.$html = UI.$('html');
+    ui.$doc  = ui.$(document);
+    ui.$win  = ui.$(window);
+    ui.$html = ui.$('html');
 
-    UI.fn = function(command, options) {
+    ui.fn = function(command, options) {
 
         var args = arguments, cmd = command.match(/^([a-z\-]+)(?:\.([a-z]+))?/i), component = cmd[1], method = cmd[2];
 
-        if (!UI[component]) {
+        if (!ui[component]) {
             $.error("UIkit component [" + component + "] does not exist.");
             return this;
         }
 
         return this.each(function() {
             var $this = $(this), data = $this.data(component);
-            if (!data) $this.data(component, (data = UI[component](this, method ? undefined : options)));
+            if (!data) $this.data(component, (data = ui[component](this, method ? undefined : options)));
             if (method) data[method].apply(data, Array.prototype.slice.call(args, 1));
         });
     };
 
-    UI.support = {};
-    UI.support.transition = (function() {
+    ui.support = {};
+    ui.support.transition = (function() {
 
         var transitionEnd = (function() {
 
@@ -104,7 +104,7 @@
         return transitionEnd && { end: transitionEnd };
     })();
 
-    UI.support.animation = (function() {
+    ui.support.animation = (function() {
 
         var animationEnd = (function() {
 
@@ -124,19 +124,19 @@
         return animationEnd && { end: animationEnd };
     })();
 
-    UI.support.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ setTimeout(callback, 1000/60); };
-    UI.support.touch                 = (
+    ui.support.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ setTimeout(callback, 1000/60); };
+    ui.support.touch                 = (
         ('ontouchstart' in window && navigator.userAgent.toLowerCase().match(/mobile|tablet/)) ||
         (global.DocumentTouch && document instanceof global.DocumentTouch)  ||
         (global.navigator.msPointerEnabled && global.navigator.msMaxTouchPoints > 0) || //IE 10
         (global.navigator.pointerEnabled && global.navigator.maxTouchPoints > 0) || //IE >=11
         false
     );
-    UI.support.mutationobserver = (global.MutationObserver || global.WebKitMutationObserver || null);
+    ui.support.mutationobserver = (global.MutationObserver || global.WebKitMutationObserver || null);
 
-    UI.Utils = {};
+    ui.Utils = {};
 
-    UI.Utils.str2json = function(str, notevil) {
+    ui.Utils.str2json = function(str, notevil) {
         try {
             if (notevil) {
                 return JSON.parse(str
@@ -151,7 +151,7 @@
         } catch(e) { return false; }
     };
 
-    UI.Utils.debounce = function(func, wait, immediate) {
+    ui.Utils.debounce = function(func, wait, immediate) {
         var timeout;
         return function() {
             var context = this, args = arguments;
@@ -166,32 +166,32 @@
         };
     };
 
-    UI.Utils.removeCssRules = function(selectorRegEx) {
-        var idx, idxs, stylesheet, _i, _j, _k, _len, _len1, _len2, _ref;
+    ui.Utils.removeCssRules = function(selectorRegEx) {
+        var idx, idxs, stylesheet, i, j, k, len, len1, len2, ref;
 
         if(!selectorRegEx) return;
 
         setTimeout(function(){
             try {
-              _ref = document.styleSheets;
-              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                stylesheet = _ref[_i];
+              ref = document.styleSheets;
+              for (i = 0, len = ref.length; i < len; i++) {
+                stylesheet = ref[i];
                 idxs = [];
                 stylesheet.cssRules = stylesheet.cssRules;
-                for (idx = _j = 0, _len1 = stylesheet.cssRules.length; _j < _len1; idx = ++_j) {
+                for (idx = j = 0, len1 = stylesheet.cssRules.length; j < len1; idx = ++j) {
                   if (stylesheet.cssRules[idx].type === CSSRule.STYLE_RULE && selectorRegEx.test(stylesheet.cssRules[idx].selectorText)) {
                     idxs.unshift(idx);
                   }
                 }
-                for (_k = 0, _len2 = idxs.length; _k < _len2; _k++) {
-                  stylesheet.deleteRule(idxs[_k]);
+                for (k = 0, len2 = idxs.length; k < len2; k++) {
+                  stylesheet.deleteRule(idxs[k]);
                 }
               }
-            } catch (_error) {}
+            } catch (error) {}
         }, 0);
     };
 
-    UI.Utils.isInView = function(element, options) {
+    ui.Utils.isInView = function(element, options) {
 
         var $element = $(element);
 
@@ -199,21 +199,21 @@
             return false;
         }
 
-        var window_left = UI.$win.scrollLeft(), window_top = UI.$win.scrollTop(), offset = $element.offset(), left = offset.left, top = offset.top;
+        var windowLeft = ui.$win.scrollLeft(), windowTop = ui.$win.scrollTop(), offset = $element.offset(), left = offset.left, top = offset.top;
 
         options = $.extend({topoffset:0, leftoffset:0}, options);
 
-        if (top + $element.height() >= window_top && top - options.topoffset <= window_top + UI.$win.height() &&
-            left + $element.width() >= window_left && left - options.leftoffset <= window_left + UI.$win.width()) {
+        if (top + $element.height() >= windowTop && top - options.topoffset <= windowTop + ui.$win.height() &&
+            left + $element.width() >= windowLeft && left - options.leftoffset <= windowLeft + ui.$win.width()) {
           return true;
         } else {
           return false;
         }
     };
 
-    UI.Utils.checkDisplay = function(context, initanimation) {
+    ui.Utils.checkDisplay = function(context, initanimation) {
 
-        var elements = UI.$('[data-uk-margin], [data-uk-grid-match], [data-uk-grid-margin], [data-uk-check-display]', context || document), animated;
+        var elements = ui.$('[data-uk-margin], [data-uk-grid-match], [data-uk-grid-margin], [data-uk-check-display]', context || document), animated;
 
         if (context && !elements.length) {
             elements = $(context);
@@ -230,7 +230,7 @@
 
             elements.find(initanimation).each(function(){
 
-                var ele  = UI.$(this),
+                var ele  = ui.$(this),
                     cls  = ele.attr('class'),
                     anim = cls.match(/uk\-animation\-(.+)/);
 
@@ -243,7 +243,7 @@
         return elements;
     };
 
-    UI.Utils.options = function(string) {
+    ui.Utils.options = function(string) {
 
         if ($.isPlainObject(string)) return string;
 
@@ -251,21 +251,21 @@
 
         if (start != -1) {
             try {
-                options = UI.Utils.str2json(string.substr(start));
+                options = ui.Utils.str2json(string.substr(start));
             } catch (e) {}
         }
 
         return options;
     };
 
-    UI.Utils.animate = function(element, cls) {
+    ui.Utils.animate = function(element, cls) {
 
         var d = $.Deferred();
 
-        element = UI.$(element);
+        element = ui.$(element);
         cls     = cls;
 
-        element.css('display', 'none').addClass(cls).one(UI.support.animation.end, function() {
+        element.css('display', 'none').addClass(cls).one(ui.support.animation.end, function() {
             element.removeClass(cls);
             d.resolve();
         }).width();
@@ -275,11 +275,11 @@
         return d.promise();
     };
 
-    UI.Utils.uid = function(prefix) {
+    ui.Utils.uid = function(prefix) {
         return (prefix || 'id') + (new Date().getTime())+"RAND"+(Math.ceil(Math.random() * 100000));
     };
 
-    UI.Utils.template = function(str, data) {
+    ui.Utils.template = function(str, data) {
 
         var tokens = str.replace(/\n/g, '\\n').replace(/\{\{\{\s*(.+?)\s*\}\}\}/g, "{{!$1}}").split(/(\{\{\s*(.+?)\s*\}\})/g),
             i=0, toc, cmd, prop, val, fn, output = [], openblocks = 0;
@@ -340,25 +340,25 @@
         return data ? fn(data) : fn;
     };
 
-    UI.Utils.events       = {};
-    UI.Utils.events.click = UI.support.touch ? 'tap' : 'click';
+    ui.Utils.events       = {};
+    ui.Utils.events.click = ui.support.touch ? 'tap' : 'click';
 
-    window.UIkit = UI;
-    $.UIkit      = UI;
-    $.fn.uk      = UI.fn;
+    window.UIkit = ui;
+    $.UIkit      = ui;
+    $.fn.uk      = ui.fn;
 
-    UI.langdirection = UI.$html.attr("dir") == "rtl" ? "right" : "left";
+    ui.langdirection = ui.$html.attr("dir") == "rtl" ? "right" : "left";
 
-    UI.components = {};
+    ui.components = {};
 
-    UI.component = function(name, def) {
+    ui.component = function(name, def) {
 
         var fn = function(element, options) {
 
             var $this = this;
 
-            this.UIkit   = UI;
-            this.element = element ? UI.$(element) : null;
+            this.UIkit   = ui;
+            this.element = element ? ui.$(element) : null;
             this.options = $.extend(true, {}, this.defaults, options);
             this.plugins = {};
 
@@ -392,23 +392,23 @@
             init: function(){},
 
             on: function(a1,a2,a3){
-                return UI.$(this.element || this).on(a1,a2,a3);
+                return ui.$(this.element || this).on(a1,a2,a3);
             },
 
             one: function(a1,a2,a3){
-                return UI.$(this.element || this).one(a1,a2,a3);
+                return ui.$(this.element || this).one(a1,a2,a3);
             },
 
             off: function(evt){
-                return UI.$(this.element || this).off(evt);
+                return ui.$(this.element || this).off(evt);
             },
 
             trigger: function(evt, params) {
-                return UI.$(this.element || this).trigger(evt, params);
+                return ui.$(this.element || this).trigger(evt, params);
             },
 
             find: function(selector) {
-                return UI.$(this.element ? this.element: []).find(selector);
+                return ui.$(this.element ? this.element: []).find(selector);
             },
 
             proxy: function(obj, methods) {
@@ -470,83 +470,83 @@
                 return element.data(name);
             }
 
-            return (new UI.components[name](element, options));
+            return (new ui.components[name](element, options));
         };
 
-        if (UI.domready) {
-            UI.component.boot(name);
+        if (ui.domready) {
+            ui.component.boot(name);
         }
 
         return fn;
     };
 
-    UI.plugin = function(component, name, def) {
+    ui.plugin = function(component, name, def) {
         this.components[component].plugins[name] = def;
     };
 
-    UI.component.boot = function(name) {
+    ui.component.boot = function(name) {
 
-        if (UI.components[name].prototype && UI.components[name].prototype.boot && !UI.components[name].booted) {
-            UI.components[name].prototype.boot.apply(UI, []);
-            UI.components[name].booted = true;
+        if (ui.components[name].prototype && ui.components[name].prototype.boot && !ui.components[name].booted) {
+            ui.components[name].prototype.boot.apply(ui, []);
+            ui.components[name].booted = true;
         }
     };
 
-    UI.component.bootComponents = function() {
+    ui.component.bootComponents = function() {
 
-        for (var component in UI.components) {
-            UI.component.boot(component);
+        for (var component in ui.components) {
+            ui.component.boot(component);
         }
     };
 
 
     // DOM mutation save ready helper function
 
-    UI.domObservers = [];
-    UI.domready     = false;
+    ui.domObservers = [];
+    ui.domready     = false;
 
-    UI.ready = function(fn) {
+    ui.ready = function(fn) {
 
-        UI.domObservers.push(fn);
+        ui.domObservers.push(fn);
 
-        if (UI.domready) {
+        if (ui.domready) {
             fn(document);
         }
     };
 
-    UI.on = function(a1,a2,a3){
+    ui.on = function(a1,a2,a3){
 
-        if (a1 && a1.indexOf('ready.uk.dom') > -1 && UI.domready) {
-            a2.apply(UI.$doc);
+        if (a1 && a1.indexOf('ready.uk.dom') > -1 && ui.domready) {
+            a2.apply(ui.$doc);
         }
 
-        return UI.$doc.on(a1,a2,a3);
+        return ui.$doc.on(a1,a2,a3);
     };
 
-    UI.one = function(a1,a2,a3){
+    ui.one = function(a1,a2,a3){
 
-        if (a1 && a1.indexOf('ready.uk.dom') > -1 && UI.domready) {
-            a2.apply(UI.$doc);
-            return UI.$doc;
+        if (a1 && a1.indexOf('ready.uk.dom') > -1 && ui.domready) {
+            a2.apply(ui.$doc);
+            return ui.$doc;
         }
 
-        return UI.$doc.one(a1,a2,a3);
+        return ui.$doc.one(a1,a2,a3);
     };
 
-    UI.trigger = function(evt, params) {
-        return UI.$doc.trigger(evt, params);
+    ui.trigger = function(evt, params) {
+        return ui.$doc.trigger(evt, params);
     };
 
-    UI.domObserve = function(selector, fn) {
+    ui.domObserve = function(selector, fn) {
 
-        if(!UI.support.mutationobserver) return;
+        if(!ui.support.mutationobserver) return;
 
         fn = fn || function() {};
 
-        UI.$(selector).each(function() {
+        ui.$(selector).each(function() {
 
             var element  = this,
-                $element = UI.$(element);
+                $element = ui.$(element);
 
             if ($element.data('observer')) {
                 return;
@@ -554,7 +554,7 @@
 
             try {
 
-                var observer = new UI.support.mutationobserver(UI.Utils.debounce(function(mutations) {
+                var observer = new ui.support.mutationobserver(ui.Utils.debounce(function(mutations) {
                     fn.apply(element, []);
                     $element.trigger('changed.uk.dom');
                 }, 50));
@@ -568,37 +568,37 @@
         });
     };
 
-    UI.on('domready.uk.dom', function(){
+    ui.on('domready.uk.dom', function(){
 
-        UI.domObservers.forEach(function(fn){
+        ui.domObservers.forEach(function(fn){
             fn(document);
         });
 
-        if (UI.domready) UI.Utils.checkDisplay(document);
+        if (ui.domready) ui.Utils.checkDisplay(document);
     });
 
     $(function(){
 
-        UI.$body = UI.$('body');
+        ui.$body = ui.$('body');
 
-        UI.ready(function(context){
-            UI.domObserve('[data-uk-observe]');
+        ui.ready(function(context){
+            ui.domObserve('[data-uk-observe]');
         });
 
-        UI.on('changed.uk.dom', function(e) {
+        ui.on('changed.uk.dom', function(e) {
 
             var ele = e.target;
 
-            UI.domObservers.forEach(function(fn){
+            ui.domObservers.forEach(function(fn){
                 fn(ele);
             });
 
-            UI.Utils.checkDisplay(ele);
+            ui.Utils.checkDisplay(ele);
         });
 
-        UI.trigger('beforeready.uk.dom');
+        ui.trigger('beforeready.uk.dom');
 
-        UI.component.bootComponents();
+        ui.component.bootComponents();
 
         // custom scroll observer
         setInterval((function(){
@@ -618,12 +618,12 @@
                         "dir": dir, "x": window.pageXOffset, "y": window.pageYOffset
                     };
 
-                    UI.$doc.trigger('scrolling.uk.document', [memory]);
+                    ui.$doc.trigger('scrolling.uk.document', [memory]);
                 }
             };
 
-            if (UI.support.touch) {
-                UI.$html.on('touchmove touchend MSPointerMove MSPointerUp pointermove pointerup', fn);
+            if (ui.support.touch) {
+                ui.$html.on('touchmove touchend MSPointerMove MSPointerUp pointermove pointerup', fn);
             }
 
             if (memory.x || memory.y) fn();
@@ -633,9 +633,9 @@
         })(), 15);
 
         // run component init functions on dom
-        UI.trigger('domready.uk.dom');
+        ui.trigger('domready.uk.dom');
 
-        if (UI.support.touch) {
+        if (ui.support.touch) {
 
             // remove css hover rules for touch devices
             // UI.Utils.removeCssRules(/\.uk-(?!navbar).*:hover/);
@@ -643,7 +643,7 @@
             // viewport unit fix for uk-height-viewport - should be fixed in iOS 8
             if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
 
-                UI.$win.on('load orientationchange resize', UI.Utils.debounce((function(){
+                ui.$win.on('load orientationchange resize', ui.Utils.debounce((function(){
 
                     var fn = function() {
                         $('.uk-height-viewport').css('height', window.innerHeight);
@@ -656,21 +656,21 @@
             }
         }
 
-        UI.trigger('afterready.uk.dom');
+        ui.trigger('afterready.uk.dom');
 
         // mark that domready is left behind
-        UI.domready = true;
+        ui.domready = true;
     });
 
     // add touch identifier class
-    UI.$html.addClass(UI.support.touch ? "uk-touch" : "uk-notouch");
+    ui.$html.addClass(ui.support.touch ? "uk-touch" : "uk-notouch");
 
     // add uk-hover class on tap to support overlays on touch devices
-    if (UI.support.touch) {
+    if (ui.support.touch) {
 
         var hoverset = false, exclude, hovercls = 'uk-hover', selector = '.uk-overlay, .uk-overlay-hover, .uk-overlay-toggle, .uk-animation-hover, .uk-has-hover';
 
-        UI.$html.on('touchstart MSPointerDown pointerdown', selector, function() {
+        ui.$html.on('touchstart MSPointerDown pointerdown', selector, function() {
 
             if (hoverset) $('.'+hovercls).removeClass(hovercls);
 
@@ -686,7 +686,7 @@
         });
     }
 
-    return UI;
+    return ui;
 });
 
 //  Based on Zeptos touch.js
@@ -862,13 +862,13 @@
   });
 })(jQuery);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
     var stacks = [];
 
-    UI.component('stackMargin', {
+    ui.component('stackMargin', {
 
         defaults: {
             'cls': 'uk-margin-small-top'
@@ -877,14 +877,14 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-margin]", context).each(function() {
+                ui.$("[data-uk-margin]", context).each(function() {
 
-                    var ele = UI.$(this), obj;
+                    var ele = ui.$(this), obj;
 
                     if (!ele.data("stackMargin")) {
-                        obj = UI.stackMargin(ele, UI.Utils.options(ele.attr("data-uk-margin")));
+                        obj = ui.stackMargin(ele, ui.Utils.options(ele.attr("data-uk-margin")));
                     }
                 });
             });
@@ -898,21 +898,21 @@
 
             if (!this.columns.length) return;
 
-            UI.$win.on('resize orientationchange', (function() {
+            ui.$win.on('resize orientationchange', (function() {
 
                 var fn = function() {
                     $this.process();
                 };
 
-                UI.$(function() {
+                ui.$(function() {
                     fn();
-                    UI.$win.on("load", fn);
+                    ui.$win.on("load", fn);
                 });
 
-                return UI.Utils.debounce(fn, 20);
+                return ui.Utils.debounce(fn, 20);
             })());
 
-            UI.$html.on("changed.uk.dom", function(e) {
+            ui.$html.on("changed.uk.dom", function(e) {
                 $this.columns  = $this.element.children();
                 $this.process();
             });
@@ -929,7 +929,7 @@
 
             var $this = this;
 
-            UI.Utils.stackMargin(this.columns, this.options);
+            ui.Utils.stackMargin(this.columns, this.options);
 
             return this;
         },
@@ -941,7 +941,7 @@
     });
 
     // responsive iframes
-    UI.ready((function(){
+    ui.ready((function(){
 
         var iframes = [], check = function() {
 
@@ -958,13 +958,13 @@
             });
         };
 
-        UI.$win.on('resize', UI.Utils.debounce(check, 15));
+        ui.$win.on('resize', ui.Utils.debounce(check, 15));
 
         return function(context){
 
-            UI.$('iframe.uk-responsive-width', context).each(function(){
+            ui.$('iframe.uk-responsive-width', context).each(function(){
 
-                var iframe = UI.$(this);
+                var iframe = ui.$(this);
 
                 if (!iframe.data('responsive') && iframe.attr('width') && iframe.attr('height')) {
 
@@ -983,15 +983,15 @@
 
     // helper
 
-    UI.Utils.stackMargin = function(elements, options) {
+    ui.Utils.stackMargin = function(elements, options) {
 
-        options = UI.$.extend({
+        options = ui.$.extend({
             'cls': 'uk-margin-small-top'
         }, options);
 
         options.cls = options.cls;
 
-        elements = UI.$(elements).removeClass(options.cls);
+        elements = ui.$(elements).removeClass(options.cls);
 
         var skip         = false,
             firstvisible = elements.filter(":visible:first"),
@@ -1001,7 +1001,7 @@
 
         elements.each(function() {
 
-            var column = UI.$(this);
+            var column = ui.$(this);
 
             if (column.is(":visible")) {
 
@@ -1019,20 +1019,20 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    UI.component('smoothScroll', {
+    ui.component('smoothScroll', {
 
         boot: function() {
 
             // init code
-            UI.$html.on("click.smooth-scroll.uikit", "[data-uk-smooth-scroll]", function(e) {
-                var ele = UI.$(this);
+            ui.$html.on("click.smooth-scroll.uikit", "[data-uk-smooth-scroll]", function(e) {
+                var ele = ui.$(this);
 
                 if (!ele.data("smoothScroll")) {
-                    var obj = UI.smoothScroll(ele, UI.Utils.options(ele.attr("data-uk-smooth-scroll")));
+                    var obj = ui.smoothScroll(ele, ui.Utils.options(ele.attr("data-uk-smooth-scroll")));
                     ele.trigger("click");
                 }
 
@@ -1046,14 +1046,14 @@
 
             this.on("click", function(e) {
                 e.preventDefault();
-                scrollToElement(UI.$(this.hash).length ? UI.$(this.hash) : UI.$("body"), $this.options);
+                scrollToElement(ui.$(this.hash).length ? ui.$(this.hash) : ui.$("body"), $this.options);
             });
         }
     });
 
     function scrollToElement(ele, options) {
 
-        options = UI.$.extend({
+        options = ui.$.extend({
             duration: 1000,
             transition: 'easeOutExpo',
             offset: 0,
@@ -1062,7 +1062,7 @@
 
         // get / set parameters
         var target    = ele.offset().top - options.offset,
-            docheight = UI.$doc.height(),
+            docheight = ui.$doc.height(),
             winheight = window.innerHeight;
 
         if ((target + winheight) > docheight) {
@@ -1070,31 +1070,31 @@
         }
 
         // animate to target, fire callback when done
-        UI.$("html,body").stop().animate({scrollTop: target}, options.duration, options.transition).promise().done(options.complete);
+        ui.$("html,body").stop().animate({scrollTop: target}, options.duration, options.transition).promise().done(options.complete);
     }
 
-    UI.Utils.scrollToElement = scrollToElement;
+    ui.Utils.scrollToElement = scrollToElement;
 
-    if (!UI.$.easing.easeOutExpo) {
-        UI.$.easing.easeOutExpo = function(x, t, b, c, d) { return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b; };
+    if (!ui.$.easing.easeOutExpo) {
+        ui.$.easing.easeOutExpo = function(x, t, b, c, d) { return (t == d) ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b; };
     }
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    var $win           = UI.$win,
-        $doc           = UI.$doc,
+    var $win           = ui.$win,
+        $doc           = ui.$doc,
         scrollspies    = [],
         checkScrollSpy = function() {
             for(var i=0; i < scrollspies.length; i++) {
-                UI.support.requestAnimationFrame.apply(window, [scrollspies[i].check]);
+                ui.support.requestAnimationFrame.apply(window, [scrollspies[i].check]);
             }
         };
 
-    UI.component('scrollspy', {
+    ui.component('scrollspy', {
 
         defaults: {
             "target"     : false,
@@ -1110,17 +1110,17 @@
 
             // listen to scroll and resize
             $doc.on("scrolling.uk.document", checkScrollSpy);
-            $win.on("load resize orientationchange", UI.Utils.debounce(checkScrollSpy, 50));
+            $win.on("load resize orientationchange", ui.Utils.debounce(checkScrollSpy, 50));
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-scrollspy]", context).each(function() {
+                ui.$("[data-uk-scrollspy]", context).each(function() {
 
-                    var element = UI.$(this);
+                    var element = ui.$(this);
 
                     if (!element.data("scrollspy")) {
-                        var obj = UI.scrollspy(element, UI.Utils.options(element.attr("data-uk-scrollspy")));
+                        var obj = ui.scrollspy(element, ui.Utils.options(element.attr("data-uk-scrollspy")));
                     }
                 });
             });
@@ -1136,9 +1136,9 @@
 
                 elements.each(function(idx){
 
-                    var element     = UI.$(this),
+                    var element     = ui.$(this),
                         inviewstate = element.data('inviewstate'),
-                        inview      = UI.Utils.isInView(element, $this.options),
+                        inview      = ui.Utils.isInView(element, $this.options),
                         toggle      = element.data('ukScrollspyCls') || togglecls[toggleclsIdx].trim();
 
                     if (inview && !inviewstate && !element.data('scrollspy-idle')) {
@@ -1193,11 +1193,11 @@
     var scrollspynavs = [],
         checkScrollSpyNavs = function() {
             for(var i=0; i < scrollspynavs.length; i++) {
-                UI.support.requestAnimationFrame.apply(window, [scrollspynavs[i].check]);
+                ui.support.requestAnimationFrame.apply(window, [scrollspynavs[i].check]);
             }
         };
 
-    UI.component('scrollspynav', {
+    ui.component('scrollspynav', {
 
         defaults: {
             "cls"          : 'uk-active',
@@ -1211,17 +1211,17 @@
 
             // listen to scroll and resize
             $doc.on("scrolling.uk.document", checkScrollSpyNavs);
-            $win.on("resize orientationchange", UI.Utils.debounce(checkScrollSpyNavs, 50));
+            $win.on("resize orientationchange", ui.Utils.debounce(checkScrollSpyNavs, 50));
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-scrollspy-nav]", context).each(function() {
+                ui.$("[data-uk-scrollspy-nav]", context).each(function() {
 
-                    var element = UI.$(this);
+                    var element = ui.$(this);
 
                     if (!element.data("scrollspynav")) {
-                        var obj = UI.scrollspynav(element, UI.Utils.options(element.attr("data-uk-scrollspy-nav")));
+                        var obj = ui.scrollspynav(element, ui.Utils.options(element.attr("data-uk-scrollspy-nav")));
                     }
                 });
             });
@@ -1230,8 +1230,8 @@
         init: function() {
 
             var ids     = [],
-                links   = this.find("a[href^='#']").each(function(){ ids.push(UI.$(this).attr("href")); }),
-                targets = UI.$(ids.join(",")),
+                links   = this.find("a[href^='#']").each(function(){ ids.push(ui.$(this).attr("href")); }),
+                targets = ui.$(ids.join(",")),
 
                 clsActive  = this.options.cls,
                 clsClosest = this.options.closest || this.options.closest;
@@ -1241,7 +1241,7 @@
                 inviews = [];
 
                 for (var i=0 ; i < targets.length ; i++) {
-                    if (UI.Utils.isInView(targets.eq(i), $this.options)) {
+                    if (ui.Utils.isInView(targets.eq(i), $this.options)) {
                         inviews.push(targets.eq(i));
                     }
                 }
@@ -1271,9 +1271,9 @@
                 }
             };
 
-            if (this.options.smoothscroll && UI.smoothScroll) {
+            if (this.options.smoothscroll && ui.smoothScroll) {
                 links.each(function(){
-                    UI.smoothScroll(this, $this.options.smoothscroll);
+                    ui.smoothScroll(this, $this.options.smoothscroll);
                 });
             }
 
@@ -1289,13 +1289,13 @@
 
 })(UIkit);
 
-(function(UI){
+(function(ui){
 
     "use strict";
 
     var toggles = [];
 
-    UI.component('toggle', {
+    ui.component('toggle', {
 
         defaults: {
             target    : false,
@@ -1307,13 +1307,13 @@
         boot: function(){
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-toggle]", context).each(function() {
-                    var ele = UI.$(this);
+                ui.$("[data-uk-toggle]", context).each(function() {
+                    var ele = ui.$(this);
 
                     if (!ele.data("toggle")) {
-                        var obj = UI.toggle(ele, UI.Utils.options(ele.attr("data-uk-toggle")));
+                        var obj = ui.toggle(ele, ui.Utils.options(ele.attr("data-uk-toggle")));
                     }
                 });
 
@@ -1347,7 +1347,7 @@
 
             if(!this.totoggle.length) return;
 
-            if (this.options.animation && UI.support.animation) {
+            if (this.options.animation && ui.support.animation) {
 
                 var $this = this, animations = this.options.animation.split(',');
 
@@ -1365,25 +1365,25 @@
                     this.totoggle.toggleClass(this.options.cls);
 
                     this.totoggle.each(function(){
-                        UI.Utils.animate(this, animations[0]).then(function(){
-                            UI.$(this).css('animation-duration', '');
-                            UI.Utils.checkDisplay(this);
+                        ui.Utils.animate(this, animations[0]).then(function(){
+                            ui.$(this).css('animation-duration', '');
+                            ui.Utils.checkDisplay(this);
                         });
                     });
 
                 } else {
 
                     this.totoggle.each(function(){
-                        UI.Utils.animate(this, animations[1]+' uk-animation-reverse').then(function(){
-                            UI.$(this).toggleClass($this.options.cls).css('animation-duration', '');
-                            UI.Utils.checkDisplay(this);
+                        ui.Utils.animate(this, animations[1]+' uk-animation-reverse').then(function(){
+                            ui.$(this).toggleClass($this.options.cls).css('animation-duration', '');
+                            ui.Utils.checkDisplay(this);
                         }.bind(this));
                     });
                 }
 
             } else {
                 this.totoggle.toggleClass(this.options.cls);
-                UI.Utils.checkDisplay(this.totoggle);
+                ui.Utils.checkDisplay(this.totoggle);
             }
 
             this.updateAria();
@@ -1391,14 +1391,14 @@
         },
 
         getToggles: function() {
-            this.totoggle = this.options.target ? UI.$(this.options.target):[];
+            this.totoggle = this.options.target ? ui.$(this.options.target):[];
             this.updateAria();
         },
 
         updateAria: function() {
             if (this.aria && this.totoggle.length) {
                 this.totoggle.each(function(){
-                    UI.$(this).attr('aria-hidden', UI.$(this).hasClass('uk-hidden'));
+                    ui.$(this).attr('aria-hidden', ui.$(this).hasClass('uk-hidden'));
                 });
             }
         }
@@ -1406,11 +1406,11 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    UI.component('alert', {
+    ui.component('alert', {
 
         defaults: {
             "fade": true,
@@ -1421,15 +1421,15 @@
         boot: function() {
 
             // init code
-            UI.$html.on("click.alert.uikit", "[data-uk-alert]", function(e) {
+            ui.$html.on("click.alert.uikit", "[data-uk-alert]", function(e) {
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (!ele.data("alert")) {
 
-                    var alert = UI.alert(ele, UI.Utils.options(ele.attr("data-uk-alert")));
+                    var alert = ui.alert(ele, ui.Utils.options(ele.attr("data-uk-alert")));
 
-                    if (UI.$(e.target).is(alert.options.trigger)) {
+                    if (ui.$(e.target).is(alert.options.trigger)) {
                         e.preventDefault();
                         alert.close();
                     }
@@ -1472,11 +1472,11 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    UI.component('buttonRadio', {
+    ui.component('buttonRadio', {
 
         defaults: {
             "target": ".uk-button"
@@ -1485,14 +1485,14 @@
         boot: function() {
 
             // init code
-            UI.$html.on("click.buttonradio.uikit", "[data-uk-button-radio]", function(e) {
+            ui.$html.on("click.buttonradio.uikit", "[data-uk-button-radio]", function(e) {
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (!ele.data("buttonRadio")) {
 
-                    var obj    = UI.buttonRadio(ele, UI.Utils.options(ele.attr("data-uk-button-radio"))),
-                        target = UI.$(e.target);
+                    var obj    = ui.buttonRadio(ele, ui.Utils.options(ele.attr("data-uk-button-radio"))),
+                        target = ui.$(e.target);
 
                     if (target.is(obj.options.target)) {
                         target.trigger("click");
@@ -1510,7 +1510,7 @@
 
             this.on("click", this.options.target, function(e) {
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (ele.is('a[href="#"]')) e.preventDefault();
 
@@ -1531,7 +1531,7 @@
         }
     });
 
-    UI.component('buttonCheckbox', {
+    ui.component('buttonCheckbox', {
 
         defaults: {
             "target": ".uk-button"
@@ -1539,13 +1539,13 @@
 
         boot: function() {
 
-            UI.$html.on("click.buttoncheckbox.uikit", "[data-uk-button-checkbox]", function(e) {
-                var ele = UI.$(this);
+            ui.$html.on("click.buttoncheckbox.uikit", "[data-uk-button-checkbox]", function(e) {
+                var ele = ui.$(this);
 
                 if (!ele.data("buttonCheckbox")) {
 
-                    var obj    = UI.buttonCheckbox(ele, UI.Utils.options(ele.attr("data-uk-button-checkbox"))),
-                        target = UI.$(e.target);
+                    var obj    = ui.buttonCheckbox(ele, ui.Utils.options(ele.attr("data-uk-button-checkbox"))),
+                        target = ui.$(e.target);
 
                     if (target.is(obj.options.target)) {
                         target.trigger("click");
@@ -1562,7 +1562,7 @@
             this.find($this.options.target).attr('aria-checked', 'false').filter(".uk-active").attr('aria-checked', 'true');
 
             this.on("click", this.options.target, function(e) {
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (ele.is('a[href="#"]')) e.preventDefault();
 
@@ -1582,18 +1582,18 @@
     });
 
 
-    UI.component('button', {
+    ui.component('button', {
 
         defaults: {},
 
         boot: function() {
 
-            UI.$html.on("click.button.uikit", "[data-uk-button]", function(e) {
-                var ele = UI.$(this);
+            ui.$html.on("click.button.uikit", "[data-uk-button]", function(e) {
+                var ele = ui.$(this);
 
                 if (!ele.data("button")) {
 
-                    var obj = UI.button(ele, UI.Utils.options(ele.attr("data-uk-button")));
+                    var obj = ui.button(ele, ui.Utils.options(ele.attr("data-uk-button")));
                     ele.trigger("click");
                 }
             });
@@ -1626,19 +1626,19 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
     var active = false, hoverIdle;
 
-    UI.component('dropdown', {
+    ui.component('dropdown', {
 
         defaults: {
            'mode'       : 'hover',
            'remaintime' : 800,
            'justify'    : false,
-           'boundary'   : UI.$win,
+           'boundary'   : ui.$win,
            'delay'      : 0
         },
 
@@ -1646,16 +1646,16 @@
 
         boot: function() {
 
-            var triggerevent = UI.support.touch ? "click" : "mouseenter";
+            var triggerevent = ui.support.touch ? "click" : "mouseenter";
 
             // init code
-            UI.$html.on(triggerevent+".dropdown.uikit", "[data-uk-dropdown]", function(e) {
+            ui.$html.on(triggerevent+".dropdown.uikit", "[data-uk-dropdown]", function(e) {
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (!ele.data("dropdown")) {
 
-                    var dropdown = UI.dropdown(ele, UI.Utils.options(ele.attr("data-uk-dropdown")));
+                    var dropdown = ui.dropdown(ele, ui.Utils.options(ele.attr("data-uk-dropdown")));
 
                     if (triggerevent=="click" || (triggerevent=="mouseenter" && dropdown.options.mode=="hover")) {
                         dropdown.element.trigger(triggerevent);
@@ -1675,24 +1675,24 @@
             this.dropdown  = this.find('.uk-dropdown');
 
             this.centered  = this.dropdown.hasClass('uk-dropdown-center');
-            this.justified = this.options.justify ? UI.$(this.options.justify) : false;
+            this.justified = this.options.justify ? ui.$(this.options.justify) : false;
 
-            this.boundary  = UI.$(this.options.boundary);
+            this.boundary  = ui.$(this.options.boundary);
             this.flipped   = this.dropdown.hasClass('uk-dropdown-flip');
 
             if (!this.boundary.length) {
-                this.boundary = UI.$win;
+                this.boundary = ui.$win;
             }
 
             // Init ARIA
             this.element.attr('aria-haspopup', 'true');
             this.element.attr('aria-expanded', this.element.hasClass("uk-open"));
 
-            if (this.options.mode == "click" || UI.support.touch) {
+            if (this.options.mode == "click" || ui.support.touch) {
 
                 this.on("click.uikit.dropdown", function(e) {
 
-                    var $target = UI.$(e.target);
+                    var $target = ui.$(e.target);
 
                     if (!$target.parents(".uk-dropdown").length) {
 
@@ -1741,7 +1741,7 @@
 
                 }).on("click", function(e){
 
-                    var $target = UI.$(e.target);
+                    var $target = ui.$(e.target);
 
                     if ($this.remainIdle) {
                         clearTimeout($this.remainIdle);
@@ -1758,7 +1758,7 @@
 
         show: function(){
 
-            UI.$html.off("click.outer.dropdown");
+            ui.$html.off("click.outer.dropdown");
 
             if (active && active[0] != this.element[0]) {
                 active.removeClass('uk-open');
@@ -1779,7 +1779,7 @@
 
             this.trigger('show.uk.dropdown', [this]);
 
-            UI.Utils.checkDisplay(this.dropdown, true);
+            ui.Utils.checkDisplay(this.dropdown, true);
             active = this.element;
 
             this.registerOuterClick();
@@ -1799,21 +1799,21 @@
 
             var $this = this;
 
-            UI.$html.off("click.outer.dropdown");
+            ui.$html.off("click.outer.dropdown");
 
             setTimeout(function() {
 
-                UI.$html.on("click.outer.dropdown", function(e) {
+                ui.$html.on("click.outer.dropdown", function(e) {
 
                     if (hoverIdle) {
                         clearTimeout(hoverIdle);
                     }
 
-                    var $target = UI.$(e.target);
+                    var $target = ui.$(e.target);
 
                     if (active && active[0] == $this.element[0] && ($target.is("a:not(.js-uk-prevent)") || $target.is(".uk-dropdown-close") || !$this.dropdown.find(e.target).length)) {
                         $this.hide();
-                        UI.$html.off("click.outer.dropdown");
+                        ui.$html.off("click.outer.dropdown");
                     }
                 });
             }, 10);
@@ -1828,7 +1828,7 @@
             }
 
             var $this     = this,
-                dropdown  = this.dropdown.css("margin-" + UI.langdirection, ""),
+                dropdown  = this.dropdown.css("margin-" + ui.langdirection, ""),
                 offset    = dropdown.show().offset(),
                 width     = dropdown.outerWidth(),
                 boundarywidth  = this.boundary.width(),
@@ -1836,12 +1836,12 @@
 
             // centered dropdown
             if (this.centered) {
-                dropdown.css("margin-" + UI.langdirection, (parseFloat(width) / 2 - dropdown.parent().width() / 2) * -1);
+                dropdown.css("margin-" + ui.langdirection, (parseFloat(width) / 2 - dropdown.parent().width() / 2) * -1);
                 offset = dropdown.offset();
 
                 // reset dropdown
                 if ((width + offset.left) > boundarywidth || offset.left < 0) {
-                    dropdown.css("margin-" + UI.langdirection, "");
+                    dropdown.css("margin-" + ui.langdirection, "");
                     offset = dropdown.offset();
                 }
             }
@@ -1853,7 +1853,7 @@
 
                 dropdown.css("min-width", jwidth);
 
-                if (UI.langdirection == 'right') {
+                if (ui.langdirection == 'right') {
 
                     var right1   = boundarywidth - (this.justified.offset().left + jwidth),
                         right2   = boundarywidth - (dropdown.offset().left + dropdown.outerWidth());
@@ -1903,13 +1903,13 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
     var grids = [];
 
-    UI.component('gridMatchHeight', {
+    ui.component('gridMatchHeight', {
 
         defaults: {
             "target" : false,
@@ -1919,13 +1919,13 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-grid-match]", context).each(function() {
-                    var grid = UI.$(this), obj;
+                ui.$("[data-uk-grid-match]", context).each(function() {
+                    var grid = ui.$(this), obj;
 
                     if (!grid.data("gridMatchHeight")) {
-                        obj = UI.gridMatchHeight(grid, UI.Utils.options(grid.attr("data-uk-grid-match")));
+                        obj = ui.gridMatchHeight(grid, ui.Utils.options(grid.attr("data-uk-grid-match")));
                     }
                 });
             });
@@ -1940,18 +1940,18 @@
 
             if (!this.columns.length) return;
 
-            UI.$win.on('load resize orientationchange', (function() {
+            ui.$win.on('load resize orientationchange', (function() {
 
                 var fn = function() {
                     $this.match();
                 };
 
-                UI.$(function() { fn(); });
+                ui.$(function() { fn(); });
 
-                return UI.Utils.debounce(fn, 50);
+                return ui.Utils.debounce(fn, 50);
             })());
 
-            UI.$html.on("changed.uk.dom", function(e) {
+            ui.$html.on("changed.uk.dom", function(e) {
                 $this.columns  = $this.element.children();
                 $this.elements = $this.options.target ? $this.find($this.options.target) : $this.columns;
                 $this.match();
@@ -1975,7 +1975,7 @@
             if (stacked) {
                 this.revert();
             } else {
-                UI.Utils.matchHeights(this.elements, this.options);
+                ui.Utils.matchHeights(this.elements, this.options);
             }
 
             return this;
@@ -1987,7 +1987,7 @@
         }
     });
 
-    UI.component('gridMargin', {
+    ui.component('gridMargin', {
 
         defaults: {
             "cls": "uk-grid-margin"
@@ -1996,13 +1996,13 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-grid-margin]", context).each(function() {
-                    var grid = UI.$(this), obj;
+                ui.$("[data-uk-grid-margin]", context).each(function() {
+                    var grid = ui.$(this), obj;
 
                     if (!grid.data("gridMargin")) {
-                        obj = UI.gridMargin(grid, UI.Utils.options(grid.attr("data-uk-grid-margin")));
+                        obj = ui.gridMargin(grid, ui.Utils.options(grid.attr("data-uk-grid-margin")));
                     }
                 });
             });
@@ -2010,16 +2010,16 @@
 
         init: function() {
 
-            var stackMargin = UI.stackMargin(this.element, this.options);
+            var stackMargin = ui.stackMargin(this.element, this.options);
         }
     });
 
     // helper
 
-    UI.Utils.matchHeights = function(elements, options) {
+    ui.Utils.matchHeights = function(elements, options) {
 
-        elements = UI.$(elements).css('min-height', '');
-        options  = UI.$.extend({ row : true }, options);
+        elements = ui.$(elements).css('min-height', '');
+        options  = ui.$.extend({ row : true }, options);
 
         var matchHeights = function(group){
 
@@ -2028,10 +2028,10 @@
             var max = 0;
 
             group.each(function() {
-                max = Math.max(max, UI.$(this).outerHeight());
+                max = Math.max(max, ui.$(this).outerHeight());
             }).each(function() {
 
-                var element = UI.$(this),
+                var element = ui.$(this),
                 height  = max - (element.outerHeight() - element.height());
 
                 element.css('min-height', height + 'px');
@@ -2048,11 +2048,11 @@
 
                 elements.each(function() {
 
-                    var ele = UI.$(this), offset = ele.offset().top;
+                    var ele = ui.$(this), offset = ele.offset().top;
 
                     if(offset != lastoffset && group.length) {
 
-                        matchHeights(UI.$(group));
+                        matchHeights(ui.$(group));
                         group  = [];
                         offset = ele.offset().top;
                     }
@@ -2062,7 +2062,7 @@
                 });
 
                 if(group.length) {
-                    matchHeights(UI.$(group));
+                    matchHeights(ui.$(group));
                 }
 
             }, 0);
@@ -2074,13 +2074,13 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    var active = false, $html = UI.$html, body;
+    var active = false, $html = ui.$html, body;
 
-    UI.component('modal', {
+    ui.component('modal', {
 
         defaults: {
             keyboard: true,
@@ -2094,12 +2094,12 @@
 
         init: function() {
 
-            if (!body) body = UI.$('body');
+            if (!body) body = ui.$('body');
 
             var $this = this;
 
-            this.transition = UI.support.transition;
-            this.paddingdir = "padding-" + (UI.langdirection == 'left' ? "right":"left");
+            this.transition = ui.support.transition;
+            this.paddingdir = "padding-" + (ui.langdirection == 'left' ? "right":"left");
             this.dialog     = this.find(".uk-modal-dialog");
 
             // Update ARIA
@@ -2110,7 +2110,7 @@
                 $this.hide();
             }).on("click", function(e) {
 
-                var target = UI.$(e.target);
+                var target = ui.$(e.target);
 
                 if (target[0] == $this.element[0] && $this.options.bgclose) {
                     $this.hide();
@@ -2142,7 +2142,7 @@
 
             this.element.trigger("show.uk.modal");
 
-            UI.Utils.checkDisplay(this.dialog, true);
+            ui.Utils.checkDisplay(this.dialog, true);
 
             return this;
         },
@@ -2151,11 +2151,11 @@
 
             if (!this.isActive()) return;
 
-            if (!force && UI.support.transition) {
+            if (!force && ui.support.transition) {
 
                 var $this = this;
 
-                this.one(UI.support.transition.end, function() {
+                this.one(ui.support.transition.end, function() {
                     $this._hide();
                 }).removeClass("uk-open");
 
@@ -2234,28 +2234,28 @@
 
     });
 
-    UI.component('modalTrigger', {
+    ui.component('modalTrigger', {
 
         boot: function() {
 
             // init code
-            UI.$html.on("click.modal.uikit", "[data-uk-modal]", function(e) {
+            ui.$html.on("click.modal.uikit", "[data-uk-modal]", function(e) {
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (ele.is("a")) {
                     e.preventDefault();
                 }
 
                 if (!ele.data("modalTrigger")) {
-                    var modal = UI.modalTrigger(ele, UI.Utils.options(ele.attr("data-uk-modal")));
+                    var modal = ui.modalTrigger(ele, ui.Utils.options(ele.attr("data-uk-modal")));
                     modal.show();
                 }
 
             });
 
             // close modal on esc button
-            UI.$html.on('keydown.modal.uikit', function (e) {
+            ui.$html.on('keydown.modal.uikit', function (e) {
 
                 if (active && e.keyCode === 27 && active.options.keyboard) { // ESC
                     e.preventDefault();
@@ -2263,7 +2263,7 @@
                 }
             });
 
-            UI.$win.on("resize orientationchange", UI.Utils.debounce(function(){
+            ui.$win.on("resize orientationchange", ui.Utils.debounce(function(){
                 if (active) active.resize();
             }, 150));
         },
@@ -2272,11 +2272,11 @@
 
             var $this = this;
 
-            this.options = UI.$.extend({
+            this.options = ui.$.extend({
                 "target": $this.element.is("a") ? $this.element.attr("href") : false
             }, this.options);
 
-            this.modal = UI.modal(this.options.target, this.options);
+            this.modal = ui.modal(this.options.target, this.options);
 
             this.on("click", function(e) {
                 e.preventDefault();
@@ -2288,9 +2288,9 @@
         }
     });
 
-    UI.modal.dialog = function(content, options) {
+    ui.modal.dialog = function(content, options) {
 
-        var modal = UI.modal(UI.$(UI.modal.dialog.template).appendTo("body"), options);
+        var modal = ui.modal(ui.$(ui.modal.dialog.template).appendTo("body"), options);
 
         modal.on("hide.uk.modal", function(){
             if (modal.persist) {
@@ -2305,24 +2305,24 @@
         return modal;
     };
 
-    UI.modal.dialog.template = '<div class="uk-modal"><div class="uk-modal-dialog" style="min-height:0;"></div></div>';
+    ui.modal.dialog.template = '<div class="uk-modal"><div class="uk-modal-dialog" style="min-height:0;"></div></div>';
 
-    UI.modal.alert = function(content, options) {
+    ui.modal.alert = function(content, options) {
 
-        UI.modal.dialog(([
+        ui.modal.dialog(([
             '<div class="uk-margin uk-modal-content">'+String(content)+'</div>',
             '<div class="uk-modal-footer uk-text-right"><button class="uk-button uk-button-primary uk-modal-close">Ok</button></div>'
-        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options)).show();
+        ]).join(""), ui.$.extend({bgclose:false, keyboard:false}, options)).show();
     };
 
-    UI.modal.confirm = function(content, onconfirm, options) {
+    ui.modal.confirm = function(content, onconfirm, options) {
 
-        onconfirm = UI.$.isFunction(onconfirm) ? onconfirm : function(){};
+        onconfirm = ui.$.isFunction(onconfirm) ? onconfirm : function(){};
 
-        var modal = UI.modal.dialog(([
+        var modal = ui.modal.dialog(([
             '<div class="uk-margin uk-modal-content">'+String(content)+'</div>',
             '<div class="uk-modal-footer uk-text-right"><button class="uk-button uk-button-primary js-modal-confirm">Ok</button> <button class="uk-button uk-modal-close">Cancel</button></div>'
-        ]).join(""), UI.$.extend({bgclose:false, keyboard:false}, options));
+        ]).join(""), ui.$.extend({bgclose:false, keyboard:false}, options));
 
         modal.element.find(".js-modal-confirm").on("click", function(){
             onconfirm();
@@ -2341,7 +2341,7 @@
         if (typeof content === 'object') {
 
             // convert DOM object to a jQuery object
-            content = content instanceof jQuery ? content : UI.$(content);
+            content = content instanceof jQuery ? content : ui.$(content);
 
             if(content.parent().length) {
                 modal.persist = content;
@@ -2349,10 +2349,10 @@
             }
         }else if (typeof content === 'string' || typeof content === 'number') {
                 // just insert the data as innerHTML
-                content = UI.$('<div></div>').html(content);
+                content = ui.$('<div></div>').html(content);
         }else {
                 // unsupported data type!
-                content = UI.$('<div></div>').html('UIkit.modal Error: Unsupported data type: ' + typeof content);
+                content = ui.$('<div></div>').html('UIkit.modal Error: Unsupported data type: ' + typeof content);
         }
 
         content.appendTo(modal.element.find('.uk-modal-dialog'));
@@ -2362,11 +2362,11 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    UI.component('nav', {
+    ui.component('nav', {
 
         defaults: {
             "toggle": ">li.uk-parent > a[href='#']",
@@ -2377,13 +2377,13 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-nav]", context).each(function() {
-                    var nav = UI.$(this);
+                ui.$("[data-uk-nav]", context).each(function() {
+                    var nav = ui.$(this);
 
                     if (!nav.data("nav")) {
-                        var obj = UI.nav(nav, UI.Utils.options(nav.attr("data-uk-nav")));
+                        var obj = ui.nav(nav, ui.Utils.options(nav.attr("data-uk-nav")));
                     }
                 });
             });
@@ -2395,12 +2395,12 @@
 
             this.on("click.uikit.nav", this.options.toggle, function(e) {
                 e.preventDefault();
-                var ele = UI.$(this);
+                var ele = ui.$(this);
                 $this.open(ele.parent()[0] == $this.element[0] ? ele : ele.parent("li"));
             });
 
             this.find(this.options.lists).each(function() {
-                var $ele   = UI.$(this),
+                var $ele   = ui.$(this),
                     parent = $ele.parent(),
                     active = parent.hasClass("uk-active");
 
@@ -2417,17 +2417,17 @@
 
         open: function(li, noanimation) {
 
-            var $this = this, element = this.element, $li = UI.$(li);
+            var $this = this, element = this.element, $li = ui.$(li);
 
             if (!this.options.multiple) {
 
                 element.children(".uk-open").not(li).each(function() {
 
-                    var ele = UI.$(this);
+                    var ele = ui.$(this);
 
                     if (ele.data("list-container")) {
                         ele.data("list-container").stop().animate({height: 0}, function() {
-                            UI.$(this).parent().removeClass("uk-open");
+                            ui.$(this).parent().removeClass("uk-open");
                         });
                     }
                 });
@@ -2458,7 +2458,7 @@
     // helper
 
     function getHeight(ele) {
-        var $ele = UI.$(ele), height = "auto";
+        var $ele = ui.$(ele), height = "auto";
 
         if ($ele.is(":visible")) {
             height = $ele.outerHeight();
@@ -2479,25 +2479,25 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
     var scrollpos = {x: window.scrollX, y: window.scrollY},
-        $win      = UI.$win,
-        $doc      = UI.$doc,
-        $html     = UI.$html,
-        Offcanvas = {
+        $win      = ui.$win,
+        $doc      = ui.$doc,
+        $html     = ui.$html,
+        offcanvas = {
 
         show: function(element) {
 
-            element = UI.$(element);
+            element = ui.$(element);
 
             if (!element.length) return;
 
-            var $body     = UI.$('body'),
+            var $body     = ui.$('body'),
                 bar       = element.find(".uk-offcanvas-bar:first"),
-                rtl       = (UI.langdirection == "right"),
+                rtl       = (ui.langdirection == "right"),
                 flip      = bar.hasClass("uk-offcanvas-bar-flip") ? -1:1,
                 dir       = flip * (rtl ? -1 : 1);
 
@@ -2522,9 +2522,9 @@
 
         hide: function(force) {
 
-            var $body = UI.$('body'),
-                panel = UI.$(".uk-offcanvas.uk-active"),
-                rtl   = (UI.langdirection == "right"),
+            var $body = ui.$('body'),
+                panel = ui.$(".uk-offcanvas.uk-active"),
+                rtl   = (ui.langdirection == "right"),
                 bar   = panel.find(".uk-offcanvas-bar:first"),
                 finalize = function() {
                     $body.removeClass("uk-offcanvas-page").css({"width": "", "height": "", "margin-left": "", "margin-right": ""});
@@ -2533,7 +2533,7 @@
                     bar.removeClass("uk-offcanvas-bar-show");
                     $html.css('margin-top', '');
                     window.scrollTo(scrollpos.x, scrollpos.y);
-                    UI.$doc.trigger('hide.uk.offcanvas', [panel, bar]);
+                    ui.$doc.trigger('hide.uk.offcanvas', [panel, bar]);
                     
                     // Update ARIA
                     panel.attr('aria-hidden', 'true');
@@ -2541,9 +2541,9 @@
 
             if (!panel.length) return;
 
-            if (UI.support.transition && !force) {
+            if (ui.support.transition && !force) {
 
-                $body.one(UI.support.transition.end, function() {
+                $body.one(ui.support.transition.end, function() {
                     finalize();
                 }).css((rtl ? "margin-right" : "margin-left"), "");
 
@@ -2562,7 +2562,7 @@
 
             element.on("click.uk.offcanvas swipeRight.uk.offcanvas swipeLeft.uk.offcanvas", function(e) {
 
-                var target = UI.$(e.target);
+                var target = ui.$(e.target);
 
                 if (!e.type.match(/swipe/)) {
 
@@ -2573,41 +2573,41 @@
                 }
 
                 e.stopImmediatePropagation();
-                Offcanvas.hide();
+                offcanvas.hide();
             });
 
             element.on("click", "a[href^='#']", function(e){
 
-                var element = UI.$(this),
+                var element = ui.$(this),
                     href = element.attr("href");
 
                 if (href == "#") {
                     return;
                 }
 
-                UI.$doc.one('hide.uk.offcanvas', function() {
+                ui.$doc.one('hide.uk.offcanvas', function() {
 
-                    var target = UI.$(href);
+                    var target = ui.$(href);
 
                     if (!target.length) {
-                        target = UI.$('[name="'+href.replace('#','')+'"]');
+                        target = ui.$('[name="'+href.replace('#','')+'"]');
                     }
 
-                    if (UI.Utils.scrollToElement && target.length) {
-                        UI.Utils.scrollToElement(target);
+                    if (ui.Utils.scrollToElement && target.length) {
+                        ui.Utils.scrollToElement(target);
                     } else {
                         window.location.href = href;
                     }
                 });
 
-                Offcanvas.hide();
+                offcanvas.hide();
             });
 
             element.data("OffcanvasInit", true);
         }
     };
 
-    UI.component('offcanvasTrigger', {
+    ui.component('offcanvasTrigger', {
 
         boot: function() {
 
@@ -2616,10 +2616,10 @@
 
                 e.preventDefault();
 
-                var ele = UI.$(this);
+                var ele = ui.$(this);
 
                 if (!ele.data("offcanvasTrigger")) {
-                    var obj = UI.offcanvasTrigger(ele, UI.Utils.options(ele.attr("data-uk-offcanvas")));
+                    var obj = ui.offcanvasTrigger(ele, ui.Utils.options(ele.attr("data-uk-offcanvas")));
                     ele.trigger("click");
                 }
             });
@@ -2627,7 +2627,7 @@
             $html.on('keydown.uk.offcanvas', function(e) {
 
                 if (e.keyCode === 27) { // ESC
-                    Offcanvas.hide();
+                    offcanvas.hide();
                 }
             });
         },
@@ -2636,28 +2636,28 @@
 
             var $this = this;
 
-            this.options = UI.$.extend({
+            this.options = ui.$.extend({
                 "target": $this.element.is("a") ? $this.element.attr("href") : false
             }, this.options);
 
             this.on("click", function(e) {
                 e.preventDefault();
-                Offcanvas.show($this.options.target);
+                offcanvas.show($this.options.target);
             });
         }
     });
 
-    UI.offcanvas = Offcanvas;
+    ui.offcanvas = offcanvas;
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    var Animations;
+    var animations;
 
-    UI.component('switcher', {
+    ui.component('switcher', {
 
         defaults: {
             connect   : false,
@@ -2672,13 +2672,13 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-switcher]", context).each(function() {
-                    var switcher = UI.$(this);
+                ui.$("[data-uk-switcher]", context).each(function() {
+                    var switcher = ui.$(this);
 
                     if (!switcher.data("switcher")) {
-                        var obj = UI.switcher(switcher, UI.Utils.options(switcher.attr("data-uk-switcher")));
+                        var obj = ui.switcher(switcher, ui.Utils.options(switcher.attr("data-uk-switcher")));
                     }
                 });
             });
@@ -2695,7 +2695,7 @@
 
             if (this.options.connect) {
 
-                this.connect = UI.$(this.options.connect);
+                this.connect = ui.$(this.options.connect);
 
                 this.connect.find(".uk-active").removeClass(".uk-active");
 
@@ -2709,7 +2709,7 @@
 
                         e.preventDefault();
 
-                        var item = UI.$(this).attr('data-uk-switcher-item');
+                        var item = ui.$(this).attr('data-uk-switcher-item');
 
                         if ($this.index == item) return;
 
@@ -2745,7 +2745,7 @@
                 active.attr('aria-expanded', 'true');
 
                 this.on('changed.uk.dom', function() {
-                    $this.connect = UI.$($this.options.connect);
+                    $this.connect = ui.$($this.options.connect);
                 });
             }
 
@@ -2758,7 +2758,7 @@
             }
 
             if (isNaN(tab)) {
-                tab = UI.$(tab);
+                tab = ui.$(tab);
             } else {
 
                 var toggles = this.find(this.options.toggle);
@@ -2769,11 +2769,11 @@
 
             var $this     = this,
                 toggles   = this.find(this.options.toggle),
-                active    = UI.$(tab),
-                animation = Animations[this.options.animation] || function(current, next) {
+                active    = ui.$(tab),
+                animation = animations[this.options.animation] || function(current, next) {
 
                     if (!$this.options.animation) {
-                        return Animations.none.apply($this);
+                        return animations.none.apply($this);
                     }
 
                     var anim = $this.options.animation.split(',');
@@ -2788,8 +2788,8 @@
                     return coreAnimation.apply($this, [anim, current, next]);
                 };
 
-            if (animate===false || !UI.support.animation) {
-                animation = Animations.none;
+            if (animate===false || !ui.support.animation) {
+                animation = animations.none;
             }
 
             if (active.hasClass("uk-disabled")) return;
@@ -2811,10 +2811,10 @@
 
                 this.connect.each(function() {
 
-                    var container = UI.$(this),
-                        children  = UI.$(container.children()),
-                        current   = UI.$(children.filter('.uk-active')),
-                        next      = UI.$(children.eq($this.index));
+                    var container = ui.$(this),
+                        children  = ui.$(container.children()),
+                        current   = ui.$(children.filter('.uk-active')),
+                        next      = ui.$(children.eq($this.index));
 
                         $this.animating = true;
 
@@ -2827,7 +2827,7 @@
                             current.attr('aria-hidden', 'true');
                             next.attr('aria-hidden', 'false');
 
-                            UI.Utils.checkDisplay(next, true);
+                            ui.Utils.checkDisplay(next, true);
 
                             $this.animating = false;
                         });
@@ -2838,10 +2838,10 @@
         }
     });
 
-    Animations = {
+    animations = {
 
         'none': function() {
-            var d = UI.$.Deferred();
+            var d = ui.$.Deferred();
             d.resolve();
             return d.promise();
         },
@@ -2893,14 +2893,14 @@
         }
     };
 
-    UI.switcher.animations = Animations;
+    ui.switcher.animations = animations;
 
 
     // helpers
 
     function coreAnimation(cls, current, next) {
 
-        var d = UI.$.Deferred(), clsIn = cls, clsOut = cls, release;
+        var d = ui.$.Deferred(), clsIn = cls, clsOut = cls, release;
 
         if (next[0]===current[0]) {
             d.resolve();
@@ -2916,7 +2916,7 @@
 
             if (current) current.hide().removeClass('uk-active '+clsOut+' uk-animation-reverse');
 
-            next.addClass(clsIn).one(UI.support.animation.end, function() {
+            next.addClass(clsIn).one(ui.support.animation.end, function() {
 
                 next.removeClass(''+clsIn+'').css({opacity:'', display:''});
 
@@ -2933,7 +2933,7 @@
 
             current.css('animation-duration', this.options.duration+'ms');
 
-            current.css('display', 'none').addClass(clsOut+' uk-animation-reverse').one(UI.support.animation.end, function() {
+            current.css('display', 'none').addClass(clsOut+' uk-animation-reverse').one(ui.support.animation.end, function() {
                 release();
             }.bind(this)).css('display', '');
 
@@ -2947,11 +2947,11 @@
 
 })(UIkit);
 
-(function(UI) {
+(function(ui) {
 
     "use strict";
 
-    UI.component('tab', {
+    ui.component('tab', {
 
         defaults: {
             'target'    : '>li:not(.uk-tab-responsive, .uk-disabled)',
@@ -2964,14 +2964,14 @@
         boot: function() {
 
             // init code
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-tab]", context).each(function() {
+                ui.$("[data-uk-tab]", context).each(function() {
 
-                    var tab = UI.$(this);
+                    var tab = ui.$(this);
 
                     if (!tab.data("tab")) {
-                        var obj = UI.tab(tab, UI.Utils.options(tab.attr("data-uk-tab")));
+                        var obj = ui.tab(tab, ui.Utils.options(tab.attr("data-uk-tab")));
                     }
                 });
             });
@@ -2991,21 +2991,21 @@
                 var current = $this.find($this.options.target).not(this);
 
                 current.removeClass("uk-active").blur();
-                $this.trigger("change.uk.tab", [UI.$(this).addClass("uk-active")]);
+                $this.trigger("change.uk.tab", [ui.$(this).addClass("uk-active")]);
 
                 // Update ARIA
                 if (!$this.options.connect) {
                     current.attr('aria-expanded', 'false');
-                    UI.$(this).attr('aria-expanded', 'true');
+                    ui.$(this).attr('aria-expanded', 'true');
                 }
             });
 
             if (this.options.connect) {
-                this.connect = UI.$(this.options.connect);
+                this.connect = ui.$(this.options.connect);
             }
 
             // init responsive tab
-            this.responsivetab = UI.$('<li class="uk-tab-responsive uk-active"><a></a></li>').append('<div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"></ul><div>');
+            this.responsivetab = ui.$('<li class="uk-tab-responsive uk-active"><a></a></li>').append('<div class="uk-dropdown uk-dropdown-small"><ul class="uk-nav uk-nav-dropdown"></ul><div>');
 
             this.responsivetab.dropdown = this.responsivetab.find('.uk-dropdown');
             this.responsivetab.lst      = this.responsivetab.dropdown.find('ul');
@@ -3019,7 +3019,7 @@
                 e.preventDefault();
                 e.stopPropagation();
 
-                var link = UI.$(this);
+                var link = ui.$(this);
 
                 $this.element.children(':not(.uk-tab-responsive)').eq(link.data('index')).trigger('click');
             });
@@ -3032,7 +3032,7 @@
 
             // init UIkit components
             if (this.options.connect) {
-                this.switcher = UI.switcher(this.element, {
+                this.switcher = ui.switcher(this.element, {
                     "toggle"    : ">li:not(.uk-tab-responsive)",
                     "connect"   : this.options.connect,
                     "active"    : this.options.active,
@@ -3041,14 +3041,14 @@
                 });
             }
 
-            UI.dropdown(this.responsivetab, {"mode": "click"});
+            ui.dropdown(this.responsivetab, {"mode": "click"});
 
             // init
             $this.trigger("change.uk.tab", [this.element.find(this.options.target).filter('.uk-active')]);
 
             this.check();
 
-            UI.$win.on('resize orientationchange', UI.Utils.debounce(function(){
+            ui.$win.on('resize orientationchange', ui.Utils.debounce(function(){
                 if ($this.element.is(":visible"))  $this.check();
             }, 100));
 
@@ -3071,7 +3071,7 @@
 
             children.each(function(){
 
-                if (UI.$(this).offset().top > top) {
+                if (ui.$(this).offset().top > top) {
                     doresponsive = true;
                 }
             });
@@ -3080,7 +3080,7 @@
 
                 for (var i = 0; i < children.length; i++) {
 
-                    item = UI.$(children.eq(i));
+                    item = ui.$(children.eq(i));
                     link = item.find('a');
 
                     if (item.css('float') != 'none' && !item.attr('uk-dropdown')) {
@@ -3100,11 +3100,11 @@
 
 })(UIkit);
 
-(function(UI){
+(function(ui){
 
     "use strict";
 
-    UI.component('cover', {
+    ui.component('cover', {
 
         defaults: {
             automute : true
@@ -3113,14 +3113,14 @@
         boot: function() {
 
             // auto init
-            UI.ready(function(context) {
+            ui.ready(function(context) {
 
-                UI.$("[data-uk-cover]", context).each(function(){
+                ui.$("[data-uk-cover]", context).each(function(){
 
-                    var ele = UI.$(this);
+                    var ele = ui.$(this);
 
                     if(!ele.data("cover")) {
-                        var plugin = UI.cover(ele, UI.Utils.options(ele.attr("data-uk-cover")));
+                        var plugin = ui.cover(ele, ui.Utils.options(ele.attr("data-uk-cover")));
                     }
                 });
             });
@@ -3130,7 +3130,7 @@
 
             this.parent = this.element.parent();
 
-            UI.$win.on('load resize orientationchange', UI.Utils.debounce(function(){
+            ui.$win.on('load resize orientationchange', ui.Utils.debounce(function(){
                 this.check();
             }.bind(this), 100));
 

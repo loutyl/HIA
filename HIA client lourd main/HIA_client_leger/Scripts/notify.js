@@ -13,7 +13,7 @@
         });
     }
 
-})(function(UI){
+})(function(ui){
 
     "use strict";
 
@@ -22,12 +22,12 @@
 
         notify     =  function(options){
 
-            if (UI.$.type(options) == 'string') {
+            if (ui.$.type(options) == 'string') {
                 options = { message: options };
             }
 
             if (arguments[1]) {
-                options = UI.$.extend(options, UI.$.type(arguments[1]) == 'string' ? {status:arguments[1]} : arguments[1]);
+                options = ui.$.extend(options, ui.$.type(arguments[1]) == 'string' ? {status:arguments[1]} : arguments[1]);
             }
 
             return (new Message(options)).show();
@@ -47,10 +47,10 @@
 
         var $this = this;
 
-        this.options = UI.$.extend({}, Message.defaults, options);
+        this.options = ui.$.extend({}, Message.defaults, options);
 
-        this.uuid    = UI.Utils.uid("notifymsg");
-        this.element = UI.$([
+        this.uuid    = ui.Utils.uid("notifymsg");
+        this.element = ui.$([
 
             '<div class="uk-notify-message">',
                 '<a class="uk-close"></a>',
@@ -72,9 +72,9 @@
         messages[this.uuid] = this;
 
         if(!containers[this.options.pos]) {
-            containers[this.options.pos] = UI.$('<div class="uk-notify uk-notify-'+this.options.pos+'"></div>').appendTo('body').on("click", ".uk-notify-message", function(){
+            containers[this.options.pos] = ui.$('<div class="uk-notify uk-notify-'+this.options.pos+'"></div>').appendTo('body').on("click", ".uk-notify-message", function(){
 
-                var message = UI.$(this).data("notifyMessage");
+                var message = ui.$(this).data("notifyMessage");
 
                 message.element.trigger('manualclose.uk.notify', [message]);
                 message.close();
@@ -83,7 +83,7 @@
     };
 
 
-    UI.$.extend(Message.prototype, {
+    ui.$.extend(Message.prototype, {
 
         uuid: false,
         element: false,
@@ -183,9 +183,9 @@
         onClose: function() {}
     };
 
-    UI.notify          = notify;
-    UI.notify.message  = Message;
-    UI.notify.closeAll = closeAll;
+    ui.notify          = notify;
+    ui.notify.message  = Message;
+    ui.notify.closeAll = closeAll;
 
     return notify;
 });

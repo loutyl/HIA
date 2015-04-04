@@ -10,6 +10,6 @@
 namespace HIA_client_leger {
     
     
-    public partial class about {
+    public partial class About {
     }
 }

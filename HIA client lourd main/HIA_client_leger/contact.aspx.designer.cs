@@ -11,7 +11,7 @@ namespace HIA_client_leger
 {
 
 
-    public partial class contact
+    public partial class Contact
     {
     }
 }

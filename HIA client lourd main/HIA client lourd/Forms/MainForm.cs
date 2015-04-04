@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Configuration;
-using emailSender;
+using System.Windows.Forms;
 using databaseHIA;
+using emailSender;
+using HIA_client_lourd.Class;
 using Utilities;
-using HIA_client_lourd.Forms;
 
-namespace HIA_client_lourd
+namespace HIA_client_lourd.Forms
 {
     public partial class MainForm : Form
     {
         private Patient _patientRecherche;
-        private static string _databaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private UtilitiesTool.stringUtilities _stringTool = new UtilitiesTool.stringUtilities();
-        private emailSenderObject _emailSender = new emailSenderObject();
+        private static readonly string DatabaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
+        private readonly UtilitiesTool.stringUtilities _stringTool = new UtilitiesTool.stringUtilities();
+        private readonly emailSenderObject _emailSender = new emailSenderObject();
 
         public MainForm()
         {
@@ -30,7 +30,7 @@ namespace HIA_client_lourd
         {
             btnPreListeAfficher = sender as Button;
 
-            pre_Liste preListe = new pre_Liste(this._patientRecherche);
+            PreListe preListe = new PreListe(_patientRecherche);
 
             preListe.Show();
         }
@@ -39,63 +39,61 @@ namespace HIA_client_lourd
         {
             btnPreListeAjouter = sender as Button;
 
-            if (String.IsNullOrEmpty(this.txtBoxPreListeNomVisiteur.Text) || String.IsNullOrEmpty(this.txtBoxPreListePrenVisiteur.Text))
+            if (String.IsNullOrEmpty(txtBoxPreListeNomVisiteur.Text) || String.IsNullOrEmpty(txtBoxPreListePrenVisiteur.Text))
             {
-                MessageBox.Show("Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", "Erreur",
+                MessageBox.Show(@"Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", @"Erreur",
+
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            if (!String.IsNullOrEmpty(this.txtBoxPreListeEmailVisiteur.Text))
+            if (!String.IsNullOrEmpty(txtBoxPreListeEmailVisiteur.Text))
             {
-                if (this._stringTool.isValidEmail(this.txtBoxPreListeEmailVisiteur.Text))
+                if (_stringTool.isValidEmail(txtBoxPreListeEmailVisiteur.Text))
                 {
-                    if (this._emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.PrelisteAccepted, this._patientRecherche._NomPatient))
+                    if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.PrelisteAccepted, _patientRecherche.NomPatient))
                     {
-                        List<string> infoPL = new List<string>();
-
-                        infoPL.Add(this.txtBoxPreListeNomVisiteur.Text);
-                        infoPL.Add(this.txtBoxPreListePrenVisiteur.Text);
-                        infoPL.Add(this.txtBoxPreListeTelVisiteur.Text);
-                        infoPL.Add(this.txtBoxPreListeEmailVisiteur.Text);
-                        infoPL.Add(this._patientRecherche._IdPatient);
-
-                        heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(MainForm._databaseConnectionString);
-
-                        if (hdb.ajoutPrelist(infoPL))
+                        List<string> infoPl = new List<string>
                         {
-                            MessageBox.Show("Le visiteur a bien été enregistré dans la pré-liste.");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Un problème est survenu le visiteur n'a pas pu être enregistré.");
-                        }
+                            txtBoxPreListeNomVisiteur.Text,
+                            txtBoxPreListePrenVisiteur.Text,
+                            txtBoxPreListeTelVisiteur.Text,
+                            txtBoxPreListeEmailVisiteur.Text,
+                            _patientRecherche.IdPatient
+                        };
+
+
+                        heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+
+                        MessageBox.Show(hdb.ajoutPrelist(infoPl)
+                            ? @"Le visiteur a bien été enregistré dans la pré-liste."
+                            : @"Un problème est survenu le visiteur n'a pas pu être enregistré.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Veuillez renseigner une adresse email correcte.", "Erreur",
+                    MessageBox.Show(@"Veuillez renseigner une adresse email correcte.", @"Erreur",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show("Veuillez renseigner l'adresse e-mail du visiteur à ajouter.");
+                MessageBox.Show(@"Veuillez renseigner l'adresse e-mail du visiteur à ajouter.");
             }
         }
 
-        private void displayInfoPatient(int status)
+        private void DisplayInfoPatient(int status)
         {
-            lblNomRecherchePatient.Text = this._patientRecherche._NomPatient;
-            lblPrenRecherchePatient.Text = this._patientRecherche._PrenomPatient;
-            label3.Text = this._patientRecherche.AgePatient;
-            label4.Text = this._patientRecherche._EtagePatient;
-            label5.Text = this._patientRecherche._ChambrePatient;
-            label6.Text = this._patientRecherche._LitPatient;
+            lblNomRecherchePatient.Text = _patientRecherche.NomPatient;
+            lblPrenRecherchePatient.Text = _patientRecherche.PrenomPatient;
+            label3.Text = _patientRecherche.AgePatient;
+            label4.Text = _patientRecherche.EtagePatient;
+            label5.Text = _patientRecherche.ChambrePatient;
+            label6.Text = _patientRecherche.LitPatient;
 
             if (status == 2)
             {
 
-                lblStatusVisite.Text = "Toutes les visites de se patient sont actuellement bloquées.";
+                lblStatusVisite.Text = @"Toutes les visites de se patient sont actuellement bloquées.";
                 lblStatusVisite.Visible = true;
             }
 
@@ -112,26 +110,24 @@ namespace HIA_client_lourd
         {
             btnRecherchePatient = sender as Button;
 
-            List<string> infoPatientRecherche = new List<string>();
-
             if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 try
                 {
-                    heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(MainForm._databaseConnectionString);
+                    heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
 
-                    this._patientRecherche = new Patient(hdb.recherchePatient(txtBoxRecherchePatient.Text));
+                    _patientRecherche = new Patient(hdb.recherchePatient(txtBoxRecherchePatient.Text));
 
-                    displayInfoPatient(this._patientRecherche._StatusVisite);
+                    DisplayInfoPatient(_patientRecherche.StatusVisite);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("Patient inconnu");
+                    MessageBox.Show(@"Patient inconnu");
                 }
             }
             else
             {
-                MessageBox.Show("Veuillez entrer le nom ou prénom d'un patient", "Erreur",
+                MessageBox.Show(@"Veuillez entrer le nom ou prénom d'un patient", @"Erreur",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -142,20 +138,18 @@ namespace HIA_client_lourd
 
             if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
-                List<demandeDeVisite> listVisite = new List<demandeDeVisite>();
-                
-                listVisite = this._patientRecherche.getDemandeDeVisite();
+                var listVisite = _patientRecherche.GetDemandeDeVisite();
 
                 if (listVisite.Count == 0)
                 {
-                    MessageBox.Show("Ce patient n'a aucune demande de visite en attente de décision.");
+                    MessageBox.Show(@"Ce patient n'a aucune demande de visite en attente de décision.");
                 }
                 else
                 {
-                    DemandeVisitePatient demandeVisiteWindow = new DemandeVisitePatient(this._patientRecherche, listVisite);
+                    DemandeVisitePatient demandeVisiteWindow = new DemandeVisitePatient(_patientRecherche, listVisite);
 
                     demandeVisiteWindow.Show();
-                }                
+                }
             }
         }
 
@@ -165,29 +159,27 @@ namespace HIA_client_lourd
 
             if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
-                HistoriqueVisite HistoriqueWindow = new HistoriqueVisite(_patientRecherche);
+                HistoriqueVisite historiqueWindow = new HistoriqueVisite(_patientRecherche);
 
-                HistoriqueWindow.Show();
+                historiqueWindow.Show();
             }
 
         }
         private void btnDbloquerVisite_Click(object sender, EventArgs e)
         {
-            Button DbloquerVisite = sender as Button;
+            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(MainForm._databaseConnectionString);
-
-            if (hdb.debloquerVisite(this._patientRecherche._NomPatient))
+            if (hdb.debloquerVisite(_patientRecherche.NomPatient))
             {
-                if (this._emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Unblocked, this._patientRecherche._NomPatient))
+                if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Unblocked, _patientRecherche.NomPatient))
                 {
-                    MessageBox.Show("Les visites du patient ont bien été débloquées.");
+                    MessageBox.Show(@"Les visites du patient ont bien été débloquées.");
                 }
 
             }
             else
             {
-                MessageBox.Show("Un problème est survenue, les visites n'ont pas pu être débloquées.");
+                MessageBox.Show(@"Un problème est survenue, les visites n'ont pas pu être débloquées.");
             }
         }
 
@@ -195,7 +187,7 @@ namespace HIA_client_lourd
         {
             btnSupprimerPreListe = sender as Button;
 
-            suppVisiteurPreListeForm suppVisiteurWindow = new suppVisiteurPreListeForm(this._patientRecherche);
+            SuppVisiteurPreListeForm suppVisiteurWindow = new SuppVisiteurPreListeForm(_patientRecherche);
             suppVisiteurWindow.Show();
 
         }

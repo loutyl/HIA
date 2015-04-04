@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="HIA_client_leger.master.cs" Inherits="HIA_client_leger.HIA_client_leger" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="HIA_client_leger.master.cs" Inherits="HIA_client_leger.HiaClientLeger" %>
 
 <!DOCTYPE html>
 <html lang="en">

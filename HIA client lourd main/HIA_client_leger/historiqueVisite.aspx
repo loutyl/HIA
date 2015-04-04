@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HIA_client_leger.Master" AutoEventWireup="true" CodeBehind="historiqueVisite.aspx.cs" Inherits="HIA_client_leger.historiqueVisite" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/HIA_client_leger.Master" AutoEventWireup="true" CodeBehind="historiqueVisite.aspx.cs" Inherits="HIA_client_leger.HistoriqueVisite" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="StyleSection" runat="server">
     <link href="Content/demande-visite-custom.css" rel="stylesheet" type="text/css" />

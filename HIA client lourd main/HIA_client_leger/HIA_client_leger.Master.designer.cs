@@ -7,10 +7,13 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+
 namespace HIA_client_leger {
     
     
-    public partial class HIA_client_leger {
+    public partial class HiaClientLeger {
         
         /// <summary>
         /// Contrôle StyleSection.
@@ -19,7 +22,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder StyleSection;
+        protected ContentPlaceHolder StyleSection;
         
         /// <summary>
         /// Contrôle acceuil.
@@ -28,7 +31,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl acceuil;
+        protected HtmlGenericControl acceuil;
         
         /// <summary>
         /// Contrôle demandeDeVisite.
@@ -37,7 +40,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl demandeDeVisite;
+        protected HtmlGenericControl demandeDeVisite;
         
         /// <summary>
         /// Contrôle historiqueVisite.
@@ -46,7 +49,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl historiqueVisite;
+        protected HtmlGenericControl historiqueVisite;
         
         /// <summary>
         /// Contrôle aboutID.
@@ -55,7 +58,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl aboutID;
+        protected HtmlGenericControl aboutID;
         
         /// <summary>
         /// Contrôle contactID.
@@ -64,7 +67,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl contactID;
+        protected HtmlGenericControl contactID;
         
         /// <summary>
         /// Contrôle ContentSection.
@@ -73,7 +76,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentSection;
+        protected ContentPlaceHolder ContentSection;
         
         /// <summary>
         /// Contrôle ScriptSection.
@@ -82,6 +85,6 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ScriptSection;
+        protected ContentPlaceHolder ScriptSection;
     }
 }

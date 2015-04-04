@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using HIA_client_lourd.Forms;
 
-namespace HIA_client_lourd
+namespace HIA_client_lourd.Class
 {
     static class Program
     {
@@ -17,9 +15,9 @@ namespace HIA_client_lourd
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            LoginForm LoginWindow = new LoginForm();
+            LoginForm loginWindow = new LoginForm();
 
-            LoginWindow.Show();
+            loginWindow.Show();
 
             Application.Run();
         }

@@ -1,11 +1,14 @@
-﻿namespace HIA_client_lourd
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace HIA_client_lourd.Forms
 {
-    partial class pre_Liste
+    partial class PreListe
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -47,7 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 162);
             this.Controls.Add(this.dataGridView1);
-            this.Name = "pre_Liste";
+            this.Name = "PreListe";
             this.Text = "Pré-liste de visiteur";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -56,7 +59,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private DataGridView dataGridView1;
 
     }
 }

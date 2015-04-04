@@ -1,67 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HIA_client_lourd
+﻿namespace HIA_client_lourd.Class
 {
     public class Visiteur
     {
-        private string _idVisiteur;
+        public string IdVisiteur { get; private set; }
 
-        private string _nomVisiteur;
-        public string _NomVisiteur
-        {
-            get { return this._nomVisiteur; }
-            set { this._nomVisiteur = value; }
-        }
+        public string NomVisiteur { get; set; }
 
-        private string _prenVisiteur;
-        public string _PrenVisiteur
-        {
-            get { return this._prenVisiteur; }
-            set { this._prenVisiteur = value; }
-        }
+        public string PrenVisiteur { get; set; }
 
-        private string _emailVisiteur;
-        public string _EmailVisiteur
-        {
-            get { return this._emailVisiteur; }
-            set { this._emailVisiteur = value; }
-        }
+        public string EmailVisiteur { get; set; }
 
-        private string _telVisiteur;
-        public string _TelVisiteur
-        {
-            get { return this._telVisiteur; }
-            set { this._telVisiteur = value; }
-        }
+        public string TelVisiteur { get; set; }
 
-        private string _numVisiteVisiteur;
-        public string _NumVisiteVisiteur
-        {
-            get { return this._numVisiteVisiteur; }
-            set { this._numVisiteVisiteur = value; }
-        }
+        public string NumVisiteVisiteur { get; set; }
 
         public Visiteur(string id, string nom, string prenom, string email, string numVisite)
         {
-            this._idVisiteur = id;
-            this._nomVisiteur = nom;
-            this._prenVisiteur = prenom;
-            this._emailVisiteur = email;
-            this._numVisiteVisiteur = numVisite;
+            IdVisiteur = id;
+            NomVisiteur = nom;
+            PrenVisiteur = prenom;
+            EmailVisiteur = email;
+            NumVisiteVisiteur = numVisite;
         }
 
         public Visiteur(string id, string nom, string prenom, string email, string tel, string numVisite)
         {
-            this._idVisiteur = id;
-            this._nomVisiteur = nom;
-            this._prenVisiteur = prenom;
-            this._emailVisiteur = email;
-            this._telVisiteur = tel;
-            this._numVisiteVisiteur = numVisite;
+            IdVisiteur = id;
+            NomVisiteur = nom;
+            PrenVisiteur = prenom;
+            EmailVisiteur = email;
+            TelVisiteur = tel;
+            NumVisiteVisiteur = numVisite;
         }
 
     }
