@@ -26,7 +26,9 @@ namespace HIA_client_leger
             VisiteurEmailNotValid = 2,
             VisiteurNotInPreList = 3,
 
-            PatientNotFound = 4
+            PatientNotFound = 4,
+
+            textBoxAuthEmpty = 5
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -102,17 +104,26 @@ namespace HIA_client_leger
                     if (lDB.isVisiteurInPreList((int)Session["idVisiteur"], this.txtBoxNomPatient.Text))
                     {
                         Session["idPatient"] = lDB.getPatientId(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text, String.Empty, 2);
+                        int statusPatient = lDB.getStatusPatient((int)Session["idPatient"]);
+                        if (statusPatient != 0)
+                        {
+                            this.panelEtape2.Visible = false;
+                            //string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
+                            //this.divBarEtape2.Attributes["class"] = sClass;
 
-                        this.panelEtape2.Visible = false;
-                        string sClass = divBarEtape1.Attributes["class"].Replace("activestep", "");
-                        this.divBarEtape2.Attributes["class"] = sClass;
+                            //this.divBarEtape3.Attributes["class"] += " activestep";
 
-                        this.divBarEtape3.Attributes["class"] += " activestep";
+                            TimeSpan[,] plageHoraire = lDB.getSchedule(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text);
 
-                        TimeSpan[,] plageHoraire = lDB.getSchedule(this.txtBoxNomPatient.Text, this.txtBoxPrenPatient.Text);
-
-                        displayLabel(timeTool.getDispo(plageHoraire, this.horaireDebutVisite, this.horaireFinVisite), plageHoraire);
-                        this.panelEtape3.Visible = true;
+                            displayLabel(timeTool.getDispo(plageHoraire, this.horaireDebutVisite, this.horaireFinVisite), plageHoraire);
+                            this.panelEtape3.Visible = true;
+                        }
+                        else
+                        {
+                            this.panelEtape2.Visible = false;
+                            this.panelPatientStatusBloquer.Visible = true;
+                        }
+                        
                     }
                     else
                     {
@@ -144,10 +155,10 @@ namespace HIA_client_leger
 
                         this.panelEtape1.Visible = false;
 
-                        string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
-                        this.divBarEtape1.Attributes["class"] = sClass;
+                        //string sClass = divBarEtape2.Attributes["class"].Replace("activestep", "");
+                        //this.divBarEtape1.Attributes["class"] = sClass;
 
-                        this.divBarEtape2.Attributes["class"] += " activestep";
+                        //this.divBarEtape2.Attributes["class"] += " activestep";
 
                         this.panelEtape2.Visible = true;
 
@@ -158,58 +169,87 @@ namespace HIA_client_leger
                     }
                 }
             }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.textBoxAuthEmpty + ");", true);
+            }
         }
 
-        protected void btnConfirmerInfoVisiteurAuth_Click(object sender, EventArgs e)
+        bool checkTextBoxAuthValues()
         {
-            List<String> txtBoxValues = new List<string>();
-
-            foreach (Control control in this.divEtape2DemandeAutorisation.Controls)
+            foreach (Control control in divEtape2DemandeAutorisation.Controls)
             {
                 if (control is TextBox)
                 {
                     TextBox tb = control as TextBox;
                     if (!String.IsNullOrWhiteSpace(tb.Text))
                     {
-                        txtBoxValues.Add(tb.Text);
+                        return true;
                     }
                 }
             }
+            return false;
 
-            lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
+        }
 
-            bool patientMatch = lDB.recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
-
-            if (patientMatch)
+        protected void btnConfirmerInfoVisiteurAuth_Click(object sender, EventArgs e)
+        {
+            if (this.checkTextBoxAuthValues())
             {
-                UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+                List<String> txtBoxValues = new List<string>();
 
-                if (stringTool.isValidEmail(txtBoxValues[2]))
+                foreach (Control control in this.divEtape2DemandeAutorisation.Controls)
                 {
-                    emailSenderObject emailSender = new emailSenderObject();
-
-                    int patientID = lDB.getPatientId(this.txtBoxNomPatientAuth.Text, this.txtBoxPrenPatientAuth.Text, this.txtBoxChambrePatientAuth.Text, 1);
-                    if (lDB.addToPrelist(patientID, txtBoxValues))
+                    if (control is TextBox)
                     {
-                        string patientNumViste = lDB.getPatientNumVisite(patientID);
-                        if (emailSender.sendNotification(this.txtBoxEmailVisiteurAuth.Text, emailSenderObject.NOTIFICATION.PrelisteAccepted, this.txtBoxNomPatientAuth.Text))
+                        TextBox tb = control as TextBox;
+                        if (!String.IsNullOrWhiteSpace(tb.Text))
                         {
-                            this.panelEtape1.Visible = false;
-                            this.panelEtapeNotificationEnvoiAutorisation.Visible = true;
+                            txtBoxValues.Add(tb.Text);
                         }
-
                     }
+                }
+
+                lightClientDatabaseObject lDB = new lightClientDatabaseObject(this.databaseConnectionString);
+
+                bool patientMatch = lDB.recherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
+
+                if (patientMatch)
+                {
+                    UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+
+                    if (stringTool.isValidEmail(txtBoxValues[2]))
+                    {
+                        emailSenderObject emailSender = new emailSenderObject();
+
+                        int patientID = lDB.getPatientId(this.txtBoxNomPatientAuth.Text, this.txtBoxPrenPatientAuth.Text, this.txtBoxChambrePatientAuth.Text, 1);
+                        if (lDB.addToPrelist(patientID, txtBoxValues))
+                        {
+                            string patientNumViste = lDB.getPatientNumVisite(patientID);
+                            if (emailSender.sendNotification(this.txtBoxEmailVisiteurAuth.Text, emailSenderObject.NOTIFICATION.PrelisteAccepted, this.txtBoxNomPatientAuth.Text))
+                            {
+                                this.panelEtape1.Visible = false;
+                                this.panelEtapeNotificationEnvoiAutorisation.Visible = true;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.VisiteurEmailNotValid + ");", true);
+                    }
+
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.VisiteurEmailNotValid + ");", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.PatientNotFound + ");", true);
                 }
-
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.PatientNotFound + ");", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)errorType.textBoxAuthEmpty + ");", true);
             }
+            
         }
 
         protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)

@@ -12,7 +12,7 @@
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <asp:Panel ID="panelBarEtape" runat="server">
+                <!--<asp:Panel ID="panelBarEtape" runat="server">
                     <div class="row">
                         <div class="row" style="margin-left: 375px;">
                             <div class="step text-center">
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                </asp:Panel>
+                </asp:Panel>-->
             </ContentTemplate>
             <Triggers>
                 <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoPatient" EventName="Click" />
@@ -246,6 +246,10 @@
                                 un email sous peu vous informant de l'état de votre demande. Cliquez <a href="Acceuil.aspx">ici</a> pour retourner à l'accueil.
                                 </h6>
                             </asp:Panel>
+                            <asp:Panel ID="panelPatientStatusBloquer" runat="server" Visible="false">
+                                <h6>Les visites de ce patient sont actuellement bloquées, veuillez réessayer ultérieurement. Cliquez <a href="Acceuil.aspx">ici</a> pour retourner à l'accueil.
+                                </h6>
+                            </asp:Panel>
                         </ContentTemplate>
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="btnConfirmerInfoPatient" EventName="Click" />
@@ -318,6 +322,8 @@
                 case 3: UIkit.notify('Vous n&#39êtes pas autorisé à effectuer une demande de visite pour ce patient, veuillez ressayer ultérieurement.', { status: 'danger' });
                     break;
                 case 4: UIkit.notify('Aucun patient n&#39a été trouvé, veuillez vérifiez vos informations.', { status: 'danger' });
+                    break;
+                case 5: UIkit.notify('Veuillez renseigner tous les champs requis', { status: 'danger' });
                     break;
             }
         }
