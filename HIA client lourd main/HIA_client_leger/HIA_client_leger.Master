@@ -11,6 +11,8 @@
     <meta name="author" content="" />
     <link rel="icon" href="../../favicon.ico" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/uikit.css" rel="stylesheet" type="text/css"/>
+    <link href="Content/master-custom.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         html {
              overflow-y: auto;
@@ -35,9 +37,9 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li id="acceuil" runat="server"><a href="Acceuil.aspx"><b>Accueil</b></a></li>
-                        <li id="demandeDeVisite" runat="server"><a href="demandeDeVisite.aspx"><b>Demande de visite</b></a></li>
-                        <li id="historiqueVisite" runat="server"><a href="historiqueVisite.aspx"><b>Historique des visites</b></a></li>
+                        <li id="acceuil" runat="server"><a href="Acceuil.aspx"><i class="glyphicon glyphicon-home" style="padding-right:5px;"></i><b>Accueil</b></a></li>
+                        <li id="demandeDeVisite" runat="server"><a href="demandeDeVisite.aspx"><i class="uk-icon-calendar" style="padding-right:5px;"></i><b>Demande de visite</b></a></li>
+                        <li id="historiqueVisite" runat="server"><a href="historiqueVisite.aspx"><i class="uk-icon-tasks" style="padding-right:5px; padding-left:-10px;"></i><b>Historique des visites</b></a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li id="aboutID" runat="server"><a href="about.aspx"><b>A propos</b></a></li>
@@ -54,11 +56,14 @@
     </div>
     <!-- /container -->
 
+    
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="Scripts/jquery-2.1.1.js"></script>
     <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/uikit.js"></script>
     <asp:ContentPlaceHolder ID="ScriptSection" runat="server"></asp:ContentPlaceHolder>
 </body>
 </html>

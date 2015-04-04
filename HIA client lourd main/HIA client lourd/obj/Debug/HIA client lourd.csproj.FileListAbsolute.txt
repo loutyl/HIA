@@ -134,3 +134,4 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\databaseHIA.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\Utilities.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\QRcodeGenerator.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.suppVisiteurPreListeForm.resources
