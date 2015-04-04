@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HIA_client_lourd
 {
-    class Visiteur
+    public class Visiteur
     {
         private string _idVisiteur;
 

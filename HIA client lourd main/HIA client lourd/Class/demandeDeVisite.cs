@@ -1,4 +1,5 @@
-﻿using System;
+﻿using databaseHIA;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HIA_client_lourd
 {
-    class demandeDeVisite
+    public class demandeDeVisite
     {
         Visiteur _visiteurOrigine;
         internal Visiteur VisiteurOrigine
@@ -14,7 +15,7 @@ namespace HIA_client_lourd
             get { return this._visiteurOrigine; }
             set { this._visiteurOrigine = value; }
         }
- 
+
         private string _dateVisite;
         public string DateVisite
         {
@@ -34,7 +35,7 @@ namespace HIA_client_lourd
         {
             get { return this._heureFVisite; }
             set { this._heureFVisite = value; }
-        }       
+        }
 
         public demandeDeVisite(Visiteur visiteur, string dateV, string heureD, string heureF)
         {
@@ -44,6 +45,5 @@ namespace HIA_client_lourd
             this._heureFVisite = heureF;
 
         }
-
     }
 }
