@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
     partial class SuppVisiteurPreListeForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -235,21 +232,21 @@ namespace HIA_client_lourd.Forms
 
         #endregion
 
-        private Button btnChercherVisiteurSupp;
-        private TextBox txtBoxNomVisiteurSupp;
-        private TextBox txtBoxEmailVisiteurSupp;
-        private Label lblNomVisiteurSupp;
-        private Label lblEmailVisiteurSupp;
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
-        private Label label6;
-        private Label label7;
-        private Label label8;
-        private Button btnSuppVisiteur;
-        private Label lblMsgConfirmationSupp;
-        private Panel panelInfoVisiteurSupp;
+        private System.Windows.Forms.Button btnChercherVisiteurSupp;
+        private System.Windows.Forms.TextBox txtBoxNomVisiteurSupp;
+        private System.Windows.Forms.TextBox txtBoxEmailVisiteurSupp;
+        private System.Windows.Forms.Label lblNomVisiteurSupp;
+        private System.Windows.Forms.Label lblEmailVisiteurSupp;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnSuppVisiteur;
+        private System.Windows.Forms.Label lblMsgConfirmationSupp;
+        private System.Windows.Forms.Panel panelInfoVisiteurSupp;
     }
 }

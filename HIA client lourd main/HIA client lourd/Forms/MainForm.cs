@@ -1,58 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Windows.Forms;
-using databaseHIA;
-using emailSender;
-using HIA_client_lourd.Class;
-using Utilities;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
-    public partial class MainForm : Form
+    public partial class MainForm : System.Windows.Forms.Form
     {
-        private Patient _patientRecherche;
-        private static readonly string DatabaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private readonly UtilitiesTool.StringUtilities _stringTool = new UtilitiesTool.StringUtilities();
-        private readonly EmailSenderObject _emailSender = new EmailSenderObject();
+        private Class.Patient _patientRecherche;
+        private static readonly string DatabaseConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
+        private readonly Utilities.UtilitiesTool.StringUtilities _stringTool = new Utilities.UtilitiesTool.StringUtilities();
+        private readonly emailSender.EmailSenderObject _emailSender = new emailSender.EmailSenderObject();
 
         public MainForm()
         {
             this.InitializeComponent();
 
         }
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void MainForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
         {
-            Application.Exit();
+            System.Windows.Forms.Application.Exit();
         }
 
-        private void btnPreListeAfficher_Click(object sender, EventArgs e)
+        private void btnPreListeAfficher_Click(object sender, System.EventArgs e)
         {
-            btnPreListeAfficher = sender as Button;
+            btnPreListeAfficher = sender as System.Windows.Forms.Button;
 
             PreListe preListe = new PreListe(_patientRecherche);
 
             preListe.Show();
         }
 
-        private void btnPreListeAjouter_Click(object sender, EventArgs e)
+        private void btnPreListeAjouter_Click(object sender, System.EventArgs e)
         {
-            btnPreListeAjouter = sender as Button;
+            btnPreListeAjouter = sender as System.Windows.Forms.Button;
 
-            if (String.IsNullOrEmpty(txtBoxPreListeNomVisiteur.Text) || String.IsNullOrEmpty(txtBoxPreListePrenVisiteur.Text))
+            if (System.String.IsNullOrEmpty(txtBoxPreListeNomVisiteur.Text) || System.String.IsNullOrEmpty(txtBoxPreListePrenVisiteur.Text))
             {
-                MessageBox.Show(@"Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", @"Erreur",
+                System.Windows.Forms.MessageBox.Show(@"Veuillez saisir le nom et prénom du visiteur à ajouter dans la liste.", @"Erreur",
 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
 
-            if (!String.IsNullOrEmpty(txtBoxPreListeEmailVisiteur.Text))
+            if (!System.String.IsNullOrEmpty(txtBoxPreListeEmailVisiteur.Text))
             {
                 if (_stringTool.IsValidEmail(txtBoxPreListeEmailVisiteur.Text))
                 {
-                    if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.PrelisteAccepted, _patientRecherche.NomPatient))
+                    if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.PrelisteAccepted, _patientRecherche.NomPatient))
                     {
-                        List<string> infoPl = new List<string>
+                        System.Collections.Generic.List<string> infoPl = new System.Collections.Generic.List<string>
                         {
                             txtBoxPreListeNomVisiteur.Text,
                             txtBoxPreListePrenVisiteur.Text,
@@ -62,22 +53,22 @@ namespace HIA_client_lourd.Forms
                         };
 
 
-                        HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
+                        databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                        MessageBox.Show(hdb.AjoutPrelist(infoPl)
+                        System.Windows.Forms.MessageBox.Show(hdb.AjoutPrelist(infoPl)
                             ? @"Le visiteur a bien été enregistré dans la pré-liste."
                             : @"Un problème est survenu le visiteur n'a pas pu être enregistré.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show(@"Veuillez renseigner une adresse email correcte.", @"Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    System.Windows.Forms.MessageBox.Show(@"Veuillez renseigner une adresse email correcte.", @"Erreur",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 }
             }
             else
             {
-                MessageBox.Show(@"Veuillez renseigner l'adresse e-mail du visiteur à ajouter.");
+                System.Windows.Forms.MessageBox.Show(@"Veuillez renseigner l'adresse e-mail du visiteur à ajouter.");
             }
         }
 
@@ -106,43 +97,43 @@ namespace HIA_client_lourd.Forms
 
         }
 
-        private void btnRecherchePatient_Click(object sender, EventArgs e)
+        private void btnRecherchePatient_Click(object sender, System.EventArgs e)
         {
-            btnRecherchePatient = sender as Button;
+            btnRecherchePatient = sender as System.Windows.Forms.Button;
 
-            if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
+            if (!System.String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 try
                 {
-                    HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
+                    databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                    _patientRecherche = new Patient(hdb.RecherchePatient(txtBoxRecherchePatient.Text));
+                    _patientRecherche = new Class.Patient(hdb.RecherchePatient(txtBoxRecherchePatient.Text));
 
                     this.DisplayInfoPatient(_patientRecherche.StatusVisite);
                 }
-                catch (Exception)
+                catch (System.Exception)
                 {
-                    MessageBox.Show(@"Patient inconnu");
+                    System.Windows.Forms.MessageBox.Show(@"Patient inconnu");
                 }
             }
             else
             {
-                MessageBox.Show(@"Veuillez entrer le nom ou prénom d'un patient", @"Erreur",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show(@"Veuillez entrer le nom ou prénom d'un patient", @"Erreur",
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
 
-        private void BtnVoirDemandeVisite_Click(object sender, EventArgs e)
+        private void BtnVoirDemandeVisite_Click(object sender, System.EventArgs e)
         {
-            BtnVoirDemandeVisite = sender as Button;
+            BtnVoirDemandeVisite = sender as System.Windows.Forms.Button;
 
-            if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
+            if (!System.String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 var listVisite = _patientRecherche.GetDemandeDeVisite();
 
                 if (listVisite.Count == 0)
                 {
-                    MessageBox.Show(@"Ce patient n'a aucune demande de visite en attente de décision.");
+                    System.Windows.Forms.MessageBox.Show(@"Ce patient n'a aucune demande de visite en attente de décision.");
                 }
                 else
                 {
@@ -153,11 +144,11 @@ namespace HIA_client_lourd.Forms
             }
         }
 
-        private void btnHistoriqueVisite_Click(object sender, EventArgs e)
+        private void btnHistoriqueVisite_Click(object sender, System.EventArgs e)
         {
-            btnHistoriqueVisite = sender as Button;
+            btnHistoriqueVisite = sender as System.Windows.Forms.Button;
 
-            if (!String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
+            if (!System.String.IsNullOrEmpty(txtBoxRecherchePatient.Text))
             {
                 HistoriqueVisite historiqueWindow = new HistoriqueVisite(_patientRecherche);
 
@@ -165,27 +156,27 @@ namespace HIA_client_lourd.Forms
             }
 
         }
-        private void btnDbloquerVisite_Click(object sender, EventArgs e)
+        private void btnDbloquerVisite_Click(object sender, System.EventArgs e)
         {
-            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
+            databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
             if (hdb.DebloquerVisite(_patientRecherche.NomPatient))
             {
-                if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.Unblocked, _patientRecherche.NomPatient))
+                if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Unblocked, _patientRecherche.NomPatient))
                 {
-                    MessageBox.Show(@"Les visites du patient ont bien été débloquées.");
+                    System.Windows.Forms.MessageBox.Show(@"Les visites du patient ont bien été débloquées.");
                 }
 
             }
             else
             {
-                MessageBox.Show(@"Un problème est survenue, les visites n'ont pas pu être débloquées.");
+                System.Windows.Forms.MessageBox.Show(@"Un problème est survenue, les visites n'ont pas pu être débloquées.");
             }
         }
 
-        private void btnSupprimerPreListe_Click(object sender, EventArgs e)
+        private void btnSupprimerPreListe_Click(object sender, System.EventArgs e)
         {
-            btnSupprimerPreListe = sender as Button;
+            btnSupprimerPreListe = sender as System.Windows.Forms.Button;
 
             SuppVisiteurPreListeForm suppVisiteurWindow = new SuppVisiteurPreListeForm(_patientRecherche);
             suppVisiteurWindow.Show();

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIA client lourd", "HIA cli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIA_client_leger", "HIA_client_leger\HIA_client_leger.csproj", "{5F6147E1-5AEB-4106-AA40-93E3EEEB7FB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "databaseHIA", "..\..\databaseHIA\databaseHIA\databaseHIA.csproj", "{68B81A62-6865-498B-820C-71DA273EC6A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5F6147E1-5AEB-4106-AA40-93E3EEEB7FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F6147E1-5AEB-4106-AA40-93E3EEEB7FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F6147E1-5AEB-4106-AA40-93E3EEEB7FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B81A62-6865-498B-820C-71DA273EC6A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B81A62-6865-498B-820C-71DA273EC6A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B81A62-6865-498B-820C-71DA273EC6A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B81A62-6865-498B-820C-71DA273EC6A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

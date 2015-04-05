@@ -115,7 +115,6 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA client lourd.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.exe
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\HIA client lourd.pdb
-C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\OnBarcode.Barcode.WinForms.dll
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.dll
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.presentation.dll
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\zxing.pdb
@@ -135,3 +134,6 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.MainForm.resources
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.LoginForm.resources
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\obj\Debug\HIA_client_lourd.Forms.PreListe.resources
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\nunit.framework.dll
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\nunit.framework.xml
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA client lourd\bin\Debug\databaseHIA.dll

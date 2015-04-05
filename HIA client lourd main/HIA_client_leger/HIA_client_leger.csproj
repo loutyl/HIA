@@ -44,11 +44,6 @@
     <Reference Include="AjaxMin">
       <HintPath>..\packages\AjaxMin.4.97.4951.28483\lib\net40\AjaxMin.dll</HintPath>
     </Reference>
-    <Reference Include="databaseHIA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\HIA client lourd\bin\Debug\databaseHIA.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="emailSender, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\HIA client lourd\bin\Debug\emailSender.dll</HintPath>
@@ -151,7 +146,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="HIA_client_leger.Master" />
-    <None Include=".bin\node.cmd" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -224,6 +218,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\databaseHIA\databaseHIA\databaseHIA.csproj">
+      <Project>{68b81a62-6865-498b-820c-71da273ec6a2}</Project>
+      <Name>databaseHIA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HIA client lourd\HIA client lourd.csproj">
       <Project>{b3106696-89b6-48b3-9ab8-9e95ad42575a}</Project>
       <Name>HIA client lourd</Name>

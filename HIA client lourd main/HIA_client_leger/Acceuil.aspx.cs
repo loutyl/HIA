@@ -1,14 +1,10 @@
-﻿using System;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-
-namespace HIA_client_leger
+﻿namespace HIA_client_leger
 {
-    public partial class Acceuil : Page
+    public partial class Acceuil : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, System.EventArgs e)
         {
-            HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("acceuil");
+            System.Web.UI.HtmlControls.HtmlGenericControl liItem = (System.Web.UI.HtmlControls.HtmlGenericControl)Master.FindControl("acceuil");
             liItem.Attributes.Add("class", "active");
         }
     }

@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Web.Configuration;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using databaseHIA;
-using emailSender;
-using QRcodeGenerator;
-using Utilities;
+﻿using Enumerable = System.Linq.Enumerable;
 
 namespace HIA_client_leger
 {
-    public partial class DemandeDeVisite : Page
+    public partial class DemandeDeVisite : System.Web.UI.Page
     {
         protected string InputValueDebutVisite { get; set; }
         protected string InputValueFinVisite { get; set; }
-        private readonly string _databaseConnectionString = WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private readonly TimeSpan _horaireDebutVisite = TimeSpan.FromHours(8);
-        private readonly TimeSpan _horaireFinVisite = TimeSpan.FromHours(22);
+        private readonly string _databaseConnectionString = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
+        private readonly System.TimeSpan _horaireDebutVisite = System.TimeSpan.FromHours(8);
+        private readonly System.TimeSpan _horaireFinVisite = System.TimeSpan.FromHours(22);
 
         public enum ErrorType
         {
@@ -32,7 +21,7 @@ namespace HIA_client_leger
             TextBoxAuthEmpty = 5
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, System.EventArgs e)
         {
 
             if (!IsPostBack)
@@ -41,7 +30,7 @@ namespace HIA_client_leger
             }
             if (Session["panelList"] != null)
             {
-                foreach (Panel control in (List<Panel>)Session["panelList"])
+                foreach (System.Web.UI.WebControls.Panel control in (System.Collections.Generic.List<System.Web.UI.WebControls.Panel>)Session["panelList"])
                 {
                     if (control != null)
                     {
@@ -50,7 +39,7 @@ namespace HIA_client_leger
                 }
                 if (Session["panelListIndispo"] != null)
                 {
-                    foreach (Panel control in (List<Panel>)Session["panelListIndispo"])
+                    foreach (System.Web.UI.WebControls.Panel control in (System.Collections.Generic.List<System.Web.UI.WebControls.Panel>)Session["panelListIndispo"])
                     {
                         if (control != null)
                         {
@@ -67,7 +56,7 @@ namespace HIA_client_leger
             //Ajout de la class "active" à la li de la master page            
             if (Master != null)
             {
-                HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("demandeDeVisite");
+                System.Web.UI.HtmlControls.HtmlGenericControl liItem = (System.Web.UI.HtmlControls.HtmlGenericControl)Master.FindControl("demandeDeVisite");
                 liItem.Attributes.Add("class", "active");
             }
 
@@ -94,20 +83,20 @@ namespace HIA_client_leger
 
         }
 
-        protected void btnConfirmerInfoPatient_Click(object sender, EventArgs e)
+        protected void btnConfirmerInfoPatient_Click(object sender, System.EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
-            !String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
+            if (!System.String.IsNullOrWhiteSpace(txtBoxNomPatient.Text) && !System.String.IsNullOrWhiteSpace(txtBoxPrenPatient.Text) &&
+            !System.String.IsNullOrWhiteSpace(txtBoxCodePatient.Text))
             {
-                UtilitiesTool.TimeManipulation timeTool = new UtilitiesTool.TimeManipulation();
-                LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
+                Utilities.UtilitiesTool.TimeManipulation timeTool = new Utilities.UtilitiesTool.TimeManipulation();
+                databaseHIA.LightClientDatabaseObject lDb = new databaseHIA.LightClientDatabaseObject(_databaseConnectionString);
 
                 bool bPatientMatch = lDb.RecherchePatient(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, txtBoxCodePatient.Text, 1);
                 if (bPatientMatch)
                 {
                     if (lDb.IsVisiteurInPreList((int)Session["idVisiteur"], txtBoxNomPatient.Text))
                     {
-                        Session["idPatient"] = lDb.GetPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, String.Empty, 2);
+                        Session["idPatient"] = lDb.GetPatientId(txtBoxNomPatient.Text, txtBoxPrenPatient.Text, System.String.Empty, 2);
                         int statusPatient = lDb.GetStatusPatient((int)Session["idPatient"]);
                         if (statusPatient != 0)
                         {
@@ -117,7 +106,7 @@ namespace HIA_client_leger
 
                             //this.divBarEtape3.Attributes["class"] += " activestep";
 
-                            TimeSpan[,] plageHoraire = lDb.GetSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
+                            System.TimeSpan[,] plageHoraire = lDb.GetSchedule(txtBoxNomPatient.Text, txtBoxPrenPatient.Text);
 
                             this.DisplayLabel(timeTool.GetDispo(plageHoraire, _horaireDebutVisite, _horaireFinVisite), plageHoraire);
                             panelEtape3.Visible = true;
@@ -131,26 +120,26 @@ namespace HIA_client_leger
                     }
                     else
                     {
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurNotInPreList + ");", true);
+                        System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurNotInPreList + ");", true);
                     }
 
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.PatientNotFound + ");", true);
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.PatientNotFound + ");", true);
                 }
             }
         }
 
-        protected void btnConfirmerInfoVisiteur_Click(object sender, EventArgs e)
+        protected void btnConfirmerInfoVisiteur_Click(object sender, System.EventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
+            if (!System.String.IsNullOrWhiteSpace(txtBoxEmailVisiteur.Text))
             {
-                UtilitiesTool.StringUtilities stringTool = new UtilitiesTool.StringUtilities();
+                Utilities.UtilitiesTool.StringUtilities stringTool = new Utilities.UtilitiesTool.StringUtilities();
 
                 if (stringTool.IsValidEmail(txtBoxEmailVisiteur.Text))
                 {
-                    LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
+                    databaseHIA.LightClientDatabaseObject lDb = new databaseHIA.LightClientDatabaseObject(_databaseConnectionString);
 
                     bool bVisiteurMatch = lDb.RechercheVisiteur(txtBoxNomVisiteur.Text, txtBoxPrenVisiteur.Text, txtBoxEmailVisiteur.Text);
                     if (bVisiteurMatch)
@@ -169,24 +158,24 @@ namespace HIA_client_leger
                     }
                     else
                     {
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurAuthError + ");", true);
+                        System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurAuthError + ");", true);
                     }
                 }
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.TextBoxAuthEmpty + ");", true);
+                System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.TextBoxAuthEmpty + ");", true);
             }
         }
 
         bool CheckTextBoxAuthValues()
         {
-            foreach (Control control in divEtape2DemandeAutorisation.Controls)
+            foreach (System.Web.UI.Control control in divEtape2DemandeAutorisation.Controls)
             {
-                if (control is TextBox)
+                if (control is System.Web.UI.WebControls.TextBox)
                 {
-                    TextBox tb = control as TextBox;
-                    if (!String.IsNullOrWhiteSpace(tb.Text))
+                    System.Web.UI.WebControls.TextBox tb = control as System.Web.UI.WebControls.TextBox;
+                    if (!System.String.IsNullOrWhiteSpace(tb.Text))
                     {
                         return true;
                     }
@@ -196,40 +185,40 @@ namespace HIA_client_leger
 
         }
 
-        protected void btnConfirmerInfoVisiteurAuth_Click(object sender, EventArgs e)
+        protected void btnConfirmerInfoVisiteurAuth_Click(object sender, System.EventArgs e)
         {
             if (this.CheckTextBoxAuthValues())
             {
-                List<String> txtBoxValues = new List<string>();
+                System.Collections.Generic.List<System.String> txtBoxValues = new System.Collections.Generic.List<string>();
 
-                foreach (Control control in divEtape2DemandeAutorisation.Controls)
+                foreach (System.Web.UI.Control control in divEtape2DemandeAutorisation.Controls)
                 {
-                    if (control is TextBox)
+                    if (control is System.Web.UI.WebControls.TextBox)
                     {
-                        TextBox tb = control as TextBox;
-                        if (!String.IsNullOrWhiteSpace(tb.Text))
+                        System.Web.UI.WebControls.TextBox tb = control as System.Web.UI.WebControls.TextBox;
+                        if (!System.String.IsNullOrWhiteSpace(tb.Text))
                         {
                             txtBoxValues.Add(tb.Text);
                         }
                     }
                 }
 
-                LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
+                databaseHIA.LightClientDatabaseObject lDb = new databaseHIA.LightClientDatabaseObject(_databaseConnectionString);
 
                 bool patientMatch = lDb.RecherchePatient(txtBoxValues[3], txtBoxValues[4], txtBoxValues[5], 2);
 
                 if (patientMatch)
                 {
-                    UtilitiesTool.StringUtilities stringTool = new UtilitiesTool.StringUtilities();
+                    Utilities.UtilitiesTool.StringUtilities stringTool = new Utilities.UtilitiesTool.StringUtilities();
 
                     if (stringTool.IsValidEmail(txtBoxValues[2]))
                     {
-                        EmailSenderObject emailSender = new EmailSenderObject();
+                        emailSender.EmailSenderObject emailSender = new emailSender.EmailSenderObject();
 
                         int patientId = lDb.GetPatientId(txtBoxNomPatientAuth.Text, txtBoxPrenPatientAuth.Text, txtBoxChambrePatientAuth.Text, 1);
                         if (lDb.AddToPrelist(patientId, txtBoxValues))
                         {
-                            if (emailSender.SendNotification(txtBoxEmailVisiteurAuth.Text, EmailSenderObject.Notification.PrelisteAccepted, txtBoxNomPatientAuth.Text))
+                            if (emailSender.SendNotification(txtBoxEmailVisiteurAuth.Text, global::emailSender.EmailSenderObject.Notification.PrelisteAccepted, txtBoxNomPatientAuth.Text))
                             {
                                 panelEtape1.Visible = false;
                                 panelEtapeNotificationEnvoiAutorisation.Visible = true;
@@ -239,34 +228,34 @@ namespace HIA_client_leger
                     }
                     else
                     {
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurEmailNotValid + ");", true);
+                        System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.VisiteurEmailNotValid + ");", true);
                     }
 
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.PatientNotFound + ");", true);
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.PatientNotFound + ");", true);
                 }
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.TextBoxAuthEmpty + ");", true);
+                System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.TextBoxAuthEmpty + ");", true);
             }
 
         }
 
-        protected void btnConfirmerPlageHoraire_Click(object sender, EventArgs e)
+        protected void btnConfirmerPlageHoraire_Click(object sender, System.EventArgs e)
         {
             int indexPanel = 0;
-            foreach (Panel control in divEtapeHoraire.Controls.OfType<Panel>())
+            foreach (System.Web.UI.WebControls.Panel control in Enumerable.OfType<System.Web.UI.WebControls.Panel>(divEtapeHoraire.Controls))
             {
-                foreach (RadioButton rb in control.Controls.OfType<RadioButton>().Select(c => c as RadioButton).Where(rb => rb.Checked))
+                foreach (System.Web.UI.WebControls.RadioButton rb in Enumerable.Where(Enumerable.Select(Enumerable.OfType<System.Web.UI.WebControls.RadioButton>(control.Controls), c => c as System.Web.UI.WebControls.RadioButton), rb => rb.Checked))
                 {
-                    foreach (Control cont in rb.Parent.Controls)
+                    foreach (System.Web.UI.Control cont in rb.Parent.Controls)
                     {
-                        if (cont is Label && cont.ID == "labelPlageHoraire" + indexPanel)
+                        if (cont is System.Web.UI.WebControls.Label && cont.ID == "labelPlageHoraire" + indexPanel)
                         {
-                            Label label = cont as Label;
+                            System.Web.UI.WebControls.Label label = cont as System.Web.UI.WebControls.Label;
 
                             myModalSubTitle.Text = label.Text;
                             myModalSubTitle.Style.Value = "margin-right:15px;";
@@ -274,44 +263,44 @@ namespace HIA_client_leger
                             labelHeureDebVisite.Style.Value = "margin-bottom:10px;";
                             labelHeureFinVisite.Style.Value = "margin-bottom:10px;";
 
-                            InputValueDebutVisite = label.Text.Split(' ').First();
-                            InputValueFinVisite = label.Text.Split(' ').Last();
+                            InputValueDebutVisite = Enumerable.First(label.Text.Split(' '));
+                            InputValueFinVisite = Enumerable.Last(label.Text.Split(' '));
 
                         }
                     }
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMin", "openTimeMin();", true);
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMax", "openTimeMax();", true);
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMin", "openTimeMin();", true);
+                    System.Web.UI.ScriptManager.RegisterStartupScript(this, this.GetType(), "openTimeMax", "openTimeMax();", true);
                 }
                 indexPanel++;
             }
         }
 
-        protected void btnConfirmerHeureModal_Click(object sender, EventArgs e)
+        protected void btnConfirmerHeureModal_Click(object sender, System.EventArgs e)
         {
             string heureDebutVisite = Request.Form["heureDebutVisite"];
             string heureFinVisite = Request.Form["heureFinVisite"];
 
-            TimeSpan plageDebutVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').First());
-            TimeSpan plageFinVisite = TimeSpan.Parse(myModalSubTitle.Text.Split(' ').Last());
+            System.TimeSpan plageDebutVisite = System.TimeSpan.Parse(Enumerable.First(myModalSubTitle.Text.Split(' ')));
+            System.TimeSpan plageFinVisite = System.TimeSpan.Parse(Enumerable.Last(myModalSubTitle.Text.Split(' ')));
 
-            UtilitiesTool.TimeManipulation timeTool = new UtilitiesTool.TimeManipulation();
-            UtilitiesTool.StringUtilities stringTool = new UtilitiesTool.StringUtilities();
+            Utilities.UtilitiesTool.TimeManipulation timeTool = new Utilities.UtilitiesTool.TimeManipulation();
+            Utilities.UtilitiesTool.StringUtilities stringTool = new Utilities.UtilitiesTool.StringUtilities();
             string guidBonVisite = stringTool.GenerateGuid();
 
-            QrGenerator generator = new QrGenerator();
+            QRcodeGenerator.QrGenerator generator = new QRcodeGenerator.QrGenerator();
 
-            EmailSenderObject emailSender = new EmailSenderObject();
+            emailSender.EmailSenderObject emailSender = new emailSender.EmailSenderObject();
 
-            LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
+            databaseHIA.LightClientDatabaseObject lDb = new databaseHIA.LightClientDatabaseObject(_databaseConnectionString);
 
-            if (timeTool.CompareTimeSpan(TimeSpan.Parse(heureDebutVisite), plageDebutVisite) && timeTool.CompareTimeSpan(plageFinVisite, TimeSpan.Parse(heureFinVisite)))
+            if (timeTool.CompareTimeSpan(System.TimeSpan.Parse(heureDebutVisite), plageDebutVisite) && timeTool.CompareTimeSpan(plageFinVisite, System.TimeSpan.Parse(heureFinVisite)))
             {
                 if (lDb.GetStatusPatient((int)Session["idPatient"]) == 1)
                 {
-                    if (lDb.SendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idPatient"], (int)Session["idVisiteur"], guidBonVisite, 1))
+                    if (lDb.SendDemandeDeVisite(System.TimeSpan.Parse(heureDebutVisite), System.TimeSpan.Parse(heureFinVisite), (int)Session["idPatient"], (int)Session["idVisiteur"], guidBonVisite, 1))
                     {
-                        generator.GenerateQrCode(guidBonVisite, DateTime.Today.ToString(CultureInfo.CurrentCulture), heureDebutVisite, heureFinVisite, txtBoxNomPatient.Text, txtBoxPrenPatient.Text, "2", "150");
+                        generator.GenerateQrCode(guidBonVisite, System.DateTime.Today.ToString(System.Globalization.CultureInfo.CurrentCulture), heureDebutVisite, heureFinVisite, txtBoxNomPatient.Text, txtBoxPrenPatient.Text, "2", "150");
 
                         //emailSender.SendNotification("t.maalem@aforp.eu", emailSenderObject.Notification.Accepted, Generator.QRCodeCompletePath);
 
@@ -321,7 +310,7 @@ namespace HIA_client_leger
                 }
                 else if (lDb.GetStatusPatient((int)Session["idPatient"]) == 3)
                 {
-                    if (lDb.SendDemandeDeVisite(TimeSpan.Parse(heureDebutVisite), TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], guidBonVisite, 3))
+                    if (lDb.SendDemandeDeVisite(System.TimeSpan.Parse(heureDebutVisite), System.TimeSpan.Parse(heureFinVisite), (int)Session["idVisiteur"], (int)Session["idPatient"], guidBonVisite, 3))
                     {
                         panelEtape3.Visible = false;
                         panelInfoDemandeDeVisiteBesoinConfirmation.Visible = true;
@@ -330,7 +319,7 @@ namespace HIA_client_leger
             }
         }
 
-        private void DisplayLabel(TimeSpan[,] horaire, TimeSpan[,] horaireIndispo)
+        private void DisplayLabel(System.TimeSpan[,] horaire, System.TimeSpan[,] horaireIndispo)
         {
             /*if (Session["panelList"] != null)
             {
@@ -349,23 +338,23 @@ namespace HIA_client_leger
 
             }*/
 
-            List<Panel> panelList = new List<Panel>();
-            List<Panel> panelListIndispo = new List<Panel>();
+            System.Collections.Generic.List<System.Web.UI.WebControls.Panel> panelList = new System.Collections.Generic.List<System.Web.UI.WebControls.Panel>();
+            System.Collections.Generic.List<System.Web.UI.WebControls.Panel> panelListIndispo = new System.Collections.Generic.List<System.Web.UI.WebControls.Panel>();
 
             labelInfoAffluence.Style.Value = "margin-left:5px;";
             labelInfoChoixHoraire.Style.Value = "margin-left:25px;";
 
-            UtilitiesTool.StringUtilities stringTool = new UtilitiesTool.StringUtilities();
+            Utilities.UtilitiesTool.StringUtilities stringTool = new Utilities.UtilitiesTool.StringUtilities();
 
             if (Session["panelList"] == null)
             {
                 for (int i = 0; i < horaire.GetLength(0); i++)
                 {
-                    Panel myPanel = new Panel { ID = "panelPlageHoraire" + i, CssClass = "form-group" };
+                    System.Web.UI.WebControls.Panel myPanel = new System.Web.UI.WebControls.Panel { ID = "panelPlageHoraire" + i, CssClass = "form-group" };
 
                     myPanel.Style.Value = "margin-left:50px";
 
-                    Label myLabel1 = new Label
+                    System.Web.UI.WebControls.Label myLabel1 = new System.Web.UI.WebControls.Label
                     {
                         ID = "labelPlageHoraire" + i,
                         Text =
@@ -375,13 +364,13 @@ namespace HIA_client_leger
                     };
 
 
-                    Label myLabel2 = new Label();
+                    System.Web.UI.WebControls.Label myLabel2 = new System.Web.UI.WebControls.Label();
 
-                    string etat = String.Empty;
+                    string etat = System.String.Empty;
 
                     myLabel2.ID = "labelAffluence" + i;
 
-                    LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
+                    databaseHIA.LightClientDatabaseObject lDb = new databaseHIA.LightClientDatabaseObject(_databaseConnectionString);
 
                     int affluence = lDb.GetAffluence(horaire[i, 0], horaire[i, 1], 1, (int)Session["idPatient"]);
                     if (affluence >= 0 && affluence < 2)
@@ -403,7 +392,7 @@ namespace HIA_client_leger
                     myLabel2.CssClass = "col-md-3 control-label";
                     myLabel2.Text = etat;
 
-                    RadioButton myRadiobutton = new RadioButton
+                    System.Web.UI.WebControls.RadioButton myRadiobutton = new System.Web.UI.WebControls.RadioButton
                     {
                         ID = "radioBtnHoraire" + i,
                         CssClass = "col-md-3 control-label",
@@ -421,16 +410,16 @@ namespace HIA_client_leger
 
                 }
 
-                if (horaireIndispo[0, 0] != TimeSpan.Zero)
+                if (horaireIndispo[0, 0] != System.TimeSpan.Zero)
                 {
                     plageHoraireIndispoTitre.Visible = true;
 
                     for (int i = 0; i < horaireIndispo.GetLength(0); i++)
                     {
-                        Panel myPanel = new Panel { ID = "panelPlageHoraireIndispo" + i, CssClass = "form-group" };
+                        System.Web.UI.WebControls.Panel myPanel = new System.Web.UI.WebControls.Panel { ID = "panelPlageHoraireIndispo" + i, CssClass = "form-group" };
                         myPanel.Style.Value = "margin-left:50px";
 
-                        Label myLabel1 = new Label
+                        System.Web.UI.WebControls.Label myLabel1 = new System.Web.UI.WebControls.Label
                         {
                             ID = "labelPlageHoraireIndispo" + i,
                             Text =
@@ -439,7 +428,7 @@ namespace HIA_client_leger
                             CssClass = "col-md-3 control-label"
                         };
 
-                        Label myLabel2 = new Label
+                        System.Web.UI.WebControls.Label myLabel2 = new System.Web.UI.WebControls.Label
                         {
                             ID = "labelAffluenceIndispo" + i,
                             Text = @"Indisponible",
@@ -447,7 +436,7 @@ namespace HIA_client_leger
                         };
                         myLabel2.Style.Value = "margin-left:20px;";
 
-                        RadioButton myRadioButton = new RadioButton
+                        System.Web.UI.WebControls.RadioButton myRadioButton = new System.Web.UI.WebControls.RadioButton
                         {
                             ID = "radioBtnHoraireIndispo" + i,
                             CssClass = "col-md-3 control-label radioButtonIndispo",

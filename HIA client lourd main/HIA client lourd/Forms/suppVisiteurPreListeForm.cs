@@ -1,47 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Windows.Forms;
-using databaseHIA;
-using HIA_client_lourd.Class;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
-    public partial class SuppVisiteurPreListeForm : Form
+    public partial class SuppVisiteurPreListeForm : System.Windows.Forms.Form
     {
-        private readonly Patient _patientRecherche;
-        private static readonly string DatabaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private List<string> _infoVisiteur;
+        private readonly Class.Patient _patientRecherche;
+        private static readonly string DatabaseConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
+        private System.Collections.Generic.List<string> _infoVisiteur;
 
-        public SuppVisiteurPreListeForm(Patient currentPatient)
+        public SuppVisiteurPreListeForm(Class.Patient currentPatient)
         {
             _patientRecherche = currentPatient;
 
             this.InitializeComponent();
         }
-        private void suppVisiteurPreListeForm_Load(object sender, EventArgs e)
+        private void suppVisiteurPreListeForm_Load(object sender, System.EventArgs e)
         {
             Height = 107;
         }
 
-        private void btnChercherVisiteurSupp_Click(object sender, EventArgs e)
+        private void btnChercherVisiteurSupp_Click(object sender, System.EventArgs e)
         {
-            if (!String.IsNullOrEmpty(txtBoxNomVisiteurSupp.Text) || !String.IsNullOrEmpty(txtBoxEmailVisiteurSupp.Text))
+            if (!System.String.IsNullOrEmpty(txtBoxNomVisiteurSupp.Text) || !System.String.IsNullOrEmpty(txtBoxEmailVisiteurSupp.Text))
             {
-                _infoVisiteur = new List<string>();
+                _infoVisiteur = new System.Collections.Generic.List<string>();
 
-                HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
+                databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                _infoVisiteur = hdb.SearchVisiteurinPreList(txtBoxNomVisiteurSupp.Text, txtBoxEmailVisiteurSupp.Text, Convert.ToInt32(_patientRecherche.IdPatient));
+                _infoVisiteur = hdb.SearchVisiteurinPreList(txtBoxNomVisiteurSupp.Text, txtBoxEmailVisiteurSupp.Text, System.Convert.ToInt32(_patientRecherche.IdPatient));
 
                 if (_infoVisiteur.Count > 0)
                 {
                     label2.Text = _infoVisiteur[1];
                     label4.Text = _infoVisiteur[2];
                     label6.Text = _infoVisiteur[3];
-                    label8.Text = String.IsNullOrEmpty(_infoVisiteur[4]) ? @"Non renseigné." : _infoVisiteur[4];
+                    label8.Text = System.String.IsNullOrEmpty(_infoVisiteur[4]) ? @"Non renseigné." : _infoVisiteur[4];
 
-                    foreach (Control control in panelInfoVisiteurSupp.Controls)
+                    foreach (System.Windows.Forms.Control control in panelInfoVisiteurSupp.Controls)
                     {
                         control.Visible = control.Name != lblMsgConfirmationSupp.Name;
 
@@ -53,29 +46,29 @@ namespace HIA_client_lourd.Forms
                 }
                 else
                 {
-                    MessageBox.Show(@"Aucun visiteur n'a été trouvé.");
+                    System.Windows.Forms.MessageBox.Show(@"Aucun visiteur n'a été trouvé.");
                 }
             }
             else
             {
-                MessageBox.Show(@"Veuillez entrer le nom et l'adresse e-mail du visiteur que vous souhaitez supprimer.");
+                System.Windows.Forms.MessageBox.Show(@"Veuillez entrer le nom et l'adresse e-mail du visiteur que vous souhaitez supprimer.");
             }
         }
 
-        private void btnSuppVisiteur_Click(object sender, EventArgs e)
+        private void btnSuppVisiteur_Click(object sender, System.EventArgs e)
         {
-            btnSuppVisiteur = sender as Button;
+            btnSuppVisiteur = sender as System.Windows.Forms.Button;
 
-            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
+            databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            if (hdb.DeleteFromPreList(_infoVisiteur[1], _infoVisiteur[3], Convert.ToInt32(_infoVisiteur[0])))
+            if (hdb.DeleteFromPreList(_infoVisiteur[1], _infoVisiteur[3], System.Convert.ToInt32(_infoVisiteur[0])))
             {
                 lblMsgConfirmationSupp.Text = @"Le visiteur a correctement été supprimer.";
                 lblMsgConfirmationSupp.Visible = true;
             }
             else
             {
-                MessageBox.Show(@"Il y a eu un problème lors de la suppression du visiteur, veuillez réessayer ultérieurement.");
+                System.Windows.Forms.MessageBox.Show(@"Il y a eu un problème lors de la suppression du visiteur, veuillez réessayer ultérieurement.");
             }
         }
     }

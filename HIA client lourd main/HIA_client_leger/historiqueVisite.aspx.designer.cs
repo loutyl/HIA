@@ -7,10 +7,6 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-
 namespace HIA_client_leger {
     
     
@@ -23,7 +19,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected ScriptManager ScriptManager1;
+        protected System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
         /// Contrôle UpdatePanel1.
@@ -32,7 +28,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected UpdatePanel UpdatePanel1;
+        protected System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// Contrôle txtBoxNomVisiteurHisto.
@@ -41,7 +37,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxNomVisiteurHisto;
+        protected System.Web.UI.WebControls.TextBox txtBoxNomVisiteurHisto;
         
         /// <summary>
         /// Contrôle txtBoxEmailVisiteurHisto.
@@ -50,7 +46,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxEmailVisiteurHisto;
+        protected System.Web.UI.WebControls.TextBox txtBoxEmailVisiteurHisto;
         
         /// <summary>
         /// Contrôle btnConfirmerEmailHistoVisite.
@@ -59,7 +55,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerEmailHistoVisite;
+        protected System.Web.UI.WebControls.Button btnConfirmerEmailHistoVisite;
         
         /// <summary>
         /// Contrôle rowHistoriqueVisite.
@@ -68,7 +64,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl rowHistoriqueVisite;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl rowHistoriqueVisite;
         
         /// <summary>
         /// Contrôle tableHistorique.
@@ -77,6 +73,6 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Table tableHistorique;
+        protected System.Web.UI.WebControls.Table tableHistorique;
     }
 }

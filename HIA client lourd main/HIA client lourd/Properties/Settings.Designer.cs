@@ -8,17 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.CodeDom.Compiler;
-using System.Configuration;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
 namespace HIA_client_lourd.Properties {
     
     
-    [CompilerGenerated()]
-    [GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    internal sealed partial class Settings : ApplicationSettingsBase {
+    [System.Runtime.CompilerServices.CompilerGenerated()]
+    [System.CodeDom.Compiler.GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    internal sealed partial class Settings : System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(Synchronized(new Settings())));
         
@@ -28,10 +23,10 @@ namespace HIA_client_lourd.Properties {
             }
         }
         
-        [ApplicationScopedSetting()]
-        [DebuggerNonUserCode()]
-        [SpecialSetting(SpecialSetting.ConnectionString)]
-        [DefaultSettingValue("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\dbHIDIV.mdf;Integrat" +
+        [System.Configuration.ApplicationScopedSetting()]
+        [System.Diagnostics.DebuggerNonUserCode()]
+        [System.Configuration.SpecialSetting(System.Configuration.SpecialSetting.ConnectionString)]
+        [System.Configuration.DefaultSettingValue("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\dbHIDIV.mdf;Integrat" +
             "ed Security=True")]
         public string dbHIDIVConnectionString {
             get {
@@ -39,10 +34,10 @@ namespace HIA_client_lourd.Properties {
             }
         }
         
-        [ApplicationScopedSetting()]
-        [DebuggerNonUserCode()]
-        [SpecialSetting(SpecialSetting.ConnectionString)]
-        [DefaultSettingValue("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\db.mdf;Integrated Se" +
+        [System.Configuration.ApplicationScopedSetting()]
+        [System.Diagnostics.DebuggerNonUserCode()]
+        [System.Configuration.SpecialSetting(System.Configuration.SpecialSetting.ConnectionString)]
+        [System.Configuration.DefaultSettingValue("Data Source=(LocalDB)\\v11.0;AttachDbFilename=|DataDirectory|\\db.mdf;Integrated Se" +
             "curity=True")]
         public string dbConnectionString {
             get {

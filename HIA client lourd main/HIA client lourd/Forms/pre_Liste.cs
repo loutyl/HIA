@@ -1,15 +1,10 @@
-﻿using System.Configuration;
-using System.Windows.Forms;
-using databaseHIA;
-using HIA_client_lourd.Class;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
-    public partial class PreListe : Form
+    public partial class PreListe : System.Windows.Forms.Form
     {
-        private readonly Patient _currentPatient;
+        private readonly Class.Patient _currentPatient;
 
-        public PreListe(Patient patient)
+        public PreListe(Class.Patient patient)
         {
             this.InitializeComponent();
 
@@ -20,7 +15,7 @@ namespace HIA_client_lourd.Forms
 
         private void FillData()
         {
-            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
             dataGridView1.DataSource = hdb.GetPreListe(_currentPatient.NomPatient, _currentPatient.PrenomPatient);
             dataGridView1.Columns[0].HeaderText = @"Nom du visiteur";

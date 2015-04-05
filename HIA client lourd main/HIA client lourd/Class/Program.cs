@@ -1,25 +1,21 @@
-﻿using System;
-using System.Windows.Forms;
-using HIA_client_lourd.Forms;
-
-namespace HIA_client_lourd.Class
+﻿namespace HIA_client_lourd.Class
 {
     static class Program
     {
         /// <summary>
         /// Point d'entrée principal de l'application.
         /// </summary>
-        [STAThread]
+        [System.STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
-            LoginForm loginWindow = new LoginForm();
+            Forms.LoginForm loginWindow = new Forms.LoginForm();
 
             loginWindow.Show();
 
-            Application.Run();
+            System.Windows.Forms.Application.Run();
         }
     }
 }

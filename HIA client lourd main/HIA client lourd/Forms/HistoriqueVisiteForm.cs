@@ -1,16 +1,10 @@
-﻿using System;
-using System.Configuration;
-using System.Windows.Forms;
-using databaseHIA;
-using HIA_client_lourd.Class;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
-    public partial class HistoriqueVisite : Form
+    public partial class HistoriqueVisite : System.Windows.Forms.Form
     {
-        private readonly Patient _currentPatient;
+        private readonly Class.Patient _currentPatient;
 
-        public HistoriqueVisite(Patient patient)
+        public HistoriqueVisite(Class.Patient patient)
         {
             this.InitializeComponent();
 
@@ -18,7 +12,7 @@ namespace HIA_client_lourd.Forms
 
         }
 
-        private void cmBStatus_TextChanged(object sender, EventArgs e)
+        private void cmBStatus_TextChanged(object sender, System.EventArgs e)
         {
             int status;
 
@@ -43,7 +37,7 @@ namespace HIA_client_lourd.Forms
 
         private void FillData(int status)
         {
-            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
             dataGridView2.DataSource = hdb.GetHistoriqueVisite(status, _currentPatient.NomPatient);
             dataGridView2.Columns[0].HeaderText = @"Nom du visiteur";

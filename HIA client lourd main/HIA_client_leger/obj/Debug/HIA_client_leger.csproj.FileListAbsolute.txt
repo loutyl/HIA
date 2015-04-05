@@ -154,3 +154,5 @@ C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\Utilities.pdb
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\QRcodeGenerator.dll
 C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\QRcodeGenerator.pdb
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\nunit.framework.dll
+C:\Users\Thomas\Documents\GitHub\HIA\HIA client lourd main\HIA_client_leger\bin\nunit.framework.xml

@@ -7,10 +7,6 @@
 // </généré automatiquement>
 //------------------------------------------------------------------------------
 
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-
 namespace HIA_client_leger {
     
     
@@ -23,7 +19,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected ScriptManager ScriptManager1;
+        protected System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
         /// Contrôle UpdatePanel1.
@@ -32,7 +28,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected UpdatePanel UpdatePanel1;
+        protected System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// Contrôle panelBarEtape.
@@ -41,7 +37,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelBarEtape;
+        protected System.Web.UI.WebControls.Panel panelBarEtape;
         
         /// <summary>
         /// Contrôle divBarEtape1.
@@ -50,7 +46,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl divBarEtape1;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl divBarEtape1;
         
         /// <summary>
         /// Contrôle divBarEtape2.
@@ -59,7 +55,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl divBarEtape2;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl divBarEtape2;
         
         /// <summary>
         /// Contrôle divBarEtape3.
@@ -68,7 +64,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl divBarEtape3;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl divBarEtape3;
         
         /// <summary>
         /// Contrôle updatePanelEtape1.
@@ -77,7 +73,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected UpdatePanel updatePanelEtape1;
+        protected System.Web.UI.UpdatePanel updatePanelEtape1;
         
         /// <summary>
         /// Contrôle myModalSubTitle.
@@ -86,7 +82,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label myModalSubTitle;
+        protected System.Web.UI.WebControls.Label myModalSubTitle;
         
         /// <summary>
         /// Contrôle panelModalBody.
@@ -95,7 +91,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelModalBody;
+        protected System.Web.UI.WebControls.Panel panelModalBody;
         
         /// <summary>
         /// Contrôle labelHeureDebVisite.
@@ -104,7 +100,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label labelHeureDebVisite;
+        protected System.Web.UI.WebControls.Label labelHeureDebVisite;
         
         /// <summary>
         /// Contrôle labelHeureFinVisite.
@@ -113,7 +109,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label labelHeureFinVisite;
+        protected System.Web.UI.WebControls.Label labelHeureFinVisite;
         
         /// <summary>
         /// Contrôle divErreurHoraire.
@@ -122,7 +118,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl divErreurHoraire;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl divErreurHoraire;
         
         /// <summary>
         /// Contrôle btnConfirmerHeureModal.
@@ -131,7 +127,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerHeureModal;
+        protected System.Web.UI.WebControls.Button btnConfirmerHeureModal;
         
         /// <summary>
         /// Contrôle panelEtape1.
@@ -140,7 +136,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelEtape1;
+        protected System.Web.UI.WebControls.Panel panelEtape1;
         
         /// <summary>
         /// Contrôle txtBoxNomVisiteur.
@@ -149,7 +145,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxNomVisiteur;
+        protected System.Web.UI.WebControls.TextBox txtBoxNomVisiteur;
         
         /// <summary>
         /// Contrôle txtBoxPrenVisiteur.
@@ -158,7 +154,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxPrenVisiteur;
+        protected System.Web.UI.WebControls.TextBox txtBoxPrenVisiteur;
         
         /// <summary>
         /// Contrôle txtBoxEmailVisiteur.
@@ -167,7 +163,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxEmailVisiteur;
+        protected System.Web.UI.WebControls.TextBox txtBoxEmailVisiteur;
         
         /// <summary>
         /// Contrôle btnConfirmerInfoVisiteur.
@@ -176,7 +172,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerInfoVisiteur;
+        protected System.Web.UI.WebControls.Button btnConfirmerInfoVisiteur;
         
         /// <summary>
         /// Contrôle divEtape2DemandeAutorisation.
@@ -185,7 +181,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl divEtape2DemandeAutorisation;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl divEtape2DemandeAutorisation;
         
         /// <summary>
         /// Contrôle txtBoxNomVisiteurAuth.
@@ -194,7 +190,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxNomVisiteurAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxNomVisiteurAuth;
         
         /// <summary>
         /// Contrôle txtBoxPrenVisiteurAuth.
@@ -203,7 +199,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxPrenVisiteurAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxPrenVisiteurAuth;
         
         /// <summary>
         /// Contrôle txtBoxEmailVisiteurAuth.
@@ -212,7 +208,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxEmailVisiteurAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxEmailVisiteurAuth;
         
         /// <summary>
         /// Contrôle txtBoxNomPatientAuth.
@@ -221,7 +217,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxNomPatientAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxNomPatientAuth;
         
         /// <summary>
         /// Contrôle txtBoxPrenPatientAuth.
@@ -230,7 +226,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxPrenPatientAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxPrenPatientAuth;
         
         /// <summary>
         /// Contrôle txtBoxChambrePatientAuth.
@@ -239,7 +235,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxChambrePatientAuth;
+        protected System.Web.UI.WebControls.TextBox txtBoxChambrePatientAuth;
         
         /// <summary>
         /// Contrôle btnConfirmerInfoVisiteurAuth.
@@ -248,7 +244,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerInfoVisiteurAuth;
+        protected System.Web.UI.WebControls.Button btnConfirmerInfoVisiteurAuth;
         
         /// <summary>
         /// Contrôle panelEtape2.
@@ -257,7 +253,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelEtape2;
+        protected System.Web.UI.WebControls.Panel panelEtape2;
         
         /// <summary>
         /// Contrôle txtBoxNomPatient.
@@ -266,7 +262,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxNomPatient;
+        protected System.Web.UI.WebControls.TextBox txtBoxNomPatient;
         
         /// <summary>
         /// Contrôle txtBoxPrenPatient.
@@ -275,7 +271,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxPrenPatient;
+        protected System.Web.UI.WebControls.TextBox txtBoxPrenPatient;
         
         /// <summary>
         /// Contrôle txtBoxCodePatient.
@@ -284,7 +280,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected TextBox txtBoxCodePatient;
+        protected System.Web.UI.WebControls.TextBox txtBoxCodePatient;
         
         /// <summary>
         /// Contrôle btnConfirmerInfoPatient.
@@ -293,7 +289,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerInfoPatient;
+        protected System.Web.UI.WebControls.Button btnConfirmerInfoPatient;
         
         /// <summary>
         /// Contrôle panelEtape3.
@@ -302,7 +298,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelEtape3;
+        protected System.Web.UI.WebControls.Panel panelEtape3;
         
         /// <summary>
         /// Contrôle divEtapeHoraire.
@@ -311,7 +307,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel divEtapeHoraire;
+        protected System.Web.UI.WebControls.Panel divEtapeHoraire;
         
         /// <summary>
         /// Contrôle labelInfoPlageHoraire.
@@ -320,7 +316,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label labelInfoPlageHoraire;
+        protected System.Web.UI.WebControls.Label labelInfoPlageHoraire;
         
         /// <summary>
         /// Contrôle labelInfoAffluence.
@@ -329,7 +325,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label labelInfoAffluence;
+        protected System.Web.UI.WebControls.Label labelInfoAffluence;
         
         /// <summary>
         /// Contrôle labelInfoChoixHoraire.
@@ -338,7 +334,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Label labelInfoChoixHoraire;
+        protected System.Web.UI.WebControls.Label labelInfoChoixHoraire;
         
         /// <summary>
         /// Contrôle plageHoraireIndispoTitre.
@@ -347,7 +343,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected HtmlGenericControl plageHoraireIndispoTitre;
+        protected System.Web.UI.HtmlControls.HtmlGenericControl plageHoraireIndispoTitre;
         
         /// <summary>
         /// Contrôle divEtapeHoraireIndisponible.
@@ -356,7 +352,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel divEtapeHoraireIndisponible;
+        protected System.Web.UI.WebControls.Panel divEtapeHoraireIndisponible;
         
         /// <summary>
         /// Contrôle btnConfirmerPlageHoraire.
@@ -365,7 +361,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Button btnConfirmerPlageHoraire;
+        protected System.Web.UI.WebControls.Button btnConfirmerPlageHoraire;
         
         /// <summary>
         /// Contrôle panelEtapeNotificationEnvoiAutorisation.
@@ -374,7 +370,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelEtapeNotificationEnvoiAutorisation;
+        protected System.Web.UI.WebControls.Panel panelEtapeNotificationEnvoiAutorisation;
         
         /// <summary>
         /// Contrôle panelInfoDemandeDeVisiteFinal.
@@ -383,7 +379,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelInfoDemandeDeVisiteFinal;
+        protected System.Web.UI.WebControls.Panel panelInfoDemandeDeVisiteFinal;
         
         /// <summary>
         /// Contrôle panelInfoDemandeDeVisiteBesoinConfirmation.
@@ -392,7 +388,7 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelInfoDemandeDeVisiteBesoinConfirmation;
+        protected System.Web.UI.WebControls.Panel panelInfoDemandeDeVisiteBesoinConfirmation;
         
         /// <summary>
         /// Contrôle panelPatientStatusBloquer.
@@ -401,6 +397,6 @@ namespace HIA_client_leger {
         /// Champ généré automatiquement.
         /// Pour modifier, déplacez la déclaration de champ du fichier de concepteur dans le fichier code-behind.
         /// </remarks>
-        protected Panel panelPatientStatusBloquer;
+        protected System.Web.UI.WebControls.Panel panelPatientStatusBloquer;
     }
 }

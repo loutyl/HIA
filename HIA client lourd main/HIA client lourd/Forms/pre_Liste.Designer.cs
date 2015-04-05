@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
     partial class PreListe
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -59,7 +56,7 @@ namespace HIA_client_lourd.Forms
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridView1;
 
     }
 }

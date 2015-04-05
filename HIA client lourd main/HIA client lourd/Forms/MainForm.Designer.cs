@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-
-namespace HIA_client_lourd.Forms
+﻿namespace HIA_client_lourd.Forms
 {
     partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -501,45 +498,45 @@ namespace HIA_client_lourd.Forms
 
         #endregion
 
-        private Label lblInfoNomPatient;
-        private Label lblInfoLitPatient;
-        private Label lblInfoChambrePatient;
-        private Label lblInfoPrenPatient;
-        private PictureBox picBoxInfoPatient;
-        private Label lblInfoEtagePatient;
-        private Label label16;
-        private Panel panelInfoPatient;
-        private Panel panelRecherchePatient;
-        private Label lblRecherchePatient;
-        private TextBox txtBoxRecherchePatient;
-        private Label lblPreListeVisiteur;
-        private Button btnPreListeAfficher;
-        private Label lblPreListeNomVisiteur;
-        private Label lblPreListePrenVisiteur;
-        private Label lblPreListeTelVisiteur;
-        private Label lblPreListeEmailVisiteur;
-        private Button btnPreListeAjouter;
-        private TextBox txtBoxPreListeNomVisiteur;
-        private TextBox txtBoxPreListePrenVisiteur;
-        private TextBox txtBoxPreListeTelVisiteur;
-        private TextBox txtBoxPreListeEmailVisiteur;
-        private Panel panelPreListeVisiteur;
-        private Panel panelNumVisitePatient;
-        private Button btnHistoriqueVisite;
-        private Label lblDemandeDeVisite;
-        private Button BtnVoirDemandeVisite;
-        private Label lblInfoAgePatient;
-        private Button btnInfoPlanning;
-        private Button btnRecherchePatient;
-        private Label label3;
-        private Label lblPrenRecherchePatient;
-        private Label lblNomRecherchePatient;
-        private Label label6;
-        private Label label5;
-        private Label label4;
-        private Label lblStatusVisite;
-        private Button btnDbloquerVisite;
-        private Button btnSupprimerPreListe;
+        private System.Windows.Forms.Label lblInfoNomPatient;
+        private System.Windows.Forms.Label lblInfoLitPatient;
+        private System.Windows.Forms.Label lblInfoChambrePatient;
+        private System.Windows.Forms.Label lblInfoPrenPatient;
+        private System.Windows.Forms.PictureBox picBoxInfoPatient;
+        private System.Windows.Forms.Label lblInfoEtagePatient;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Panel panelInfoPatient;
+        private System.Windows.Forms.Panel panelRecherchePatient;
+        private System.Windows.Forms.Label lblRecherchePatient;
+        private System.Windows.Forms.TextBox txtBoxRecherchePatient;
+        private System.Windows.Forms.Label lblPreListeVisiteur;
+        private System.Windows.Forms.Button btnPreListeAfficher;
+        private System.Windows.Forms.Label lblPreListeNomVisiteur;
+        private System.Windows.Forms.Label lblPreListePrenVisiteur;
+        private System.Windows.Forms.Label lblPreListeTelVisiteur;
+        private System.Windows.Forms.Label lblPreListeEmailVisiteur;
+        private System.Windows.Forms.Button btnPreListeAjouter;
+        private System.Windows.Forms.TextBox txtBoxPreListeNomVisiteur;
+        private System.Windows.Forms.TextBox txtBoxPreListePrenVisiteur;
+        private System.Windows.Forms.TextBox txtBoxPreListeTelVisiteur;
+        private System.Windows.Forms.TextBox txtBoxPreListeEmailVisiteur;
+        private System.Windows.Forms.Panel panelPreListeVisiteur;
+        private System.Windows.Forms.Panel panelNumVisitePatient;
+        private System.Windows.Forms.Button btnHistoriqueVisite;
+        private System.Windows.Forms.Label lblDemandeDeVisite;
+        private System.Windows.Forms.Button BtnVoirDemandeVisite;
+        private System.Windows.Forms.Label lblInfoAgePatient;
+        private System.Windows.Forms.Button btnInfoPlanning;
+        private System.Windows.Forms.Button btnRecherchePatient;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblPrenRecherchePatient;
+        private System.Windows.Forms.Label lblNomRecherchePatient;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblStatusVisite;
+        private System.Windows.Forms.Button btnDbloquerVisite;
+        private System.Windows.Forms.Button btnSupprimerPreListe;
 
 
     }

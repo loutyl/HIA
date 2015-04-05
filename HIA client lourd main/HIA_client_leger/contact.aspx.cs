@@ -1,14 +1,10 @@
-﻿using System;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-
-namespace HIA_client_leger
+﻿namespace HIA_client_leger
 {
-    public partial class Contact : Page
+    public partial class Contact : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, System.EventArgs e)
         {
-            HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("contactID");
+            System.Web.UI.HtmlControls.HtmlGenericControl liItem = (System.Web.UI.HtmlControls.HtmlGenericControl)Master.FindControl("contactID");
             liItem.Attributes.Add("class", "active");
         }
 

@@ -48,14 +48,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="databaseHIA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\databaseHIA.dll</HintPath>
-    </Reference>
     <Reference Include="emailSender, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\emailSender.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="OnBarcode.Barcode.WinForms">
       <HintPath>..\qr\OnBarcode.Barcode.WinForms.dll</HintPath>
     </Reference>
@@ -91,6 +89,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Asserts\BonDeVisiteTest.cs" />
+    <Compile Include="Asserts\DemandeDeVisiteTest.cs" />
+    <Compile Include="Asserts\PatientTest.cs" />
+    <Compile Include="Asserts\VisiteurTest.cs" />
     <Compile Include="Class\bonDeVisite.cs" />
     <Compile Include="Class\demandeDeVisite.cs" />
     <Compile Include="Forms\DemandeVisiteForm.cs">
@@ -204,7 +206,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Asserts\" />
+    <ProjectReference Include="..\..\..\databaseHIA\databaseHIA\databaseHIA.csproj">
+      <Project>{68b81a62-6865-498b-820c-71da273ec6a2}</Project>
+      <Name>databaseHIA</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

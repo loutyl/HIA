@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using databaseHIA;
-
-namespace HIA_client_lourd.Class
+﻿namespace HIA_client_lourd.Class
 {
     public class Patient
     {
@@ -25,7 +20,7 @@ namespace HIA_client_lourd.Class
 
         public int StatusVisite { get; private set; }
 
-        public Patient(List<string> infoPatient)
+        public Patient(System.Collections.Generic.List<string> infoPatient)
         {
             IdPatient = infoPatient[0];
             NomPatient = infoPatient[1];
@@ -35,21 +30,21 @@ namespace HIA_client_lourd.Class
             ChambrePatient = infoPatient[5];
             LitPatient = infoPatient[6];
             NumVisitePatient = infoPatient[7];
-            StatusVisite = Convert.ToInt32(infoPatient[8]);
+            StatusVisite = System.Convert.ToInt32(infoPatient[8]);
 
         }
 
-        public List<DemandeDeVisite> GetDemandeDeVisite()
+        public System.Collections.Generic.List<DemandeDeVisite> GetDemandeDeVisite()
         {
             const int status = 3;
 
-            List<DemandeDeVisite> listVisite = new List<DemandeDeVisite>();
+            System.Collections.Generic.List<DemandeDeVisite> listVisite = new System.Collections.Generic.List<DemandeDeVisite>();
 
-            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
             var listDemandeDeVisite = hdb.GetDemandeDeVisite(status, NomPatient);
             if (listDemandeDeVisite.Count <= 0) return listVisite;
-            foreach (List<string> list in listDemandeDeVisite)
+            foreach (System.Collections.Generic.List<string> list in listDemandeDeVisite)
             {
                 Visiteur visiteur = new Visiteur(list[0], list[1], list[2], list[3], list[4]);
 

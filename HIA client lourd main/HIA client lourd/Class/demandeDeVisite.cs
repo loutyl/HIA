@@ -16,7 +16,6 @@
             DateVisite = dateV;
             HeureDVisite = heureD;
             HeureFVisite = heureF;
-
         }
     }
 }
