@@ -23,7 +23,8 @@ namespace HIA_client_leger
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Master != null){
+            if (Master != null)
+            {
                 HtmlGenericControl liItem = (HtmlGenericControl)Master.FindControl("historiqueVisite");
                 liItem.Attributes.Add("class", "active");
             }
@@ -35,14 +36,15 @@ namespace HIA_client_leger
         protected void btnConfirmerEmailHistoVisite_Click(object sender, EventArgs e)
         {
 
-            lightClientDatabaseObject lDb = new lightClientDatabaseObject(_databaseConnectionString);
+            LightClientDatabaseObject lDb = new LightClientDatabaseObject(_databaseConnectionString);
 
-            UtilitiesTool.stringUtilities stringTool = new UtilitiesTool.stringUtilities();
+            UtilitiesTool.StringUtilities stringTool = new UtilitiesTool.StringUtilities();
 
             if (!String.IsNullOrWhiteSpace(txtBoxNomVisiteurHisto.Text) || !String.IsNullOrWhiteSpace(txtBoxEmailVisiteurHisto.Text))
             {
-                if (stringTool.isValidEmail(txtBoxEmailVisiteurHisto.Text)){
-                    var historiqueVisite = lDb.getHistorique(lDb.getVisiteurId(txtBoxNomVisiteurHisto.Text, txtBoxEmailVisiteurHisto.Text));
+                if (stringTool.IsValidEmail(txtBoxEmailVisiteurHisto.Text))
+                {
+                    var historiqueVisite = lDb.GetHistorique(lDb.GetVisiteurId(txtBoxNomVisiteurHisto.Text, txtBoxEmailVisiteurHisto.Text));
 
                     if (historiqueVisite.Count >= 1)
                     {
@@ -54,9 +56,11 @@ namespace HIA_client_leger
                             {
                                 TableCell cell = new TableCell
                                 {
-                                    Text = !String.IsNullOrEmpty(data) ? data : @"Aucun numéro de visite"
+                                    Text = !String.IsNullOrEmpty(data)
+                                    ? data
+                                    : @"Aucun numéro de visite"
                                 };
-                                
+
                                 row.Cells.Add(cell);
                             }
 
@@ -67,17 +71,17 @@ namespace HIA_client_leger
                     }
                     else
                     {
-                        ScriptManager.RegisterStartupScript(this, GetType(), "notification", "notificationError(" + (int)ErrorType.NoResultFound + ");", true);
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.NoResultFound + ");", true);
                     }
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "notification", "notificationError(" + (int)ErrorType.EmailAddressNotValid + ");", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.EmailAddressNotValid + ");", true);
                 }
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "notification", "notificationError(" + (int)ErrorType.FieldEmpty + ");", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "notification", "notificationError(" + (int)ErrorType.FieldEmpty + ");", true);
             }
         }
     }

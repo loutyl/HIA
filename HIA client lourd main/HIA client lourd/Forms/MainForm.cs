@@ -13,12 +13,12 @@ namespace HIA_client_lourd.Forms
     {
         private Patient _patientRecherche;
         private static readonly string DatabaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private readonly UtilitiesTool.stringUtilities _stringTool = new UtilitiesTool.stringUtilities();
-        private readonly emailSenderObject _emailSender = new emailSenderObject();
+        private readonly UtilitiesTool.StringUtilities _stringTool = new UtilitiesTool.StringUtilities();
+        private readonly EmailSenderObject _emailSender = new EmailSenderObject();
 
         public MainForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -48,9 +48,9 @@ namespace HIA_client_lourd.Forms
 
             if (!String.IsNullOrEmpty(txtBoxPreListeEmailVisiteur.Text))
             {
-                if (_stringTool.isValidEmail(txtBoxPreListeEmailVisiteur.Text))
+                if (_stringTool.IsValidEmail(txtBoxPreListeEmailVisiteur.Text))
                 {
-                    if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.PrelisteAccepted, _patientRecherche.NomPatient))
+                    if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.PrelisteAccepted, _patientRecherche.NomPatient))
                     {
                         List<string> infoPl = new List<string>
                         {
@@ -62,9 +62,9 @@ namespace HIA_client_lourd.Forms
                         };
 
 
-                        heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+                        HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                        MessageBox.Show(hdb.ajoutPrelist(infoPl)
+                        MessageBox.Show(hdb.AjoutPrelist(infoPl)
                             ? @"Le visiteur a bien été enregistré dans la pré-liste."
                             : @"Un problème est survenu le visiteur n'a pas pu être enregistré.");
                     }
@@ -114,11 +114,11 @@ namespace HIA_client_lourd.Forms
             {
                 try
                 {
-                    heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+                    HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                    _patientRecherche = new Patient(hdb.recherchePatient(txtBoxRecherchePatient.Text));
+                    _patientRecherche = new Patient(hdb.RecherchePatient(txtBoxRecherchePatient.Text));
 
-                    DisplayInfoPatient(_patientRecherche.StatusVisite);
+                    this.DisplayInfoPatient(_patientRecherche.StatusVisite);
                 }
                 catch (Exception)
                 {
@@ -167,11 +167,11 @@ namespace HIA_client_lourd.Forms
         }
         private void btnDbloquerVisite_Click(object sender, EventArgs e)
         {
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            if (hdb.debloquerVisite(_patientRecherche.NomPatient))
+            if (hdb.DebloquerVisite(_patientRecherche.NomPatient))
             {
-                if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Unblocked, _patientRecherche.NomPatient))
+                if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.Unblocked, _patientRecherche.NomPatient))
                 {
                     MessageBox.Show(@"Les visites du patient ont bien été débloquées.");
                 }

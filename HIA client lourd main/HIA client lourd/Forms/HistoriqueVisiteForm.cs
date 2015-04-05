@@ -12,7 +12,7 @@ namespace HIA_client_lourd.Forms
 
         public HistoriqueVisite(Patient patient)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             _currentPatient = patient;
 
@@ -38,14 +38,14 @@ namespace HIA_client_lourd.Forms
                     break;
             }
 
-            FillData(status);
+            this.FillData(status);
         }
 
         private void FillData(int status)
         {
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
-            dataGridView2.DataSource = hdb.getHistoriqueVisite(status, _currentPatient.NomPatient);
+            dataGridView2.DataSource = hdb.GetHistoriqueVisite(status, _currentPatient.NomPatient);
             dataGridView2.Columns[0].HeaderText = @"Nom du visiteur";
             dataGridView2.Columns[1].HeaderText = @"Prénom du visiteur";
             dataGridView2.Columns[2].HeaderText = @"Date de la visite";

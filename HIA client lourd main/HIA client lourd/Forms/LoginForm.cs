@@ -9,15 +9,15 @@ namespace HIA_client_lourd.Forms
     {
         public LoginForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
         }
 
         private void ConnectBtn_MouseClick(object sender, MouseEventArgs e)
         {
-            heavyClientDatabaseObject hDb = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            HeavyClientDatabaseObject hDb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
             
-            if (hDb.login(textBox_id.Text, textBox_Pwd.Text))
+            if (hDb.Login(textBox_id.Text, textBox_Pwd.Text))
             {
                 MainForm mainWindow = new MainForm();
 
@@ -25,7 +25,7 @@ namespace HIA_client_lourd.Forms
 
                 mainWindow.Activate();
 
-                Close(); 
+                this.Close(); 
             }
             else
             {

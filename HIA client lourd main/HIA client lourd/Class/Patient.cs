@@ -42,22 +42,20 @@ namespace HIA_client_lourd.Class
         public List<DemandeDeVisite> GetDemandeDeVisite()
         {
             const int status = 3;
-            
+
             List<DemandeDeVisite> listVisite = new List<DemandeDeVisite>();
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
-            var listDemandeDeVisite = hdb.getDemandeDeVisite(status, NomPatient);
-            if (listDemandeDeVisite.Count > 0)
+            var listDemandeDeVisite = hdb.GetDemandeDeVisite(status, NomPatient);
+            if (listDemandeDeVisite.Count <= 0) return listVisite;
+            foreach (List<string> list in listDemandeDeVisite)
             {
-                foreach (List<string> list in listDemandeDeVisite)
-                {
-                    Visiteur visiteur = new Visiteur(list[0], list[1], list[2], list[3], list[4]);
+                Visiteur visiteur = new Visiteur(list[0], list[1], list[2], list[3], list[4]);
 
-                    DemandeDeVisite demande = new DemandeDeVisite(visiteur, list[6], list[7], list[8]);
+                DemandeDeVisite demande = new DemandeDeVisite(visiteur, list[6], list[7], list[8]);
 
-                    listVisite.Add(demande);
-                }
+                listVisite.Add(demande);
             }
             return listVisite;
 

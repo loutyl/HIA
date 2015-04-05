@@ -17,7 +17,7 @@ namespace HIA_client_lourd.Forms
         {
             _patientRecherche = currentPatient;
 
-            InitializeComponent();
+            this.InitializeComponent();
         }
         private void suppVisiteurPreListeForm_Load(object sender, EventArgs e)
         {
@@ -30,9 +30,9 @@ namespace HIA_client_lourd.Forms
             {
                 _infoVisiteur = new List<string>();
 
-                heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+                HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-                _infoVisiteur = hdb.searchVisiteurinPreList(txtBoxNomVisiteurSupp.Text, txtBoxEmailVisiteurSupp.Text, Convert.ToInt32(_patientRecherche.IdPatient));
+                _infoVisiteur = hdb.SearchVisiteurinPreList(txtBoxNomVisiteurSupp.Text, txtBoxEmailVisiteurSupp.Text, Convert.ToInt32(_patientRecherche.IdPatient));
 
                 if (_infoVisiteur.Count > 0)
                 {
@@ -66,9 +66,9 @@ namespace HIA_client_lourd.Forms
         {
             btnSuppVisiteur = sender as Button;
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            if (hdb.deleteFromPreList(_infoVisiteur[1], _infoVisiteur[3], Convert.ToInt32(_infoVisiteur[0])))
+            if (hdb.DeleteFromPreList(_infoVisiteur[1], _infoVisiteur[3], Convert.ToInt32(_infoVisiteur[0])))
             {
                 lblMsgConfirmationSupp.Text = @"Le visiteur a correctement été supprimer.";
                 lblMsgConfirmationSupp.Visible = true;

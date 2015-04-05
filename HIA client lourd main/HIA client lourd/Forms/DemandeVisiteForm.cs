@@ -18,18 +18,18 @@ namespace HIA_client_lourd.Forms
         private int _indexDemandeVisite;
         private BonDeVisite _currentBonDeVisite;
         private static readonly string DatabaseConnectionString = ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString;
-        private readonly emailSenderObject _emailSender = new emailSenderObject();
-        private readonly UtilitiesTool.stringUtilities _stringTool = new UtilitiesTool.stringUtilities();
+        private readonly EmailSenderObject _emailSender = new EmailSenderObject();
+        private readonly UtilitiesTool.StringUtilities _stringTool = new UtilitiesTool.StringUtilities();
 
         public DemandeVisitePatient(Patient patient, List<DemandeDeVisite> listDemandeVisite)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             _currentPatient = patient;
             _listVisite = listDemandeVisite;
 
-            DisplayInfoDemandeVisite(_indexDemandeVisite);
-        }    
+            this.DisplayInfoDemandeVisite(_indexDemandeVisite);
+        }
 
         private void CreateBonVisite(string numBonVisite)
         {
@@ -41,38 +41,38 @@ namespace HIA_client_lourd.Forms
         {
             const int newStatus = 1;
 
-            CreateBonVisite(_stringTool.generateGUID());            
+            this.CreateBonVisite(_stringTool.GenerateGuid());
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            hdb.updateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, true, _currentBonDeVisite.NumBonVisite);            
+            hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, true, _currentBonDeVisite.NumBonVisite);
 
-            QRGenerator generator = new QRGenerator();
-            generator.generateQRCode(_currentBonDeVisite.NumBonVisite, _currentBonDeVisite.DateBonVisite,                                                                             _currentBonDeVisite.HeureBonDVisite, _currentBonDeVisite.HeureBonFVisite, 
-                                     _currentPatient.NomPatient, _currentPatient.PrenomPatient, 
+            QrGenerator generator = new QrGenerator();
+            generator.GenerateQrCode(_currentBonDeVisite.NumBonVisite, _currentBonDeVisite.DateBonVisite, _currentBonDeVisite.HeureBonDVisite, _currentBonDeVisite.HeureBonFVisite,
+                                     _currentPatient.NomPatient, _currentPatient.PrenomPatient,
                                      _currentPatient.EtagePatient, _currentPatient.ChambrePatient);
 
 
-            if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Accepted, generator.QRCodeCompletePath))
+            if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.Accepted, generator.QrCodeCompletePath))
             {
                 MessageBox.Show(@"La demande de visite à été acceptée");
-            }      
+            }
         }
 
         private void btnRefuserDemande_Click(object sender, EventArgs e)
         {
             const int newStatus = 2;
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            hdb.updateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, false, String.Empty);           
+            hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, false, String.Empty);
 
-            if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Refused))
+            if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.Refused))
             {
-                MessageBox.Show(@"La demande de visite à été refusé");                
+                MessageBox.Show(@"La demande de visite à été refusé");
             }
-                        
-        }    
+
+        }
 
         private void DisplayInfoDemandeVisite(int index)
         {
@@ -82,9 +82,9 @@ namespace HIA_client_lourd.Forms
             label4.Text = _listVisite[index].HeureDVisite;
             label5.Text = _listVisite[index].HeureFVisite;
 
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            int affluence = hdb.getAffluence(TimeSpan.Parse(_listVisite[_indexDemandeVisite].HeureDVisite), TimeSpan.Parse(_listVisite[_indexDemandeVisite].HeureFVisite), 3, Convert.ToInt32(_currentPatient.IdPatient));
+            int affluence = hdb.GetAffluence(TimeSpan.Parse(_listVisite[_indexDemandeVisite].HeureDVisite), TimeSpan.Parse(_listVisite[_indexDemandeVisite].HeureFVisite), 3, Convert.ToInt32(_currentPatient.IdPatient));
 
             if (affluence >= 0 && affluence < 2)
             {
@@ -119,17 +119,17 @@ namespace HIA_client_lourd.Forms
 
             if (_indexDemandeVisite < _listVisite.Count)
             {
-                DisplayInfoDemandeVisite(_indexDemandeVisite);                                
+                this.DisplayInfoDemandeVisite(_indexDemandeVisite);
             }
-        }       
+        }
 
         private void btnBloquerVisite_Click(object sender, EventArgs e)
         {
-            heavyClientDatabaseObject hdb = new heavyClientDatabaseObject(DatabaseConnectionString);
+            HeavyClientDatabaseObject hdb = new HeavyClientDatabaseObject(DatabaseConnectionString);
 
             try
             {
-                hdb.bloquerVisite(_currentPatient.NomPatient, 3);
+                hdb.BloquerVisite(_currentPatient.NomPatient, 3);
 
                 List<string> listEmailVisiteurDoublon = new List<string>();
                 List<string> listEmailVisiteurSansDoublon = new List<string>();
@@ -139,16 +139,16 @@ namespace HIA_client_lourd.Forms
                 while (i < _listVisite.Count)
                 {
 
-                    hdb.updateData(2, _listVisite[i].DateVisite, _listVisite[i].HeureDVisite, _listVisite[i].HeureFVisite, false);
+                    hdb.UpdateData(2, _listVisite[i].DateVisite, _listVisite[i].HeureDVisite, _listVisite[i].HeureFVisite, false);
 
                     listEmailVisiteurDoublon.Add(_listVisite[i].VisiteurOrigine.EmailVisiteur);
 
                     i++;
                 }
 
-                listEmailVisiteurSansDoublon = _stringTool.removeDoublonFromList(listEmailVisiteurDoublon);
+                listEmailVisiteurSansDoublon = _stringTool.RemoveDoublonFromList(listEmailVisiteurDoublon);
 
-                if (_emailSender.sendNotification("t.maalem@aforp.eu", emailSenderObject.NOTIFICATION.Blocked, _currentPatient.NomPatient))
+                if (_emailSender.SendNotification("t.maalem@aforp.eu", EmailSenderObject.Notification.Blocked, _currentPatient.NomPatient))
                 {
                     MessageBox.Show(@"Toutes les visites du patient ont été bloquées");
                 }
@@ -156,7 +156,7 @@ namespace HIA_client_lourd.Forms
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            
+            }
         }
     }
 }
