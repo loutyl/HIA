@@ -12,7 +12,7 @@ namespace HIA_client_lourd.Asserts
         [SetUp]
         public void Init()
         {
-           _bonDeVisiteTest = new BonDeVisite("05/04/2015", "10:00:00", "12:00:00", "F123456"); 
+            _bonDeVisiteTest = new BonDeVisite("05/04/2015", "10:00:00", "12:00:00", "F123456");
         }
 
         [Test]

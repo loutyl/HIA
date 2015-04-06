@@ -35,18 +35,21 @@ namespace HIA_client_lourd.Forms
 
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, true, _currentBonDeVisite.NumBonVisite);
-
-            QRcodeGenerator.QrGenerator generator = new QRcodeGenerator.QrGenerator();
-            generator.GenerateQrCode(_currentBonDeVisite.NumBonVisite, _currentBonDeVisite.DateBonVisite, _currentBonDeVisite.HeureBonDVisite, _currentBonDeVisite.HeureBonFVisite,
-                                     _currentPatient.NomPatient, _currentPatient.PrenomPatient,
-                                     _currentPatient.EtagePatient, _currentPatient.ChambrePatient);
-
-
-            if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Accepted, generator.QrCodeCompletePath))
+            if (hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, true, _currentBonDeVisite.NumBonVisite))
             {
-                System.Windows.Forms.MessageBox.Show(@"La demande de visite à été acceptée");
+                QRcodeGenerator.QrGenerator generator = new QRcodeGenerator.QrGenerator();
+                generator.GenerateQrCode(_currentBonDeVisite.NumBonVisite, _currentBonDeVisite.DateBonVisite, _currentBonDeVisite.HeureBonDVisite, _currentBonDeVisite.HeureBonFVisite,
+                                         _currentPatient.NomPatient, _currentPatient.PrenomPatient,
+                                         _currentPatient.EtagePatient, _currentPatient.ChambrePatient);
+
+                if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Accepted, generator.QrCodeCompletePath))
+                {
+                    System.Windows.Forms.MessageBox.Show(@"La demande de visite à été acceptée");
+                }
             }
+
+
+
         }
 
         private void btnRefuserDemande_Click(object sender, System.EventArgs e)
@@ -55,13 +58,14 @@ namespace HIA_client_lourd.Forms
 
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, false, System.String.Empty);
-
-            if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Refused))
+            if (hdb.UpdateData(newStatus, _listVisite[_indexDemandeVisite].DateVisite, _listVisite[_indexDemandeVisite].HeureDVisite, _listVisite[_indexDemandeVisite].HeureFVisite, false, System.String.Empty))
             {
-                System.Windows.Forms.MessageBox.Show(@"La demande de visite à été refusé");
-            }
+                if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Refused))
+                {
+                    System.Windows.Forms.MessageBox.Show(@"La demande de visite à été refusé");
+                }
 
+            }
         }
 
         private void DisplayInfoDemandeVisite(int index)
