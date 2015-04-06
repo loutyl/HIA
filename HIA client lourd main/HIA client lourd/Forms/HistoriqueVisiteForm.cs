@@ -1,4 +1,5 @@
-﻿namespace HIA_client_lourd.Forms
+﻿using System.Windows;
+namespace HIA_client_lourd.Forms
 {
     public partial class HistoriqueVisite : System.Windows.Forms.Form
     {
@@ -39,7 +40,14 @@
         {
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
-            dataGridView2.DataSource = hdb.GetHistoriqueVisite(status, _currentPatient.NomPatient);
+            dataGridView2.DataSource = hdb.GetHistoriqueVisite(status, _currentPatient.NomPatient, System.Convert.ToInt32(_currentPatient.IdPatient));
+
+            if (dataGridView2.Rows.Count <= 0)
+            {
+                MessageBox.Show("Il y a eu un problème pour recupérer les données.");
+                return;
+            }
+
             dataGridView2.Columns[0].HeaderText = @"Nom du visiteur";
             dataGridView2.Columns[1].HeaderText = @"Prénom du visiteur";
             dataGridView2.Columns[2].HeaderText = @"Date de la visite";

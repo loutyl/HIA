@@ -160,7 +160,7 @@
         {
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            if (hdb.DebloquerVisite(_patientRecherche.NomPatient))
+            if (hdb.DebloquerVisite(_patientRecherche.NomPatient, System.Convert.ToInt32(_patientRecherche.IdPatient), 3))
             {
                 if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Unblocked, _patientRecherche.NomPatient))
                 {

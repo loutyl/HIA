@@ -117,35 +117,29 @@ namespace HIA_client_lourd.Forms
         {
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(DatabaseConnectionString);
 
-            try
+            if (!hdb.BloquerVisite(_currentPatient.NomPatient, 3, System.Convert.ToInt32(_currentPatient.IdPatient)))
+                return;
+
+            System.Collections.Generic.List<string> listEmailVisiteurDoublon = new System.Collections.Generic.List<string>();
+            System.Collections.Generic.List<string> listEmailVisiteurSansDoublon = new System.Collections.Generic.List<string>();
+
+            int i = 0;
+
+            while (i < _listVisite.Count)
             {
-                hdb.BloquerVisite(_currentPatient.NomPatient, 3);
 
-                System.Collections.Generic.List<string> listEmailVisiteurDoublon = new System.Collections.Generic.List<string>();
-                System.Collections.Generic.List<string> listEmailVisiteurSansDoublon = new System.Collections.Generic.List<string>();
+                hdb.UpdateData(2, _listVisite[i].DateVisite, _listVisite[i].HeureDVisite, _listVisite[i].HeureFVisite, false);
 
-                int i = 0;
+                listEmailVisiteurDoublon.Add(_listVisite[i].VisiteurOrigine.EmailVisiteur);
 
-                while (i < _listVisite.Count)
-                {
-
-                    hdb.UpdateData(2, _listVisite[i].DateVisite, _listVisite[i].HeureDVisite, _listVisite[i].HeureFVisite, false);
-
-                    listEmailVisiteurDoublon.Add(_listVisite[i].VisiteurOrigine.EmailVisiteur);
-
-                    i++;
-                }
-
-                listEmailVisiteurSansDoublon = _stringTool.RemoveDoublonFromList(listEmailVisiteurDoublon);
-
-                if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Blocked, _currentPatient.NomPatient))
-                {
-                    System.Windows.Forms.MessageBox.Show(@"Toutes les visites du patient ont été bloquées");
-                }
+                i++;
             }
-            catch (System.Exception ex)
+
+            listEmailVisiteurSansDoublon = _stringTool.RemoveDoublonFromList(listEmailVisiteurDoublon);
+
+            if (_emailSender.SendNotification("t.maalem@aforp.eu", emailSender.EmailSenderObject.Notification.Blocked, _currentPatient.NomPatient))
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+                System.Windows.Forms.MessageBox.Show(@"Toutes les visites du patient ont été bloquées");
             }
         }
     }

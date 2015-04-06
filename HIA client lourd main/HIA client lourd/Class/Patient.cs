@@ -42,7 +42,7 @@
 
             databaseHIA.HeavyClientDatabaseObject hdb = new databaseHIA.HeavyClientDatabaseObject(System.Configuration.ConfigurationManager.ConnectionStrings["dbConnectionString"].ConnectionString);
 
-            var listDemandeDeVisite = hdb.GetDemandeDeVisite(status, NomPatient);
+            var listDemandeDeVisite = hdb.GetDemandeDeVisite(status, NomPatient, System.Convert.ToInt32(IdPatient));
             if (listDemandeDeVisite.Count <= 0) return listVisite;
             foreach (System.Collections.Generic.List<string> list in listDemandeDeVisite)
             {
